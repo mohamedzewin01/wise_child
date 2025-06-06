@@ -15,7 +15,7 @@ class CustomLaunchUrl {
   }) async {
     try {
       // بناء رابط الصورة
-      Uri url = Uri.parse('${ApiConstants.baseUrlImage}$urlPreview');
+      Uri url = Uri.parse('${ApiConstants.urlImage}$urlPreview');
 
       // تحميل الصورة من الرابط
       var response = await http.get(url);
@@ -83,7 +83,7 @@ $details
     } else {
       try {
         // بناء رابط الصورة
-        Uri url = Uri.parse('${ApiConstants.baseUrlImage}$urlPreview');
+        Uri url = Uri.parse('${ApiConstants.urlImage}$urlPreview');
 
         // تحميل الصورة
         var response = await http.get(url);
@@ -164,7 +164,7 @@ $details
     String? details,
     String? phone,
   }) async {
-    Uri url = Uri.parse('${ApiConstants.baseUrlImage}$urlPreview');
+    Uri url = Uri.parse('${ApiConstants.urlImage}$urlPreview');
     if (kIsWeb) {
       // دعم للويب
       final shareText = '''
@@ -181,7 +181,7 @@ $details
     } else {
       // دعم للموبايل والـ Desktop
       try {
-        Uri url = Uri.parse('${ApiConstants.baseUrlImage}$urlPreview');
+        Uri url = Uri.parse('${ApiConstants.urlImage}$urlPreview');
 
         // تحميل الصورة من الرابط
         var response = await http.get(url);

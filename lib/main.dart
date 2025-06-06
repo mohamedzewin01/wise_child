@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:wise_child/core/remote/firebase_config.dart';
 
 import 'core/di/di.dart';
 import 'core/resources/routes_manager.dart';
@@ -13,6 +14,7 @@ import 'localization/locale_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseConfig.initializeFirebase();
   await CacheService.cacheInitialization();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
@@ -39,15 +41,12 @@ class MyApp extends StatelessWidget {
             supportedLocales: [
               Locale('ar'),
               Locale('en'),
-
             ],
             theme: AppThemes.lightTheme1,
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: RouteGenerator.getRoute,
-            initialRoute: RoutesManager.splashScreen,
-            // home: ProductScreen(),
-            // home: SplashScreen(),
+            initialRoute: RoutesManager.welcomeScreen,
           );
         },
       ),

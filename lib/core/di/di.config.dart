@@ -13,6 +13,31 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/Auth/data/datasources/Auth_datasource_repo.dart'
+    as _i354;
+import '../../features/Auth/data/datasources/Auth_datasource_repo_impl.dart'
+    as _i485;
+import '../../features/Auth/data/repositories_impl/Auth_repo_impl.dart'
+    as _i295;
+import '../../features/Auth/domain/repositories/Auth_repository.dart' as _i647;
+import '../../features/Auth/domain/useCases/Auth_useCase_repo.dart' as _i628;
+import '../../features/Auth/domain/useCases/Auth_useCase_repo_impl.dart'
+    as _i971;
+import '../../features/Auth/presentation/bloc/Auth_cubit.dart' as _i192;
+import '../../features/ChatBotAssistant/data/datasources/ChatBotAssistant_datasource_repo.dart'
+    as _i196;
+import '../../features/ChatBotAssistant/data/datasources/ChatBotAssistant_datasource_repo_impl.dart'
+    as _i710;
+import '../../features/ChatBotAssistant/data/repositories_impl/ChatBotAssistant_repo_impl.dart'
+    as _i16;
+import '../../features/ChatBotAssistant/domain/repositories/ChatBotAssistant_repository.dart'
+    as _i20;
+import '../../features/ChatBotAssistant/domain/useCases/ChatBotAssistant_useCase_repo.dart'
+    as _i223;
+import '../../features/ChatBotAssistant/domain/useCases/ChatBotAssistant_useCase_repo_impl.dart'
+    as _i659;
+import '../../features/ChatBotAssistant/presentation/bloc/ChatBotAssistant_cubit.dart'
+    as _i582;
 import '../api/api_manager/api_manager.dart' as _i680;
 import '../api/dio_module.dart' as _i784;
 
@@ -25,7 +50,33 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
+    gh.factory<_i20.ChatBotAssistantRepository>(
+      () => _i16.ChatBotAssistantRepositoryImpl(),
+    );
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
+    gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
+      () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
+      () =>
+          _i659.ChatBotAssistantUseCase(gh<_i20.ChatBotAssistantRepository>()),
+    );
+    gh.factory<_i354.AuthDatasourceRepo>(
+      () => _i485.AuthDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i647.AuthRepository>(
+      () => _i295.AuthRepositoryImpl(gh<_i354.AuthDatasourceRepo>()),
+    );
+    gh.factory<_i628.AuthUseCaseRepo>(
+      () => _i971.AuthUseCase(gh<_i647.AuthRepository>()),
+    );
+    gh.factory<_i582.ChatBotAssistantCubit>(
+      () =>
+          _i582.ChatBotAssistantCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
+    );
+    gh.factory<_i192.AuthCubit>(
+      () => _i192.AuthCubit(gh<_i628.AuthUseCaseRepo>()),
+    );
     return this;
   }
 }

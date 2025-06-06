@@ -11,6 +11,12 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+firebase.json
+lib/firebase_options.dart
+lib/core/api/api_manager/api_manager.g.dart
+lib/core/api/api_constants.dart
+android/app/google-services.json
+
 
 # IntelliJ related
 *.iml

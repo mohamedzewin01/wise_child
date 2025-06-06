@@ -9,7 +9,7 @@ class LocaleCubit extends Cubit<Locale> {
     _loadSavedLanguage();
   }
 
-
+static LocaleCubit get(context) => BlocProvider.of(context);
 
   void changeLanguage(String languageCode) async {
     emit(Locale(languageCode));

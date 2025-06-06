@@ -36,7 +36,7 @@ class CustomImage extends StatelessWidget {
     return getFileExtensionFromUrl(url) == 'svg'
         ? SvgPicture.network(
           Uri.encodeFull(
-            url.isNotEmpty ? '${ApiConstants.baseUrlImage}$url' : '',
+            url.isNotEmpty ? '${ApiConstants.urlImage}$url' : '',
           ),
 
           fit: BoxFit.fill,
@@ -56,7 +56,7 @@ class CustomImage extends StatelessWidget {
           height: height,
           width: width ?? MediaQuery.sizeOf(context).width,
           imageUrl: Uri.encodeFull(
-            url.isNotEmpty ? '${ApiConstants.baseUrlImage}$url' : '',
+            url.isNotEmpty ? '${ApiConstants.urlImage}$url' : '',
           ),
           fit: boxFit ?? BoxFit.fill,
           placeholder:
@@ -68,7 +68,7 @@ class CustomImage extends StatelessWidget {
                     child: Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        color: ColorManager.placeHolderColor.withAlpha(50),
+                        color: ColorManager.textPlaceholder.withAlpha(50),
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
