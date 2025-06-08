@@ -50,12 +50,14 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
-    gh.factory<_i20.ChatBotAssistantRepository>(
-      () => _i16.ChatBotAssistantRepositoryImpl(),
-    );
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
     gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
       () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i20.ChatBotAssistantRepository>(
+      () => _i16.ChatBotAssistantRepositoryImpl(
+        gh<_i196.ChatBotAssistantDatasourceRepo>(),
+      ),
     );
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
       () =>

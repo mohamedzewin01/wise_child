@@ -113,6 +113,35 @@ class _ApiService implements ApiService {
     return _value;
   }
 
+  @override
+  Future<QuestionsDto?> getQuestions() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<QuestionsDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'questions/getQuestions',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late QuestionsDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : QuestionsDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
