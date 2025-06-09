@@ -1,205 +1,195 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:wise_child/features/ChatBotAssistant/presentation/widgets/chat_widgets.dart';
-// import '../../../../core/di/di.dart';
-// import '../bloc/ChatBotAssistant_cubit.dart';
-//
-// import '../bloc/chat_cubit/chat_cubit.dart';
-//
-// import '../widgets/chat_controller.dart';
-//
-//
-//
-// class ChatBotAssistantPage extends StatefulWidget {
-//   const ChatBotAssistantPage({super.key});
-//
-//   @override
-//   State<ChatBotAssistantPage> createState() => _ChatBotAssistantPageState();
-// }
-//
-// class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
-//   late ChatBotAssistantCubit viewModel;
-//   late ChatController _chatController;
-//   final TextEditingController _textController = TextEditingController();
-//
-//   // متغيرات الإجابات الحالية
-//   String? _currentSingleChoice;
-//   List<String> _currentMultipleChoices = [];
-//
-//   @override
-//   void initState() {
-//     _chatController = ChatController();
-//
-//     viewModel = getIt.get<ChatBotAssistantCubit>();
-//     viewModel.getQuestions();
-//
-//     _startChat();
-//     super.initState();
-//   }
-//
-//
-//   void _startChat() {
-//     setState(() {
-//       _chatController.startChat();
-//     });
-//
-//     Future.delayed(Duration(milliseconds: 500), () {
-//       _chatController.askNextQuestion();
-//       setState(() {});
-//       _chatController.scrollToBottom();
-//     });
-//   }
-//
-//
-//   void _submitAnswer() {
-//     final success = _chatController.submitAnswer(
-//       _currentSingleChoice,
-//       _currentMultipleChoices,
-//     );
-//
-//     if (success) {
-//       setState(() {
-//         _currentSingleChoice = null;
-//         _currentMultipleChoices.clear();
-//       });
-//       _textController.clear();
-//       _chatController.scrollToBottom();
-//     }
-//   }
-//
-//   void _onSingleChoiceChanged(String? choice) {
-//     setState(() {
-//       _currentSingleChoice = choice;
-//     });
-//   }
-//
-//   void _onMultipleChoiceToggle(String choice) {
-//     setState(() {
-//       if (_currentMultipleChoices.contains(choice)) {
-//         _currentMultipleChoices.remove(choice);
-//       } else {
-//         _currentMultipleChoices.add(choice);
-//       }
-//     });
-//   }
-//
-//   void _onTextChanged(String value) {
-//     _chatController.setCurrentTextAnswer(value);
-//   }
-//
-//   Widget _buildInputArea() {
-//     if (_chatController.currentQuestionIndex >=
-//         _chatController.questions.length) {
-//       return SizedBox.shrink();
-//     }
-//
-//     final currentQuestion = _chatController.questions[_chatController
-//         .currentQuestionIndex];
-//
-//     return Container(
-//       padding: EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         boxShadow: [
-//           BoxShadow(
-//             offset: Offset(0, -2),
-//             blurRadius: 4,
-//             color: Colors.black12,
-//           ),
-//         ],
-//       ),
-//       child: ChatWidgets.buildInputWidget(
-//         context,
-//         currentQuestion,
-//         _textController,
-//         _currentSingleChoice,
-//         _currentMultipleChoices,
-//         _chatController.isInSequentialMode,
-//         _onTextChanged,
-//         _submitAnswer,
-//       ),
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiBlocProvider(
-//       providers: [
-//         BlocProvider.value(
-//           value: viewModel,
-//         ),
-//         BlocProvider(
-//           create: (context) => ChatCubit(),
-//         ),
-//       ],
-//       child: BlocListener<ChatBotAssistantCubit, ChatBotAssistantState>(
-//         listener: (context, state) {
-//           if (state is ChatBotAssistantSuccess) {
-//             setState(() {
-//               _chatController.setQuestions(
-//                   state.questionsEntity?.questions ?? []);
-//               _chatController.askNextQuestion();
-//             });
-//           }
-//         },
-//
-//         child: Scaffold(
-//           appBar: AppBar(
-//             automaticallyImplyLeading: false,
-//             title: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const Text("StoryGuide Assistant"),
-//                 Text(
-//                   "Finding the perfect stories for your child",
-//                   style: TextStyle(
-//                     fontSize: 12,
-//                     color: Colors.grey[600],
-//                     fontWeight: FontWeight.normal,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             centerTitle: false,
-//           ),
-//           body: Column(
-//             children: [
-//               Divider(height: 1, color: Colors.grey[300]),
-//               Expanded(
-//                 child: BlocBuilder<ChatCubit, ChatState>(
-//                   builder: (context, state) {
-//
-//                     return ListView.builder(
-//                       controller: _chatController.scrollController,
-//                       itemCount: _chatController.messages.length,
-//                       itemBuilder: (context, index) {
-//                         return ChatWidgets.buildMessageBubble(
-//                           context,
-//                           _chatController.messages[index],
-//                           _currentSingleChoice,
-//                           _currentMultipleChoices,
-//                           _onSingleChoiceChanged,
-//                           _onMultipleChoiceToggle,
-//
-//                         );
-//                       },
-//                     );
-//                   },
-//                 ),
-//               ),
-//               _buildInputArea(),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//
-//   @override
-//   void dispose() {
-//     _textController.dispose();
-//     _chatController.dispose();
-//     super.dispose();
-//   }
-// }
+// pages/chatbot_assistant_page.dart
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/chat_cubit/chat_cubit.dart';
+import '../../../../core/di/di.dart';
+import '../bloc/ChatBotAssistant_cubit.dart';
+
+import '../bloc/chat_cubit/chat_state.dart';
+import '../widgets/message_bubble.dart';
+import '../widgets/chat_input.dart';
+
+class ChatBotAssistantPage extends StatefulWidget {
+  const ChatBotAssistantPage({super.key});
+
+  @override
+  State<ChatBotAssistantPage> createState() => _ChatBotAssistantPageState();
+}
+
+class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
+  late ChatBotAssistantCubit questionsViewModel;
+  late ChatCubit chatCubit;
+  final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    questionsViewModel = getIt.get<ChatBotAssistantCubit>();
+    chatCubit = ChatCubit();
+    questionsViewModel.getQuestions();
+  }
+
+  void _scrollToBottom() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: questionsViewModel),
+        BlocProvider.value(value: chatCubit),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ChatBotAssistantCubit, ChatBotAssistantState>(
+            listener: (context, state) {
+              if (state is ChatBotAssistantSuccess) {
+                final questions = state.questionsEntity?.questions ?? [];
+                chatCubit.initializeChat(questions);
+              }
+            },
+          ),
+          BlocListener<ChatCubit, ChatState>(
+            listener: (context, state) {
+              if (state is ChatLoaded) {
+                _scrollToBottom();
+              }
+            },
+          ),
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("StoryGuide Assistant"),
+                Text(
+                  "Finding the perfect stories for your child",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+            centerTitle: false,
+          ),
+          body: Column(
+            children: [
+              Divider(height: 1, color: Colors.grey[300]),
+              Expanded(
+                child: BlocBuilder<ChatCubit, ChatState>(
+                  builder: (context, state) {
+                    if (state is ChatLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is ChatLoaded) {
+                      return ListView.builder(
+                        controller: _scrollController,
+                        itemCount: state.messages.length,
+                        itemBuilder: (context, index) {
+                          return MessageBubble(
+                            onChoiceImageSelected: (file) {
+                              chatCubit.setImage(file);
+                              print(file.path);
+                            },
+                            message: state.messages[index],
+                            onSingleChoiceSelected: (choice) {
+                              chatCubit.updateSingleChoice(choice);
+                            },
+                            onMultipleChoiceToggled: (choice) {
+                              chatCubit.updateMultipleChoice(choice);
+                            },
+
+                            currentSingleChoice: state.currentSingleChoice,
+                            currentMultipleChoices:
+                                state.currentMultipleChoices,
+                            currentImage: state.currentImageFile ?? File(''),
+                          );
+                        },
+                      );
+                    } else if (state is ChatError) {
+                      return Center(
+                        child: Text(
+                          'حدث خطأ: ${state.message}',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+              BlocBuilder<ChatCubit, ChatState>(
+                builder: (context, state) {
+                  if (state is ChatLoaded && !state.isCompleted) {
+                    final currentQuestion =
+                        state.currentQuestionIndex < state.questions.length
+                        ? state.questions[state.currentQuestionIndex]
+                        : null;
+
+                    return ChatInput(
+                      currentQuestion: currentQuestion,
+
+                      onImageSelected: () async {
+                        final pickedFile = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (pickedFile != null) {
+                          final file = File(pickedFile.path);
+                          if (context.mounted) {
+                            context.read<ChatCubit>().setImage(file);
+                          }
+                          state.currentImageFile == file;
+                        }
+                      },
+
+                      textController: _textController,
+                      currentTextAnswer: state.currentTextAnswer,
+                      currentSingleChoice: state.currentSingleChoice,
+                      currentMultipleChoices: state.currentMultipleChoices,
+                      isInSequentialMode:
+                          state.sequentialState.isInSequentialMode,
+                      currentImageFile: state.currentImageFile,
+                      onSubmit: () {
+                        chatCubit.submitAnswer();
+                        _textController.clear();
+                      },
+                      onTextChanged: (text) {
+                        chatCubit.updateTextAnswer(text);
+                      },
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+}

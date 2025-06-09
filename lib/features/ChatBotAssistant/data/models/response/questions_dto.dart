@@ -80,6 +80,8 @@ QuestionType questionTypeFromString(String type) {
       return QuestionType.multipleChoice;
     case 'sequential':
       return QuestionType.sequential;
+    case 'image':
+      return QuestionType.image;
     default:
       throw Exception('Unknown QuestionType: $type');
   }

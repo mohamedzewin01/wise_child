@@ -1,26 +1,6 @@
-//
-//
-//
-//
-// // class Question {
-// //   final String id;
-// //   final String question;
-// //   final QuestionType type;
-// //   final List<String>? options;
-// //   final String? followUpQuestion;
-// //   final String? countPrompt;
-// //
-// //   Question({
-// //     required this.id,
-// //     required this.question,
-// //     required this.type,
-// //     this.options,
-// //     this.followUpQuestion,
-// //     this.countPrompt,
-// //   });
-// // }
-//
-// import '../../../../test.dart';
+
+
+import 'dart:io';
 
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 
@@ -52,6 +32,8 @@ QuestionType questionTypeFromString(String? type) {
       return QuestionType.multipleChoice;
     case 'sequential':
       return QuestionType.sequential;
+    case 'image':
+      return QuestionType.image;
     default:
       throw Exception('Unknown question type: $type');
   }
@@ -67,6 +49,7 @@ class Answer {
   final String? selectedOption;
   final List<String>? selectedOptions;
   final List<String>? sequentialAnswers;
+  final File? imageFile;
 
   Answer({
     required this.questionId,
@@ -74,5 +57,43 @@ class Answer {
     this.selectedOption,
     this.selectedOptions,
     this.sequentialAnswers,
+    this.imageFile,
+
   });
+}
+
+class SequentialState {
+  final bool isInSequentialMode;
+  final int sequentialCount;
+  final int currentSequentialIndex;
+  final List<String> sequentialAnswers;
+  final String sequentialPrompt;
+
+  const  SequentialState({
+    this.isInSequentialMode = false,
+    this.sequentialCount = 0,
+    this.currentSequentialIndex = 0,
+    this.sequentialAnswers = const [],
+    this.sequentialPrompt = '',
+  });
+
+  SequentialState copyWith({
+    bool? isInSequentialMode,
+    int? sequentialCount,
+    int? currentSequentialIndex,
+    List<String>? sequentialAnswers,
+    String? sequentialPrompt,
+  }) {
+    return SequentialState(
+      isInSequentialMode: isInSequentialMode ?? this.isInSequentialMode,
+      sequentialCount: sequentialCount ?? this.sequentialCount,
+      currentSequentialIndex: currentSequentialIndex ?? this.currentSequentialIndex,
+      sequentialAnswers: sequentialAnswers ?? this.sequentialAnswers,
+      sequentialPrompt: sequentialPrompt ?? this.sequentialPrompt,
+    );
+  }
+
+  static empty() {
+    return SequentialState();
+  }
 }
