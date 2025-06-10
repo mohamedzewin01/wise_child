@@ -1,5 +1,6 @@
 import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/ChatBotAssistant/domain/entities/directions.dart';
 
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
 
@@ -12,6 +13,19 @@ class ChatBotAssistantDatasourceRepoImpl implements ChatBotAssistantDatasourceRe
   final ApiService apiService;
   ChatBotAssistantDatasourceRepoImpl(this.apiService);
 
+
+
+
+
+
+  @override
+  Future<Result<DirectionsEntity?>> getDirections() {
+    return executeApi(() async{
+      var directions = await apiService.getDirections();
+      return directions?.toDirectionsEntity();
+    },);
+  }
+
   @override
   Future<Result<QuestionsEntity?>> getQuestions() {
    return executeApi(() async{
@@ -19,4 +33,6 @@ class ChatBotAssistantDatasourceRepoImpl implements ChatBotAssistantDatasourceRe
      return questions?.toQuestionsEntity();
    },);
   }
+
+
 }

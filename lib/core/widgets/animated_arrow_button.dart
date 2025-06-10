@@ -5,7 +5,10 @@ import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
 
 class AnimatedArrowButton extends StatefulWidget {
-  const AnimatedArrowButton({super.key});
+  const AnimatedArrowButton({super.key, required this.title, this.onTap, this.color});
+final String title;
+final  void Function()? onTap;
+final  Color? color;
 
   @override
   State<AnimatedArrowButton> createState() => _AnimatedArrowButtonState();
@@ -33,22 +36,21 @@ class _AnimatedArrowButtonState extends State<AnimatedArrowButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: ColorManager.primaryColor,
+        backgroundColor:widget.color ?? ColorManager.primaryColor,
         padding: const EdgeInsets.symmetric(vertical: 6),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         minimumSize: const Size(double.infinity, 50),
       ),
-      onPressed: () {
-        Navigator.pushNamed(context, RoutesManager.authPage);
-      },
+      onPressed:widget.onTap ,
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SizedBox(width: 40),
           Text(
-            AppLocalizations.of(context)!.getStarted,
+          widget.title ,
             style: getSemiBoldStyle(
               color: Colors.white,
               fontSize: 20,

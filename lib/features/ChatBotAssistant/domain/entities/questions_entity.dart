@@ -18,4 +18,4 @@ class QuestionsEntity {
 
 
 }
-enum QuestionType { text, singleChoice, multipleChoice, sequential,image }
+enum QuestionType { text, singleChoice, multipleChoice, sequential,image ,yesOrNo}

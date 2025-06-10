@@ -91,7 +91,13 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      AnimatedArrowButton(),
+                      AnimatedArrowButton(
+                        onTap:  () {
+                          Navigator.pushNamed(context, RoutesManager.authPage);
+                        },
+                        title: AppLocalizations.of(context)!.getStarted,
+
+                      ),
                       const SizedBox(height: 20),
                       PrivacyPolicy(),
                       const SizedBox(height: 10),

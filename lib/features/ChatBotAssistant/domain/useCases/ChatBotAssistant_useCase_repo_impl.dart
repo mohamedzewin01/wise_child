@@ -1,4 +1,5 @@
 import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/ChatBotAssistant/domain/entities/directions.dart';
 
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
 
@@ -15,6 +16,11 @@ class ChatBotAssistantUseCase implements ChatBotAssistantUseCaseRepo {
   @override
   Future<Result<QuestionsEntity?>> getQuestions() {
 return repository.getQuestions();
+  }
+
+  @override
+  Future<Result<DirectionsEntity?>> getDirections() {
+return repository.getDirections();
   }
 
 

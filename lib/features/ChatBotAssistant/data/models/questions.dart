@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 
 import '../../domain/entities/questions_entity.dart';
@@ -11,12 +12,18 @@ class ChatMessage {
   final bool isBot;
   final Questions? question;
   final bool isTyping;
+  final Widget? imageWidget;
+  final Widget? finalWidget;
 
-  ChatMessage({
+
+  ChatMessage(   {
     required this.text,
     required this.isBot,
     this.question,
     this.isTyping = false,
+    this.imageWidget,
+    this.finalWidget,
+
   });
 }
 //
@@ -34,13 +41,12 @@ QuestionType questionTypeFromString(String? type) {
       return QuestionType.sequential;
     case 'image':
       return QuestionType.image;
+    case 'yesOrNo':
+      return QuestionType.yesOrNo;
     default:
       throw Exception('Unknown question type: $type');
   }
 }
-
-
-
 
 
 class Answer {
@@ -96,4 +102,43 @@ class SequentialState {
   static empty() {
     return SequentialState();
   }
+
+}
+
+
+class YesOrNoState {
+  final bool isInSequentialMode;
+  final int sequentialCount;
+  final int currentSequentialIndex;
+  final List<String> sequentialAnswers;
+  final String sequentialPrompt;
+
+  const  YesOrNoState({
+    this.isInSequentialMode = false,
+    this.sequentialCount = 0,
+    this.currentSequentialIndex = 0,
+    this.sequentialAnswers = const [],
+    this.sequentialPrompt = '',
+  });
+
+  YesOrNoState copyWith({
+    bool? isInSequentialMode,
+    int? sequentialCount,
+    int? currentSequentialIndex,
+    List<String>? sequentialAnswers,
+    String? sequentialPrompt,
+  }) {
+    return YesOrNoState(
+      isInSequentialMode: isInSequentialMode ?? this.isInSequentialMode,
+      sequentialCount: sequentialCount ?? this.sequentialCount,
+      currentSequentialIndex: currentSequentialIndex ?? this.currentSequentialIndex,
+      sequentialAnswers: sequentialAnswers ?? this.sequentialAnswers,
+      sequentialPrompt: sequentialPrompt ?? this.sequentialPrompt,
+    );
+  }
+
+  static empty() {
+    return YesOrNoState();
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 
 class QuestionOptions extends StatelessWidget {
@@ -37,12 +37,9 @@ class QuestionOptions extends StatelessWidget {
       return _buildMultipleChoiceOptions();
     }
     // else if (question.type == QuestionType.image) {
-    //   print('image');
-    //   print(question.type);
-    //   print(QuestionType.image);
-    //   print('image');
-    //   return _buildImageUploadWidget(context);
+    //   return _buildImageOptions();
     // }
+
     return SizedBox.shrink();
   }
 
@@ -60,6 +57,10 @@ class QuestionOptions extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
+                ),
+                margin: EdgeInsets.symmetric(
+                  horizontal: 1,
+
                 ),
                 decoration: BoxDecoration(
                   color: currentSingleChoice == option
@@ -162,21 +163,12 @@ class QuestionOptions extends StatelessWidget {
     );
   }
 
-  // Widget _buildImageUploadWidget(BuildContext context) {
-  //   return Container(
+  // Widget _buildImageOptions() {
+  //   return  Container(
   //     margin: EdgeInsets.only(top: 10, right: 40),
-  //     child: ElevatedButton.icon(
-  //       onPressed: () async {
-  //         final picker = ImagePicker();
-  //         final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //         if (pickedFile != null) {
-  //           // onImageSelected(pickedFile.path); // أو تمرر `File(pickedFile.path)`
-  //         }
-  //       },
-  //       icon: Icon(Icons.image),
-  //       label: Text("إرفاق صورة"),
-  //     ),
-  //   );
+  //     child: Icon(Icons.arrow_circle_down_outlined, color: ColorManager.chatUserBg, size: 40,),
+  //     );
   // }
+
+
 }

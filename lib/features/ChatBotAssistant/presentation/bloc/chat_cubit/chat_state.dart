@@ -19,6 +19,7 @@ class ChatLoaded extends ChatState {
   final String? currentSingleChoice;
   final List<String> currentMultipleChoices;
   final SequentialState sequentialState;
+  final YesOrNoState yesOrNoState;
   final bool isCompleted;
   final File? currentImageFile;
 
@@ -33,6 +34,7 @@ class ChatLoaded extends ChatState {
     this.sequentialState =const SequentialState(),
     this.isCompleted = false,
     this.currentImageFile,
+    this.yesOrNoState = const YesOrNoState(),
 
   });
 

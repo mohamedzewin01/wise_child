@@ -5,6 +5,7 @@ class ApiConstants {
   static const String singWithGoogle = "auth/singWithGoogle";
   static const String getUserByEmail = "auth/getUserByEmail";
   static const String getQuestions = "questions/getQuestions";
+  static const String getDirections = "directions/getDirections";
 
 
 

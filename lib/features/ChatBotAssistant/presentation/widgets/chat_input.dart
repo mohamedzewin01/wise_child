@@ -2,14 +2,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
-import 'package:wise_child/features/ChatBotAssistant/data/models/questions.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
-
-import '../bloc/chat_cubit/chat_cubit.dart';
 
 class ChatInput extends StatelessWidget {
   final Questions? currentQuestion;
@@ -143,54 +138,7 @@ class ChatInput extends StatelessWidget {
     );
   }
 
-  // Widget _buildImageInput({required bool isEnabled}) {
-  //   {
-  //     return Column(
-  //       children: [
-  //         currentImageFile != null
-  //             ? Image.file(currentImageFile!, height: 100, width: 100)
-  //             : SizedBox.shrink(),
-  //
-  //         Row(
-  //           children: [
-  //             Expanded(
-  //               child: ElevatedButton.icon(
-  //                 onPressed: () async {
-  //                   final pickedFile = await ImagePicker().pickImage(
-  //                     source: ImageSource.gallery,
-  //                   );
-  //                   if (pickedFile != null) {
-  //                     currentImageFile == File(pickedFile.path);
-  //                   }
-  //                 },
-  //                 icon: Icon(Icons.image),
-  //                 label: Text("اختر صورة"),
-  //                 style: ElevatedButton.styleFrom(
-  //                   minimumSize: Size(double.infinity, 45),
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(width: 8),
-  //             Container(
-  //               decoration: const BoxDecoration(
-  //                 color: ColorManager.primaryColor,
-  //                 shape: BoxShape.circle,
-  //               ),
-  //               child: IconButton(
-  //                 icon: const Icon(
-  //                   Icons.send_rounded,
-  //                   color: Colors.white,
-  //                   size: 22,
-  //                 ),
-  //                 onPressed: onSubmit,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     );
-  //   }
-  // }
+
 }
 
 class ImageInput extends StatefulWidget {
@@ -215,7 +163,41 @@ class _ImageInputState extends State<ImageInput> {
     return Column(
       children: [
         widget.currentImageFile != null
-            ? Image.file(widget.currentImageFile!, height: 200, width: 150)
+            ? Stack(
+          clipBehavior: Clip.none,
+              children: [
+                Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ColorManager.primaryColor),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Image.file(
+                      widget.currentImageFile!,
+                      height: 200,
+                      width: 150,
+                    ),
+                  ),
+                Positioned(
+                  top: -20,
+                  left:-20,
+                  child: Container(
+                    decoration:  BoxDecoration(
+                      color: ColorManager.primaryColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.red,
+                        size: 28,
+                      ),
+                      onPressed: widget.onImageSelected,
+                    ),
+                  ),
+                ),
+              ],
+            )
             : SizedBox.shrink(),
 
         Row(

@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/questions.dart';
@@ -10,13 +11,14 @@ import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_e
 
 import 'chat_state.dart';
 
-
 // States
 
 // Cubit
 class ChatCubit extends Cubit<ChatState> {
   ChatCubit() : super(ChatInitial());
 
+
+  static ChatCubit get(context) => BlocProvider.of(context);
   void initializeChat(List<Questions> questions) {
     final initialMessages = [
       ChatMessage(
@@ -25,24 +27,29 @@ class ChatCubit extends Cubit<ChatState> {
       ),
     ];
 
-    emit(ChatLoaded(
-      messages: initialMessages,
-      questions: questions,
-      answers: [],
-      currentQuestionIndex: 0,
-    ));
+    emit(
+      ChatLoaded(
+        messages: initialMessages,
+        questions: questions,
+        answers: [],
+        currentQuestionIndex: 0,
+      ),
+    );
 
     // Start asking first question after delay
     Future.delayed(Duration(milliseconds: 500), () {
       askNextQuestion();
     });
   }
+
   File? _currentImageFile;
+
   void askNextQuestion() {
     final currentState = state as ChatLoaded;
 
     if (currentState.currentQuestionIndex < currentState.questions.length) {
-      final question = currentState.questions[currentState.currentQuestionIndex];
+      final question =
+          currentState.questions[currentState.currentQuestionIndex];
 
       // Add typing indicator
       final updatedMessages = List<ChatMessage>.from(currentState.messages)
@@ -53,22 +60,28 @@ class ChatCubit extends Cubit<ChatState> {
       // Remove typing indicator and add actual question after delay
       Future.delayed(Duration(milliseconds: 2000), () {
         final finalMessages = List<ChatMessage>.from(currentState.messages)
-          ..add(ChatMessage(
-            text: question.question ?? '',
-            isBot: true,
-            question: question,
-          ));
+          ..add(
+            ChatMessage(
+              text: question.question ?? '',
+              isBot: true,
+              question: question,
+            ),
+          );
 
-        emit(currentState.copyWith(
-          messages: finalMessages,
-          currentTextAnswer: '',
-          currentSingleChoice: null,
-          currentMultipleChoices: [],
-          currentImageFile: null,
-          sequentialState: question.type == QuestionType.sequential
-              ? SequentialState(sequentialPrompt: question.followUpQuestion ?? '')
-              : SequentialState(),
-        ));
+        emit(
+          currentState.copyWith(
+            messages: finalMessages,
+            currentTextAnswer: '',
+            currentSingleChoice: null,
+            currentMultipleChoices: [],
+            currentImageFile: null,
+            sequentialState: question.type == QuestionType.sequential
+                ? SequentialState(
+                    sequentialPrompt: question.followUpQuestion ?? '',
+                  )
+                : SequentialState(),
+          ),
+        );
       });
     } else {
       showResults();
@@ -90,7 +103,6 @@ class ChatCubit extends Cubit<ChatState> {
     emit(currentState.copyWith(currentImageFile: imageFile));
   }
 
-
   void updateMultipleChoice(String choice) {
     final currentState = state as ChatLoaded;
     final choices = List<String>.from(currentState.currentMultipleChoices);
@@ -104,25 +116,11 @@ class ChatCubit extends Cubit<ChatState> {
     emit(currentState.copyWith(currentMultipleChoices: choices));
   }
 
-  // Future<void> pickAndSetImage(File file) async {
-  //   // try {
-  //   //   final picker = ImagePicker();
-  //   //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //   //
-  //   //   if (pickedFile != null) {
-  //   //     final file = File(pickedFile.path);
-  //   //     setImage(file);
-  //   //   }
-  //   // } catch (e) {
-  //   //   showErrorMessage('فشل في اختيار الصورة: ${e.toString()}');
-  //   // }
-  // }
-
-
 
   void submitAnswer() {
     final currentState = state as ChatLoaded;
-    final currentQuestion = currentState.questions[currentState.currentQuestionIndex];
+    final currentQuestion =
+        currentState.questions[currentState.currentQuestionIndex];
 
     if (currentQuestion.type == QuestionType.sequential) {
       _handleSequentialAnswer(currentQuestion);
@@ -131,6 +129,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     late Answer answer;
     String displayText = '';
+    Widget? imageWidget;
 
     switch (currentQuestion.type) {
       case QuestionType.text:
@@ -160,19 +159,26 @@ class ChatCubit extends Cubit<ChatState> {
         displayText = currentState.currentMultipleChoices.join(', ');
         break;
       case QuestionType.image:
-        // if (currentState.currentImageFile == null) return;
+        if (currentState.currentImageFile == null) return;
         answer = Answer(
           questionId: currentQuestion.id ?? '',
           imageFile: currentState.currentImageFile,
         );
-        print("zewin--------------------${currentState.currentImageFile!.path.split('/').last}");
-        displayText = "تم رفع صورة: ${currentState.currentImageFile!.path.split('/').last}";
+        displayText = '✨ تم اضافة الصورة';
+        imageWidget = Image.file(
+          currentState.currentImageFile!,
+          width: 200,
+          height: 200,
+        );
+        break;
+
+      case QuestionType.yesOrNo:
         break;
       case QuestionType.sequential:
         return;
     }
 
-    _processAnswer(answer, displayText);
+    _processAnswer(answer, displayText, imageWidget);
   }
 
   void _handleSequentialAnswer(Questions question) {
@@ -185,7 +191,7 @@ class ChatCubit extends Cubit<ChatState> {
 
       final count = int.tryParse(countText);
       if (count == null || count < 0) {
-        showErrorMessage('يرجى إدخال رقم صحيح ');
+        showErrorMessage(' أُوبس! أدخل رقمًا صحيحًا من فضلك! 🙈');
         return;
       }
 
@@ -199,15 +205,20 @@ class ChatCubit extends Cubit<ChatState> {
         sequentialAnswers: [],
       );
 
-      emit(currentState.copyWith(
-        messages: updatedMessages,
-        currentTextAnswer: '',
-        sequentialState: newSequentialState,
-      ));
+      emit(
+        currentState.copyWith(
+          messages: updatedMessages,
+          currentTextAnswer: '',
+          sequentialState: newSequentialState,
+        ),
+      );
 
       if (count == 0) {
-        final answer = Answer(questionId: question.id ?? '', sequentialAnswers: []);
-        _processAnswer(answer, 'لا يوجد');
+        final answer = Answer(
+          questionId: question.id ?? '',
+          sequentialAnswers: [],
+        );
+        _processAnswer(answer, 'لا يوجد', null);
         return;
       }
 
@@ -216,24 +227,34 @@ class ChatCubit extends Cubit<ChatState> {
       // Answer to one of the sequential questions
       if (currentState.currentTextAnswer.trim().isEmpty) return;
 
-      final updatedAnswers = List<String>.from(currentState.sequentialState.sequentialAnswers)
-        ..add(currentState.currentTextAnswer.trim());
+      final updatedAnswers = List<String>.from(
+        currentState.sequentialState.sequentialAnswers,
+      )..add(currentState.currentTextAnswer.trim());
 
       final updatedMessages = List<ChatMessage>.from(currentState.messages)
-        ..add(ChatMessage(text: currentState.currentTextAnswer.trim(), isBot: false));
+        ..add(
+          ChatMessage(
+            text: currentState.currentTextAnswer.trim(),
+            isBot: false,
+          ),
+        );
 
       final newSequentialState = currentState.sequentialState.copyWith(
         sequentialAnswers: updatedAnswers,
-        currentSequentialIndex: currentState.sequentialState.currentSequentialIndex + 1,
+        currentSequentialIndex:
+            currentState.sequentialState.currentSequentialIndex + 1,
       );
 
-      emit(currentState.copyWith(
-        messages: updatedMessages,
-        currentTextAnswer: '',
-        sequentialState: newSequentialState,
-      ));
+      emit(
+        currentState.copyWith(
+          messages: updatedMessages,
+          currentTextAnswer: '',
+          sequentialState: newSequentialState,
+        ),
+      );
 
-      if (newSequentialState.currentSequentialIndex <= newSequentialState.sequentialCount) {
+      if (newSequentialState.currentSequentialIndex <=
+          newSequentialState.sequentialCount) {
         _askSequentialQuestionWithTyping(question);
       } else {
         final answer = Answer(
@@ -241,13 +262,16 @@ class ChatCubit extends Cubit<ChatState> {
           sequentialAnswers: List.from(updatedAnswers),
         );
 
-        _showTypingAndMessage('شكراً لك! السؤال التالي:', () {
-          final finalAnswers = List<Answer>.from(currentState.answers)..add(answer);
-          emit(currentState.copyWith(
-            answers: finalAnswers,
-            currentQuestionIndex: currentState.currentQuestionIndex + 1,
-            sequentialState: SequentialState(),
-          ));
+        _showTypingAndMessage('شكراً لك! 🙏 السؤال التالي:', () {
+          final finalAnswers = List<Answer>.from(currentState.answers)
+            ..add(answer);
+          emit(
+            currentState.copyWith(
+              answers: finalAnswers,
+              currentQuestionIndex: currentState.currentQuestionIndex + 1,
+              sequentialState: SequentialState(),
+            ),
+          );
           askNextQuestion();
         });
       }
@@ -265,34 +289,42 @@ class ChatCubit extends Cubit<ChatState> {
 
     // Remove typing indicator and add question
     Future.delayed(Duration(milliseconds: 1500), () {
-      final finalMessages = currentState.messages.where((msg) => !msg.isTyping).toList()
-        ..add(ChatMessage(
-          text: '${question.followUpQuestion} ${currentState.sequentialState.currentSequentialIndex}؟',
-          isBot: true,
-        ));
+      final finalMessages =
+          currentState.messages.where((msg) => !msg.isTyping).toList()..add(
+            ChatMessage(
+              text:
+                  '${question.followUpQuestion} ${currentState.sequentialState.currentSequentialIndex}؟',
+              isBot: true,
+            ),
+          );
 
       emit(currentState.copyWith(messages: finalMessages));
     });
   }
 
-  void _processAnswer(Answer answer, String displayText) {
+  void _processAnswer(Answer answer, String displayText, Widget? imageWidget) {
     final currentState = state as ChatLoaded;
 
     final updatedAnswers = List<Answer>.from(currentState.answers)..add(answer);
     final updatedMessages = List<ChatMessage>.from(currentState.messages)
-      ..add(ChatMessage(text: displayText, isBot: false));
+      ..add(
+        ChatMessage(imageWidget: imageWidget, text: displayText, isBot: false),
+      );
 
-    emit(currentState.copyWith(
-      answers: updatedAnswers,
-      messages: updatedMessages,
-      currentQuestionIndex: currentState.currentQuestionIndex + 1,
-      currentTextAnswer: '',
-      currentSingleChoice: null,
-      currentMultipleChoices: [],
-    ));
+    emit(
+      currentState.copyWith(
+        answers: updatedAnswers,
+        messages: updatedMessages,
+        currentImageFile: null,
+        currentQuestionIndex: currentState.currentQuestionIndex + 1,
+        currentTextAnswer: '',
+        currentSingleChoice: null,
+        currentMultipleChoices: [],
+      ),
+    );
 
     if (currentState.currentQuestionIndex + 1 < currentState.questions.length) {
-      _showTypingAndMessage('شكراً لك! السؤال التالي:', () {
+      _showTypingAndMessage('شكراً لك! 🙏 السؤال التالي:', () {
         askNextQuestion();
       });
     } else {
@@ -311,8 +343,9 @@ class ChatCubit extends Cubit<ChatState> {
 
     // Remove typing indicator and add message
     Future.delayed(Duration(milliseconds: 1500), () {
-      final finalMessages = currentState.messages.where((msg) => !msg.isTyping).toList()
-        ..add(ChatMessage(text: message, isBot: true));
+      final finalMessages =
+          currentState.messages.where((msg) => !msg.isTyping).toList()
+            ..add(ChatMessage(text: message, isBot: true));
 
       emit(currentState.copyWith(messages: finalMessages));
 
@@ -331,52 +364,59 @@ class ChatCubit extends Cubit<ChatState> {
   void showResults() {
     final currentState = state as ChatLoaded;
 
-    _showTypingAndMessage('شكراً لك! لقد انتهينا من جميع الأسئلة. إليك ملخص إجاباتك:', () {
-      String summary = '';
-      for (int i = 0; i < currentState.questions.length; i++) {
-        final question = currentState.questions[i];
-        final answer = currentState.answers.firstWhere((a) => a.questionId == question.id);
+    _showTypingAndMessage(
+      'شكراً لك! 🙏 لقد انتهينا من جميع الأسئلة. إليك ملخص إجاباتك: 📋✨',
+      () {
+        String summary = '';
 
-        summary += '${i + 1}. ${question.question}\n';
+        for (int i = 0; i < currentState.questions.length; i++) {
+          final question = currentState.questions[i];
+          final answer = currentState.answers.firstWhere(
+            (a) => a.questionId == question.id,
+          );
 
-        switch (question.type) {
-          case QuestionType.text:
-            summary += 'الإجابة: ${answer.textAnswer}\n\n';
-            break;
-          case QuestionType.singleChoice:
-            summary += 'الإجابة: ${answer.selectedOption}\n\n';
-            break;
-          case QuestionType.multipleChoice:
-            summary += 'الإجابات: ${answer.selectedOptions?.join(', ')}\n\n';
-            break;
-          case QuestionType.sequential:
-            if (answer.sequentialAnswers?.isEmpty ?? true) {
-              summary += 'الإجابة: لا يوجد\n\n';
-            } else {
-              summary += 'الإجابات:\n';
-              for (int j = 0; j < answer.sequentialAnswers!.length; j++) {
-                summary += '${j + 1}. ${answer.sequentialAnswers![j]}\n';
+          summary += '${i + 1}. ${question.question}\n';
+
+          switch (question.type) {
+            case QuestionType.text:
+              summary += 'الإجابة: ${answer.textAnswer}\n\n';
+              break;
+            case QuestionType.singleChoice:
+              summary += 'الإجابة: ${answer.selectedOption}\n\n';
+              break;
+            case QuestionType.multipleChoice:
+              summary += 'الإجابات: ${answer.selectedOptions?.join(', ')}\n\n';
+              break;
+            case QuestionType.sequential:
+              if (answer.sequentialAnswers?.isEmpty ?? true) {
+                summary += 'الإجابة: لا يوجد\n\n';
+              } else {
+                summary += 'الإجابات:\n';
+                for (int j = 0; j < answer.sequentialAnswers!.length; j++) {
+                  summary += '${j + 1}. ${answer.sequentialAnswers![j]}\n';
+                }
+                summary += '\n';
               }
-              summary += '\n';
-            }
-          case QuestionType.image:
-            if (answer.imageFile != null) {
-              summary += 'تم رفع صورة: ${answer.imageFile!.path.split('/').last}\n\n';
-            } else {
-              summary += 'لم يتم رفع صورة.\n\n';
-            }
-            break;
+            case QuestionType.image:
+              if (answer.imageFile != null) {
+                summary +=
+                    'تم رفع صورة: ${answer.imageFile!.path.split('/').last}\n\n';
+              } else {
+                summary += 'لم يتم رفع صورة.\n\n';
+              }
+            case QuestionType.yesOrNo:
+              break;
+          }
         }
-      }
 
-      Future.delayed(Duration(milliseconds: 500), () {
-        final finalMessages = List<ChatMessage>.from(currentState.messages)
-          ..add(ChatMessage(text: summary, isBot: true));
-        emit(currentState.copyWith(
-          messages: finalMessages,
-          isCompleted: true,
-        ));
-      });
-    });
+        Future.delayed(Duration(milliseconds: 500), () {
+          final finalMessages = List<ChatMessage>.from(currentState.messages)
+            ..add(ChatMessage(text: summary, isBot: true,finalWidget: ElevatedButton(onPressed: (){}, child: Text('data'))));
+          emit(
+            currentState.copyWith(messages: finalMessages, isCompleted: true),
+          );
+        });
+      },
+    );
   }
 }

@@ -4,11 +4,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/routes_manager.dart';
+import 'package:wise_child/core/widgets/animated_arrow_button.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/questions.dart';
+import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/chat_cubit/chat_cubit.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/widgets/question_options.dart';
 
+import '../../data/models/response/questions_dto.dart';
+import '../bloc/ChatBotAssistant_cubit.dart';
 import '../widgets/typing_indicator.dart';
-
 
 class MessageBubble extends StatelessWidget {
   final ChatMessage message;
@@ -18,17 +22,14 @@ class MessageBubble extends StatelessWidget {
   final String? currentSingleChoice;
   final List<String> currentMultipleChoices;
   final File currentImage;
-  // final Function(File) imageUrl;
 
   const MessageBubble({
-
     super.key,
     required this.message,
     required this.onSingleChoiceSelected,
     required this.onMultipleChoiceToggled,
     this.currentSingleChoice,
     this.currentMultipleChoices = const [],
-    // required this.imageUrl,
     required this.currentImage,
     required this.onChoiceImageSelected,
   });
@@ -79,12 +80,12 @@ class MessageBubble extends StatelessWidget {
                   child: message.isTyping
                       ? TypingIndicator()
                       : Text(
-                    message.text,
-                    style: TextStyle(
-                      color: message.isBot ? Colors.white : Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
+                          message.text,
+                          style: TextStyle(
+                            color: message.isBot ? Colors.white : Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
                 ),
               ),
               SizedBox(width: 8),
@@ -107,6 +108,54 @@ class MessageBubble extends StatelessWidget {
               currentMultipleChoices: currentMultipleChoices,
               currentImageFile: currentImage,
               onChoiceImageSelected: onChoiceImageSelected,
+            ),
+          if (message.imageWidget != null)
+            Padding(
+              padding: EdgeInsetsGeometry.directional(top: 10, end: 30),
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                height: 200,
+                width: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Image.file(currentImage, fit: BoxFit.fill),
+              ),
+            ),
+          if (message.finalWidget != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorManager.chatUserBg,
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        List<Questions> questions = [];
+
+                        // ChatCubit.get(context).initializeChat(questions);
+                        ChatBotAssistantCubit.get(context).getQuestions();
+                      },
+                      icon: Icon(Icons.refresh, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: AnimatedArrowButton(
+                      onTap: () {
+                        Navigator.pop(context);
+
+                        /// TODO: navigate to next screen
+                      },
+                      title: 'تأكيد ومتابعة ',
+                      color: ColorManager.chatUserBg,
+                    ),
+                  ),
+                ],
+              ),
             ),
         ],
       ),

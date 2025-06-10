@@ -5,11 +5,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
+import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/chat_cubit/chat_cubit.dart';
+import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/directions_cubit/directions_cubit.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/ChatBotAssistant_cubit.dart';
-
 import '../bloc/chat_cubit/chat_state.dart';
 import '../widgets/message_bubble.dart';
 import '../widgets/chat_input.dart';
@@ -22,17 +24,37 @@ class ChatBotAssistantPage extends StatefulWidget {
 }
 
 class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
+  late DirectionsCubit directionsViewModel;
   late ChatBotAssistantCubit questionsViewModel;
   late ChatCubit chatCubit;
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+  bool isRefreshing = false;
+
+  Future<void> _refreshQuestions() async {
+    if (isRefreshing) return;
+
+    setState(() {
+      isRefreshing = true;
+    });
+
+    await questionsViewModel.getQuestions();
+
+    setState(() {
+      isRefreshing = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    directionsViewModel = getIt.get<DirectionsCubit>();
     questionsViewModel = getIt.get<ChatBotAssistantCubit>();
+
     chatCubit = ChatCubit();
-    questionsViewModel.getQuestions();
+    // questionsViewModel.getQuestions();
+    directionsViewModel.getDirections();
   }
 
   void _scrollToBottom() {
@@ -51,11 +73,30 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider.value(value: directionsViewModel),
         BlocProvider.value(value: questionsViewModel),
         BlocProvider.value(value: chatCubit),
       ],
       child: MultiBlocListener(
         listeners: [
+          BlocListener<DirectionsCubit, DirectionsState>(
+            listener: (context, state) {
+              if (state is DirectionsSuccess) {
+                final directions = state.directionsEntity.directions ?? [];
+                List<Questions> questionsList = [Questions(
+                  id: '111111',
+                  question:'ماذا تريد الحصول عليه',
+                  type: QuestionType.singleChoice,
+                  followUpQuestion: '',
+                  countPrompt: null,
+                  options:  directions.map((direction) => direction.title ?? '').toList(),
+                )];
+                chatCubit.initializeChat(questionsList);
+              }
+            },
+          ),
+
+
           BlocListener<ChatBotAssistantCubit, ChatBotAssistantState>(
             listener: (context, state) {
               if (state is ChatBotAssistantSuccess) {
@@ -71,6 +112,7 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
               }
             },
           ),
+
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -88,6 +130,17 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
                   ),
                 ),
               ],
+            ),
+            leading: Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ColorManager.chatUserBg,
+              ),
+              child: IconButton(
+                onPressed: _refreshQuestions,
+                icon: Icon(Icons.refresh, color: Colors.white),
+              ),
             ),
             centerTitle: false,
           ),
@@ -144,36 +197,38 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
                         ? state.questions[state.currentQuestionIndex]
                         : null;
 
-                    return ChatInput(
-                      currentQuestion: currentQuestion,
+                    return Column(
+                      children: [
+                        ChatInput(
+                          currentQuestion: currentQuestion,
+                          onImageSelected: () async {
+                            final pickedFile = await ImagePicker().pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (pickedFile != null) {
+                              final file = File(pickedFile.path);
+                              if (context.mounted) {
+                                context.read<ChatCubit>().setImage(file);
+                              }
+                            }
+                          },
+                          textController: _textController,
+                          currentTextAnswer: state.currentTextAnswer,
+                          currentSingleChoice: state.currentSingleChoice,
+                          currentMultipleChoices: state.currentMultipleChoices,
+                          isInSequentialMode:
+                              state.sequentialState.isInSequentialMode,
+                          currentImageFile: state.currentImageFile,
+                          onSubmit: () {
+                            chatCubit.submitAnswer();
 
-                      onImageSelected: () async {
-                        final pickedFile = await ImagePicker().pickImage(
-                          source: ImageSource.gallery,
-                        );
-                        if (pickedFile != null) {
-                          final file = File(pickedFile.path);
-                          if (context.mounted) {
-                            context.read<ChatCubit>().setImage(file);
-                          }
-                          state.currentImageFile == file;
-                        }
-                      },
-
-                      textController: _textController,
-                      currentTextAnswer: state.currentTextAnswer,
-                      currentSingleChoice: state.currentSingleChoice,
-                      currentMultipleChoices: state.currentMultipleChoices,
-                      isInSequentialMode:
-                          state.sequentialState.isInSequentialMode,
-                      currentImageFile: state.currentImageFile,
-                      onSubmit: () {
-                        chatCubit.submitAnswer();
-                        _textController.clear();
-                      },
-                      onTextChanged: (text) {
-                        chatCubit.updateTextAnswer(text);
-                      },
+                            _textController.clear();
+                          },
+                          onTextChanged: (text) {
+                            chatCubit.updateTextAnswer(text);
+                          },
+                        ),
+                      ],
                     );
                   }
                   return SizedBox.shrink();

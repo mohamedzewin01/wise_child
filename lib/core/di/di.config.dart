@@ -38,6 +38,8 @@ import '../../features/ChatBotAssistant/domain/useCases/ChatBotAssistant_useCase
     as _i659;
 import '../../features/ChatBotAssistant/presentation/bloc/ChatBotAssistant_cubit.dart'
     as _i582;
+import '../../features/ChatBotAssistant/presentation/bloc/directions_cubit/directions_cubit.dart'
+    as _i159;
 import '../api/api_manager/api_manager.dart' as _i680;
 import '../api/dio_module.dart' as _i784;
 
@@ -75,6 +77,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i582.ChatBotAssistantCubit>(
       () =>
           _i582.ChatBotAssistantCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
+    );
+    gh.factory<_i159.DirectionsCubit>(
+      () => _i159.DirectionsCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
     );
     gh.factory<_i192.AuthCubit>(
       () => _i192.AuthCubit(gh<_i628.AuthUseCaseRepo>()),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wise_child/core/common/api_result.dart';
@@ -12,6 +13,8 @@ class ChatBotAssistantCubit extends Cubit<ChatBotAssistantState> {
   ChatBotAssistantCubit(this._chatBotAssistantUseCaseRepo) : super(ChatBotAssistantInitial());
   final ChatBotAssistantUseCaseRepo _chatBotAssistantUseCaseRepo;
 
+
+  static ChatBotAssistantCubit get(context) => BlocProvider.of(context);
   Future<void> getQuestions() async {
     emit(ChatBotAssistantLoading());
     final result = await _chatBotAssistantUseCaseRepo.getQuestions();
