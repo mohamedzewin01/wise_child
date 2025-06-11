@@ -36,7 +36,7 @@ class QuestionsDto {
 @JsonSerializable()
 class Questions {
   @JsonKey(name: "id")
-  final String id;
+  final int? id;
 
   @JsonKey(name: "question")
   final String? question;
@@ -69,7 +69,7 @@ class Questions {
 
   Directions toDirections() {
     return Directions(
-      id: int.tryParse(id),
+      id: id,
       title: question,
       description: followUpQuestion ?? countPrompt,
       createdAt: null,

@@ -135,7 +135,7 @@ class ChatCubit extends Cubit<ChatState> {
       case QuestionType.text:
         if (currentState.currentTextAnswer.trim().isEmpty) return;
         answer = Answer(
-          questionId: currentQuestion.id ?? '',
+          questionId: currentQuestion.id ?? 0,
           textAnswer: currentState.currentTextAnswer,
         );
         displayText = currentState.currentTextAnswer;
@@ -144,7 +144,7 @@ class ChatCubit extends Cubit<ChatState> {
       case QuestionType.singleChoice:
         if (currentState.currentSingleChoice == null) return;
         answer = Answer(
-          questionId: currentQuestion.id ?? '',
+          questionId: currentQuestion.id ?? 0,
           selectedOption: currentState.currentSingleChoice,
         );
         displayText = currentState.currentSingleChoice!;
@@ -153,7 +153,7 @@ class ChatCubit extends Cubit<ChatState> {
       case QuestionType.multipleChoice:
         if (currentState.currentMultipleChoices.isEmpty) return;
         answer = Answer(
-          questionId: currentQuestion.id ?? '',
+          questionId: currentQuestion.id ?? 0,
           selectedOptions: List.from(currentState.currentMultipleChoices),
         );
         displayText = currentState.currentMultipleChoices.join(', ');
@@ -161,7 +161,7 @@ class ChatCubit extends Cubit<ChatState> {
       case QuestionType.image:
         if (currentState.currentImageFile == null) return;
         answer = Answer(
-          questionId: currentQuestion.id ?? '',
+          questionId: currentQuestion.id ?? 0,
           imageFile: currentState.currentImageFile,
         );
         displayText = '✨ تم اضافة الصورة';
@@ -215,7 +215,7 @@ class ChatCubit extends Cubit<ChatState> {
 
       if (count == 0) {
         final answer = Answer(
-          questionId: question.id ?? '',
+          questionId: question.id ?? 0,
           sequentialAnswers: [],
         );
         _processAnswer(answer, 'لا يوجد', null);
@@ -258,7 +258,7 @@ class ChatCubit extends Cubit<ChatState> {
         _askSequentialQuestionWithTyping(question);
       } else {
         final answer = Answer(
-          questionId: question.id ?? '',
+          questionId: question.id ?? 0,
           sequentialAnswers: List.from(updatedAnswers),
         );
 

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/features/ChatBotAssistant/data/models/response/directions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/chat_cubit/chat_cubit.dart';
@@ -13,6 +15,7 @@ import 'package:wise_child/features/ChatBotAssistant/presentation/bloc/direction
 import '../../../../core/di/di.dart';
 import '../bloc/ChatBotAssistant_cubit.dart';
 import '../bloc/chat_cubit/chat_state.dart';
+import '../widgets/directions_view.dart';
 import '../widgets/message_bubble.dart';
 import '../widgets/chat_input.dart';
 
@@ -39,7 +42,7 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
       isRefreshing = true;
     });
 
-    await questionsViewModel.getQuestions();
+    // await questionsViewModel.getQuestions();
 
     setState(() {
       isRefreshing = false;
@@ -82,20 +85,10 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
           BlocListener<DirectionsCubit, DirectionsState>(
             listener: (context, state) {
               if (state is DirectionsSuccess) {
-                final directions = state.directionsEntity.directions ?? [];
-                List<Questions> questionsList = [Questions(
-                  id: '111111',
-                  question:'ماذا تريد الحصول عليه',
-                  type: QuestionType.singleChoice,
-                  followUpQuestion: '',
-                  countPrompt: null,
-                  options:  directions.map((direction) => direction.title ?? '').toList(),
-                )];
-                chatCubit.initializeChat(questionsList);
+
               }
             },
           ),
-
 
           BlocListener<ChatBotAssistantCubit, ChatBotAssistantState>(
             listener: (context, state) {
@@ -112,7 +105,6 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
               }
             },
           ),
-
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -147,6 +139,7 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
           body: Column(
             children: [
               Divider(height: 1, color: Colors.grey[300]),
+              DirectionsView(),
               Expanded(
                 child: BlocBuilder<ChatCubit, ChatState>(
                   builder: (context, state) {
@@ -248,3 +241,5 @@ class _ChatBotAssistantPageState extends State<ChatBotAssistantPage> {
     super.dispose();
   }
 }
+
+

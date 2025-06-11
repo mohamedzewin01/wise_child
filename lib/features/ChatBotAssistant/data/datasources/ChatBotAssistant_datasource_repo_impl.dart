@@ -1,5 +1,6 @@
 import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/ChatBotAssistant/data/models/request/get_filtered_questions_request.dart';
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/directions.dart';
 
 import 'package:wise_child/features/ChatBotAssistant/domain/entities/questions_entity.dart';
@@ -26,12 +27,20 @@ class ChatBotAssistantDatasourceRepoImpl implements ChatBotAssistantDatasourceRe
     },);
   }
 
+  // @override
+  // Future<Result<QuestionsEntity?>> getQuestions() {
+  //  return executeApi(() async{
+  //    var questions = await apiService.getQuestions();
+  //    return questions?.toQuestionsEntity();
+  //  },);
+  // }
+
   @override
-  Future<Result<QuestionsEntity?>> getQuestions() {
-   return executeApi(() async{
-     var questions = await apiService.getQuestions();
-     return questions?.toQuestionsEntity();
-   },);
+  Future<Result<QuestionsEntity?>> getFilteredQuestions(GetFilteredQuestionsRequest getFilteredQuestionsRequest) {
+  return executeApi(() async{
+    var questions = await apiService.getQuestionByDirection(getFilteredQuestionsRequest);
+    return questions?.toQuestionsEntity();
+  },);
   }
 
 

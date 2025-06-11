@@ -5,6 +5,7 @@ import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/features/Auth/data/models/request/get_user_email_request.dart';
 import 'package:wise_child/features/Auth/data/models/request/user_model_response.dart';
 import 'package:wise_child/features/Auth/data/models/response/users_model.dart';
+import 'package:wise_child/features/ChatBotAssistant/data/models/request/get_filtered_questions_request.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/directions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 
@@ -30,11 +31,16 @@ abstract class ApiService {
     @Body() GetUserByEmailRequest getUserByEmailRequest,
   );
 
-  @POST(ApiConstants.getQuestions)
-  Future<QuestionsDto?> getQuestions();
-
   @POST(ApiConstants.getDirections)
   Future<DirectionsDto?> getDirections();
+
+  @POST(ApiConstants.getQuestionByDirection)
+  Future<QuestionsDto?> getQuestionByDirection(
+    @Body() GetFilteredQuestionsRequest getFilteredQuestionsRequest,
+  );
+
+  @POST(ApiConstants.getQuestions)
+  Future<QuestionsDto?> getQuestions();
 }
 
 //  @MultiPart()

@@ -135,9 +135,9 @@ class MessageBubble extends StatelessWidget {
                     child: IconButton(
                       onPressed: () {
                         List<Questions> questions = [];
-
+/// TODO: navigate to next screen
                         // ChatCubit.get(context).initializeChat(questions);
-                        ChatBotAssistantCubit.get(context).getQuestions();
+                        // ChatBotAssistantCubit.get(context).getQuestions();
                       },
                       icon: Icon(Icons.refresh, color: Colors.white),
                     ),

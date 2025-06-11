@@ -50,7 +50,7 @@ QuestionType questionTypeFromString(String? type) {
 
 
 class Answer {
-  final String questionId;
+  final int questionId;
   final String? textAnswer;
   final String? selectedOption;
   final List<String>? selectedOptions;
