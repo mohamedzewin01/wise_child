@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:wise_child/core/resources/color_manager.dart';
 
 
 class MovableIcon extends StatefulWidget {
@@ -38,7 +36,7 @@ class _MovableIconState extends State<MovableIcon>
       ),
     );
 
-    // إعادة تشغيل الاهتزاز بشكل دوري
+
     _startShakeLoop();
   }
 
@@ -94,14 +92,16 @@ class _MovableIconState extends State<MovableIcon>
   Widget build(BuildContext context) {
     if (position == null) return const SizedBox();
 
-    return Positioned(
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
       left: position!.dx,
       top: position!.dy,
       child: GestureDetector(
         onPanUpdate: _updatePosition,
         onTap: () {
           widget.onTap();
-          _shakeController.forward(from: 0); // تهتز عند الضغط أيضًا
+          _shakeController.forward(from: 0);
         },
         child: AnimatedBuilder(
           animation: _shakeAnimation,
@@ -114,10 +114,9 @@ class _MovableIconState extends State<MovableIcon>
           child: Container(
             width: iconSize,
             height: iconSize,
-            decoration: BoxDecoration(
-
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
                   blurRadius: 4,
@@ -125,7 +124,7 @@ class _MovableIconState extends State<MovableIcon>
                 ),
               ],
             ),
-            child:  CircleAvatar(
+            child: const CircleAvatar(
               radius: 16,
               backgroundImage: CachedNetworkImageProvider(
                 'https://artawiya.com//DigitalArtawiya/image.jpeg',

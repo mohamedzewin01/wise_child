@@ -40,7 +40,13 @@ class LayoutMobileView extends StatelessWidget {
               AppConstants.viewOptions[cubit.index],
               MovableIcon(
                 onTap: () {
-               Navigator.pushNamed(context, RoutesManager.chatBotAssistantScreen);
+                  if (cubit.index == 1) {
+                    Navigator.pushNamed(context, RoutesManager.chatBotAddChildScreen);
+                    return;
+                  }
+                  Navigator.pushNamed(context, RoutesManager.chatBotAssistantScreen);
+
+
                 },
               ),
             ],

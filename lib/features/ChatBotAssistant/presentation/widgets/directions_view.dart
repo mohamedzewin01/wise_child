@@ -71,43 +71,13 @@ class _DirectionsViewState extends State<DirectionsView> {
                                 selectedIndex = selected ? index : null;
                               });
 
-                              direction.id!= 10001
-
-                                  ? null
-                                  : ChatBotAssistantCubit.get(context).getQuestions(
+                               ChatBotAssistantCubit.get(context).getQuestions(
                                       directionsId: direction.id.toString(),
                                     );
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: ChoiceChip(
-                            padding: EdgeInsets.all(1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            backgroundColor: ColorManager.chatUserBg,
-                            elevation: 5,
-                            selectedColor: ColorManager.chatUserBg,
-                            selectedShadowColor: Colors.grey,
-                            labelStyle: getBoldStyle(color: Colors.white),
-                            label: Text(direction.title ?? ''),
-                            selected: selectedIndex == index,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedIndex = selected ? index : null;
-                              });
-/// TODO : add story
-                              direction.id== 10001
 
-                                  ? null
-                                  : ChatBotAssistantCubit.get(context).getQuestions(
-                                directionsId: direction.id.toString(),
-                              );
-                            },
-                          ),
-                        ),
                       ],
                     );
                   }).toList(),

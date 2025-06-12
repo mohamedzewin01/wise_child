@@ -143,4 +143,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get welcome => 'مرحبا';
+
+  @override
+  String get gender => 'الجنس';
 }
