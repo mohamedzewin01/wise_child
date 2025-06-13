@@ -72,6 +72,7 @@ class Siblings {
 
 @JsonSerializable()
 class Friends {
+
   @JsonKey(name: "name")
   final String? name;
   @JsonKey(name: "age")

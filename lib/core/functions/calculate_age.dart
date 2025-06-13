@@ -3,24 +3,6 @@
 
 
 
-// String calculateAgeInYearsAndMonths(String birthDateString, String languageCode) {
-//   DateTime birthDate = DateTime.parse(birthDateString);
-//   DateTime today = DateTime.now();
-//
-//   int years = today.year - birthDate.year;
-//   int months = today.month - birthDate.month;
-//
-//   if (months < 0) {
-//     years--;
-//     months += 12;
-//   }
-//
-//   if (languageCode == 'ar') {
-//     return '$years سنة - \u200E $months شهر';
-//   } else {
-//     return '$years years - $months months';
-//   }
-// }
 
 
 String calculateAgeInYearsAndMonths(String birthDateString, String languageCode) {

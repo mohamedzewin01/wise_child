@@ -5,6 +5,7 @@ import 'package:wise_child/features/AddChildren/presentation/child_profile_model
 
 // تعريف مراحل المحادثة المحدثة
 enum ConversationStage {
+  askingGender,
   greeting,
   askingFirstName,
   askingLastName,

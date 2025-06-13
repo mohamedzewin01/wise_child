@@ -13,5 +13,5 @@ String genderToText(String gender, String languageCode) {
     if (gender == 'female') return 'Girl';
   }
 
-  return ''; // في حال كانت القيمة غير معروفة
+  return '';
 }
