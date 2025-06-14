@@ -146,4 +146,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get gender => 'الجنس';
+
+  @override
+  String get setting => 'الاعدادات';
+
+  @override
+  String get children => 'الاطفال';
+
+  @override
+  String get add => 'اضافة';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get cancel => 'الغاء';
+
+  @override
+  String get name => 'الاسم';
+
+  @override
+  String get age => 'العمر';
+
+  @override
+  String get birthDate => 'تاريخ الميلاد';
+
+  @override
+  String get genderMale => 'ذكر';
+
+  @override
+  String get genderFemale => 'انثى';
+
+  @override
+  String get stories => 'قصص';
 }

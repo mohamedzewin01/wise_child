@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -12,6 +14,9 @@ import 'package:wise_child/features/ChatBotAssistant/data/models/response/direct
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
+import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
+import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
+import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
 
 part 'api_manager.g.dart';
 
@@ -51,11 +56,15 @@ abstract class ApiService {
     @Body() GetChildrenRequest getChildrenRequest,
   );
 
-
   @POST(ApiConstants.newChild)
-  Future<AddChildDto?> addChild(
-    @Body() AddChildRequest addChildRequest,
-  );
+  Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
+
+  @MultiPart()
+  @POST(ApiConstants.newChild)
+  Future<UploadImageDto?> uploadImage(
+      @Part(name: "image") File? image,
+      @Part(name: "id_children") String? idChildren
+      );
 }
 
 //  @MultiPart()

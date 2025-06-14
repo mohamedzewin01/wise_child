@@ -59,6 +59,7 @@ class CustomImage extends StatelessWidget {
             url.isNotEmpty ? '${ApiConstants.urlImage}$url' : '',
           ),
           fit: boxFit ?? BoxFit.fill,
+
           placeholder:
               (context, url) => Skeletonizer(
                 child: Padding(

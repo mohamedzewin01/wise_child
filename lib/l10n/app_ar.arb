@@ -44,5 +44,18 @@
   "personalizedStories": "قصص مخصصة لاحتياجات طفلك الفريدة",
   "getStarted": "ابدأ",
   "welcome": "مرحبا",
-  "gender": "الجنس"
+  "gender": "الجنس",
+  "setting": "الاعدادات",
+  "children": "الاطفال",
+  "add": "اضافة",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "save": "حفظ",
+  "cancel": "الغاء",
+  "name": "الاسم",
+  "age": "العمر",
+  "birthDate": "تاريخ الميلاد",
+  "genderMale": "ذكر",
+  "genderFemale": "انثى",
+  "stories": "قصص"
 }

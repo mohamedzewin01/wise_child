@@ -6,6 +6,9 @@ class FontWeightManager {
   static FontWeight bold = FontWeight.w700;
   static FontWeight light = FontWeight.w300;
   static FontWeight semiBold = FontWeight.w600;
+  static const FontWeight extraBold = FontWeight.w800;
+  static const FontWeight black = FontWeight.w900;
+
 }
 
 class FontSize {

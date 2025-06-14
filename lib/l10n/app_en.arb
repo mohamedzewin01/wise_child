@@ -45,5 +45,18 @@
   "personalizedStories": "Personalized stories for unique child needs",
   "getStarted": "Get Started",
   "welcome": "Welcome",
-  "gender": "Gender"
+  "gender": "Gender",
+  "setting": "Setting",
+  "children": "Children",
+  "add": "add",
+  "edit": "edit",
+  "delete": "delete",
+  "save": "save",
+  "cancel": "cancel",
+  "name": "name",
+  "age": "age",
+  "birthDate": "birth date",
+  "genderMale": "male",
+  "genderFemale": "female",
+  "stories": "stories"
 }

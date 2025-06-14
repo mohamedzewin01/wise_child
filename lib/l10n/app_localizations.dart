@@ -373,6 +373,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Gender'**
   String get gender;
+
+  /// No description provided for @setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get setting;
+
+  /// No description provided for @children.
+  ///
+  /// In en, this message translates to:
+  /// **'Children'**
+  String get children;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'add'**
+  String get add;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'delete'**
+  String get delete;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'save'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'cancel'**
+  String get cancel;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'name'**
+  String get name;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'age'**
+  String get age;
+
+  /// No description provided for @birthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'birth date'**
+  String get birthDate;
+
+  /// No description provided for @genderMale.
+  ///
+  /// In en, this message translates to:
+  /// **'male'**
+  String get genderMale;
+
+  /// No description provided for @genderFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'female'**
+  String get genderFemale;
+
+  /// No description provided for @stories.
+  ///
+  /// In en, this message translates to:
+  /// **'stories'**
+  String get stories;
 }
 
 class _AppLocalizationsDelegate

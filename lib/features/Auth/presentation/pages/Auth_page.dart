@@ -187,11 +187,11 @@ class _LoginPageState extends State<LoginPage> {
                                   SizedBox(height: 15),
                                   _isLoginTabSelected == false
                                       ? Expanded(
-                                          child: CustomTextForm(
+                                          child: CustomTextFormAuth(
                                             title: AppLocalizations.of(
                                               context,
                                             )!.firstName,
-                                            usernameController:
+                                            controller:
                                                 _firstNameController,
                                             hintText:  AppLocalizations.of(
                                               context,
@@ -212,11 +212,11 @@ class _LoginPageState extends State<LoginPage> {
                                   SizedBox(width: 16),
                                   _isLoginTabSelected == false
                                       ? Expanded(
-                                          child: CustomTextForm(
+                                          child: CustomTextFormAuth(
                                             title: AppLocalizations.of(
                                               context,
                                             )!.lastName,
-                                            usernameController:
+                                            controller:
                                                 _lastNameController,
                                             hintText: AppLocalizations.of(
                                               context,
@@ -236,9 +236,9 @@ class _LoginPageState extends State<LoginPage> {
                                       : SizedBox(height: 16),
                                 ],
                               ),
-                              CustomTextForm(
+                              CustomTextFormAuth(
                                 title: AppLocalizations.of(context)!.email,
-                                usernameController: _emailController,
+                                controller: _emailController,
                                 hintText: 'm@example.com',
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -256,8 +256,8 @@ class _LoginPageState extends State<LoginPage> {
                                 textInputType: TextInputType.emailAddress,
                               ),
                               _isLoginTabSelected == false
-                                  ? CustomTextForm(
-                                      usernameController: _dateController,
+                                  ? CustomTextFormAuth(
+                                      controller: _dateController,
                                       hintText: '21/10/1999',
                                       title: AppLocalizations.of(
                                         context,
@@ -276,9 +276,9 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                     )
                                   : SizedBox(),
-                              CustomTextForm(
+                              CustomTextFormAuth(
                                 title: AppLocalizations.of(context)!.password,
-                                usernameController: _passwordController,
+                                controller: _passwordController,
                                 hintText: AppLocalizations.of(
                                   context,
                                 )!.enterYourPassword,

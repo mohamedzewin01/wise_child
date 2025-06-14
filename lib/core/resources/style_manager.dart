@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import 'font_manager.dart';
 
@@ -12,7 +12,7 @@ TextStyle _getTextStyle(
     fontSize: fontSize,
     color: color,
     fontWeight: fontWeight,
-    fontFamily: GoogleFonts.tajawal().fontFamily,
+    fontFamily:'Tajawal',
 
 
   );
@@ -21,59 +21,61 @@ TextStyle _getTextStyle(
 //return regular style
 TextStyle getRegularStyle({
   double fontSize = FontSize.s12,
-  required Color color,
+   Color? color,
 }) {
   return _getTextStyle(
     fontSize,
     FontWeightManager.regular,
-    color,
+    color?? Colors.black,
   );
 }
 
 // return light style
 TextStyle getLightStyle({
   double fontSize = FontSize.s12,
-  required Color color,
+   Color? color,
 }) {
   return _getTextStyle(
     fontSize,
     FontWeightManager.light,
-    color,
+    color?? Colors.black,
   );
 }
 
 // return bold style
 TextStyle getBoldStyle({
   double fontSize = FontSize.s12,
-  required Color color,
+  Color? color,
+
 }) {
   return _getTextStyle(
     fontSize,
     FontWeightManager.bold,
-    color,
+    color?? Colors.black,
   );
 }
 
 // return semi bold style
 TextStyle getSemiBoldStyle({
   double fontSize = FontSize.s12,
-  required Color color,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
     FontWeightManager.semiBold,
-    color,
+    color?? Colors.black,
   );
 }
 
 // return medium style
 TextStyle getMediumStyle({
   double fontSize = FontSize.s12,
-  required Color color,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
     FontWeightManager.medium,
-    color,
+    color?? Colors.black,
   );
 }
+

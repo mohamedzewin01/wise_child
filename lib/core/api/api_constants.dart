@@ -9,6 +9,7 @@ class ApiConstants {
   static const String getDirections = "directions/getDirections";
   static const String getChildrenByUser = "children/getChildrenByUser";
   static const String newChild = "children/newChild";
+  static const String imageChild = "children/imageChild";
 
 
 

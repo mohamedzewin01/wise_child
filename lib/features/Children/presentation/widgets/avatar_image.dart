@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/utils/name_utils.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -15,7 +17,9 @@ class AvatarWidget extends StatelessWidget {
 
     this.radius = 28.0,
     this.backgroundColor = Colors.purpleAccent,
-    this.textColor = Colors.black87, required this.firstName, required this.lastName,
+    this.textColor = Colors.black87,
+    required this.firstName,
+    required this.lastName,
   });
 
   @override
@@ -23,8 +27,11 @@ class AvatarWidget extends StatelessWidget {
     Widget child;
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       child = CircleAvatar(
+        backgroundColor: Colors.grey.shade300,
         radius: radius,
-        backgroundImage: NetworkImage(imageUrl!),
+        backgroundImage: CachedNetworkImageProvider(
+          '${ApiConstants.urlImage}$imageUrl',
+        ),
       );
     } else {
       child = CircleAvatar(

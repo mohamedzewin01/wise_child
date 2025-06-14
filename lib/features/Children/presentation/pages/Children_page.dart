@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/widgets/child_card.dart';
 import 'package:wise_child/features/Children/presentation/widgets/skeletonizer_children.dart';
@@ -29,7 +30,17 @@ class _ChildrenPageState extends State<ChildrenPage> {
     return BlocProvider.value(
       value: viewModel..getChildrenByUser(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Children')),
+        appBar: AppBar(title: const Text('Children'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.pushNamed(context, RoutesManager.newChildrenPage);
+              },
+            ),
+          ],
+
+        ),
 
         body: BlocBuilder<ChildrenCubit, ChildrenState>(
           builder: (context, state) {

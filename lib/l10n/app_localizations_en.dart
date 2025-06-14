@@ -147,4 +147,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gender => 'Gender';
+
+  @override
+  String get setting => 'Setting';
+
+  @override
+  String get children => 'Children';
+
+  @override
+  String get add => 'add';
+
+  @override
+  String get edit => 'edit';
+
+  @override
+  String get delete => 'delete';
+
+  @override
+  String get save => 'save';
+
+  @override
+  String get cancel => 'cancel';
+
+  @override
+  String get name => 'name';
+
+  @override
+  String get age => 'age';
+
+  @override
+  String get birthDate => 'birth date';
+
+  @override
+  String get genderMale => 'male';
+
+  @override
+  String get genderFemale => 'female';
+
+  @override
+  String get stories => 'stories';
 }

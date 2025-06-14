@@ -6,8 +6,8 @@ part of 'add_child_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AddChildRequest _$AddChildRequestFromJson(Map<String, dynamic> json) =>
-    AddChildRequest(
+AddNewChildRequest _$AddNewChildRequestFromJson(Map<String, dynamic> json) =>
+    AddNewChildRequest(
       userId: json['user_id'] as String?,
       firstName: json['first_name'] as String?,
       lastName: json['last_name'] as String?,
@@ -22,7 +22,7 @@ AddChildRequest _$AddChildRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$AddChildRequestToJson(AddChildRequest instance) =>
+Map<String, dynamic> _$AddNewChildRequestToJson(AddNewChildRequest instance) =>
     <String, dynamic>{
       'user_id': instance.userId,
       'first_name': instance.firstName,

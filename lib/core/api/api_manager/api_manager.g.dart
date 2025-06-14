@@ -236,7 +236,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<AddChildDto?> addChild(AddChildRequest addChildRequest) async {
+  Future<AddChildDto?> addChild(AddNewChildRequest addChildRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -258,6 +258,55 @@ class _ApiService implements ApiService {
       _value = _result.data == null
           ? null
           : AddChildDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<UploadImageDto?> uploadImage(File? image, String? idChildren) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    if (image != null) {
+      _data.files.add(
+        MapEntry(
+          'image',
+          MultipartFile.fromFileSync(
+            image.path,
+            filename: image.path.split(Platform.pathSeparator).last,
+          ),
+        ),
+      );
+    }
+    if (idChildren != null) {
+      _data.fields.add(MapEntry('id_children', idChildren));
+    }
+    final _options = _setStreamType<UploadImageDto>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            'children/newChild',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late UploadImageDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : UploadImageDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
