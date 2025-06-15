@@ -15,3 +15,15 @@ final class ChildrenFailure extends ChildrenState {
 
   ChildrenFailure(this.exception);
 }
+
+final class DeleteChildrenLoading extends ChildrenState {}
+final class DeleteChildrenSuccess extends ChildrenState {
+  final DeleteChildrenEntity deleteChildrenEntity;
+
+  DeleteChildrenSuccess(this.deleteChildrenEntity);
+}
+final class DeleteChildrenFailure extends ChildrenState {
+  final Exception exception;
+
+  DeleteChildrenFailure(this.exception);
+}

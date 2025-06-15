@@ -12,7 +12,9 @@ import 'package:wise_child/features/Auth/data/models/response/users_model.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/request/get_filtered_questions_request.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/directions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
+import 'package:wise_child/features/Children/data/models/request/delete_children_request.dart';
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
+import 'package:wise_child/features/Children/data/models/response/delete_children_dto.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
@@ -60,11 +62,17 @@ abstract class ApiService {
   Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
 
   @MultiPart()
-  @POST(ApiConstants.newChild)
+  @POST(ApiConstants.imageChild)
   Future<UploadImageDto?> uploadImage(
       @Part(name: "image") File? image,
       @Part(name: "id_children") String? idChildren
       );
+
+
+
+  @POST(ApiConstants.deleteChildren)
+  Future<DeleteChildrenDto?> deleteChildren(@Body() DeleteChildrenRequest deleteChildrenRequest);
 }
 
 //  @MultiPart()
+

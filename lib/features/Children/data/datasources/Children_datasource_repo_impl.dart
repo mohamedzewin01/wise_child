@@ -1,10 +1,12 @@
 import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
+import 'package:wise_child/features/Children/data/models/request/delete_children_request.dart';
 
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 
 import 'package:wise_child/features/Children/domain/entities/children_entity.dart';
+import 'package:wise_child/features/Children/domain/entities/delete_entity.dart';
 
 import 'Children_datasource_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -25,5 +27,13 @@ class ChildrenDatasourceRepoImpl implements ChildrenDatasourceRepo {
     var children = await apiService.getChildrenByUser(getChildrenRequest);
     return children?.toEntity();
   },);
+  }
+
+  @override
+  Future<Result<DeleteChildrenEntity?>> deleteChildren(DeleteChildrenRequest deleteChildrenRequest) {
+   return executeApi(() async{
+     var children = await apiService.deleteChildren(deleteChildrenRequest);
+     return children?.toEntity();
+   },);
   }
 }

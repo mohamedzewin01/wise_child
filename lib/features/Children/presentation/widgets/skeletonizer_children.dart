@@ -10,6 +10,9 @@ class SkeChildren extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
+      effect: ShimmerEffect(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,),
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         itemCount: 10,
@@ -21,7 +24,7 @@ class SkeChildren extends StatelessWidget {
               lastName: ' زوين',
               gender: 'Male',
               dateOfBirth: '1984-09-27',
-              imageUrl: 'https://i.pravatar.cc/300',
+              imageUrl: 'default.jpg',
               emailChildren: null,
               idChildren: 154,
               friendsCount: 2,
@@ -33,3 +36,4 @@ class SkeChildren extends StatelessWidget {
     );
   }
 }
+//'https://i.pravatar.cc/300',

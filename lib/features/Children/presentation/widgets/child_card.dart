@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/functions/calculate_age.dart';
 import 'package:wise_child/core/functions/gender_to_text.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/resources/values_manager.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
+import 'package:wise_child/features/Children/presentation/bloc/Children_cubit.dart';
 import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
 
@@ -17,6 +19,7 @@ class ChildCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final languageCode = LocaleCubit.get(context).state.languageCode;
 
     final ageString = calculateAgeInYearsAndMonths(
@@ -83,6 +86,12 @@ class ChildCard extends StatelessWidget {
                 ),
               ],
             ),
+            Spacer(),
+            IconButton(onPressed: ()async{
+              await context.read<ChildrenCubit>().deleteChild(children.idChildren!);
+
+            }, icon: Icon(Icons.delete,color: ColorManager.primaryColor,),),
+            IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: ColorManager.primaryColor,),),
           ],
         ),
       ),

@@ -295,7 +295,7 @@ class _ApiService implements ApiService {
           )
           .compose(
             _dio.options,
-            'children/newChild',
+            'children/imageChild',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -307,6 +307,38 @@ class _ApiService implements ApiService {
       _value = _result.data == null
           ? null
           : UploadImageDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<DeleteChildrenDto?> deleteChildren(
+    DeleteChildrenRequest deleteChildrenRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(deleteChildrenRequest.toJson());
+    final _options = _setStreamType<DeleteChildrenDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'children/delete_children',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late DeleteChildrenDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : DeleteChildrenDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

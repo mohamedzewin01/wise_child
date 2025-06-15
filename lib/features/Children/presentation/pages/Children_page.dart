@@ -34,8 +34,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushNamed(context, RoutesManager.newChildrenPage);
+              onPressed: ()async {
+                final result = await Navigator.pushNamed(context, RoutesManager.newChildrenPage);
+
+                if (result == true && context.mounted) {
+                  context.read<ChildrenCubit>().getChildrenByUser();
+                }
               },
             ),
           ],
@@ -46,13 +50,17 @@ class _ChildrenPageState extends State<ChildrenPage> {
           builder: (context, state) {
             if (state is ChildrenSuccess) {
               List<Children> children = state.getChildrenEntity.children ?? [];
-              return ListView.builder(
+              return children.isNotEmpty ? ListView.builder(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 itemCount: children.length,
                 itemBuilder: (context, index) {
+
                   return ChildCard(children: children[index]);
                 },
-              );
+              ): const Center(child: Text('No Children'),);
+            }
+            if (state is ChildrenFailure) {
+              return const Center(child: Text('No Children'),);
             }
 
             return SkeChildren();

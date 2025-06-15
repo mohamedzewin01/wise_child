@@ -10,9 +10,7 @@ class ApiConstants {
   static const String getChildrenByUser = "children/getChildrenByUser";
   static const String newChild = "children/newChild";
   static const String imageChild = "children/imageChild";
-
-
-
+  static const String deleteChildren = "children/delete_children";
 
 
 }

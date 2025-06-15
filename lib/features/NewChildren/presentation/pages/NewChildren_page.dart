@@ -40,7 +40,6 @@ class _NewChildrenPageState extends State<NewChildrenPage> {
   }
 }
 
-
 class ProfileFormScreen extends StatefulWidget {
   const ProfileFormScreen({super.key, required this.viewModel});
 
@@ -162,29 +161,43 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                       },
                     ),
                     const SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          widget.viewModel.saveChild();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('تم حفظ البيانات بنجاح!'),
+                    BlocListener<NewChildrenCubit, NewChildrenState>(
+                      listener: (context, state) {
+                        if (state is NewChildrenSuccess) {
+                          Navigator.pop(context);
+                          Navigator.pop(context, true);
+                        }
+                        if (state is NewChildrenFailure) {}
+                        if (state is NewChildrenLoading) {
+                          showDialog(
+                            barrierDismissible: false,
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            builder: (context) => CircularProgressIndicator(
+                              color: ColorManager.primaryColor,
                             ),
                           );
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.viewModel.saveChild();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: ColorManager.primaryColor,
                         ),
-                        backgroundColor: ColorManager.primaryColor,
-                      ),
-                      child: Text(
-                        'إضافة',
-                        style: getSemiBoldStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                        child: Text(
+                          'إضافة',
+                          style: getSemiBoldStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
