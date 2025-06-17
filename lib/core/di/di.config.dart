@@ -48,8 +48,6 @@ import '../../features/Children/data/repositories_impl/Children_repo_impl.dart'
     as _i750;
 import '../../features/Children/domain/repositories/Children_repository.dart'
     as _i151;
-import '../../features/Children/domain/useCases/Children_useCase_repo.dart'
-    as _i341;
 import '../../features/Children/domain/useCases/Children_useCase_repo_impl.dart'
     as _i129;
 import '../../features/Children/presentation/bloc/Children_cubit.dart' as _i537;
@@ -102,9 +100,26 @@ import '../../features/Stories/domain/useCases/Stories_useCase_repo.dart'
     as _i891;
 import '../../features/Stories/domain/useCases/Stories_useCase_repo_impl.dart'
     as _i809;
+import '../../features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart'
+    as _i212;
 import '../../features/Stories/presentation/bloc/Stories_cubit.dart' as _i879;
+import '../../features/StoriesPlay/data/datasources/StoriesPlay_datasource_repo.dart'
+    as _i1037;
+import '../../features/StoriesPlay/data/datasources/StoriesPlay_datasource_repo_impl.dart'
+    as _i1037;
+import '../../features/StoriesPlay/data/repositories_impl/StoriesPlay_repo_impl.dart'
+    as _i1050;
+import '../../features/StoriesPlay/domain/repositories/StoriesPlay_repository.dart'
+    as _i933;
+import '../../features/StoriesPlay/domain/useCases/StoriesPlay_useCase_repo.dart'
+    as _i380;
+import '../../features/StoriesPlay/domain/useCases/StoriesPlay_useCase_repo_impl.dart'
+    as _i936;
+import '../../features/StoriesPlay/presentation/bloc/StoriesPlay_cubit.dart'
+    as _i830;
 import '../api/api_manager/api_manager.dart' as _i680;
 import '../api/dio_module.dart' as _i784;
+import '../uses_cases/childern/Children_useCase_repo.dart' as _i402;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -117,7 +132,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
     gh.factory<_i271.SettingsRepository>(() => _i583.SettingsRepositoryImpl());
     gh.factory<_i126.HomeRepository>(() => _i60.HomeRepositoryImpl());
-    gh.factory<_i55.StoriesRepository>(() => _i166.StoriesRepositoryImpl());
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
     gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
       () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -129,9 +143,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i16.ChatBotAssistantRepositoryImpl(
         gh<_i196.ChatBotAssistantDatasourceRepo>(),
       ),
-    );
-    gh.factory<_i891.StoriesUseCaseRepo>(
-      () => _i809.StoriesUseCase(gh<_i55.StoriesRepository>()),
     );
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
       () =>
@@ -155,8 +166,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i172.NewChildrenDatasourceRepo>(
       () => _i122.NewChildrenDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
-    gh.factory<_i879.StoriesCubit>(
-      () => _i879.StoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
+    gh.factory<_i1037.StoriesPlayDatasourceRepo>(
+      () => _i1037.StoriesPlayDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
     gh.factory<_i628.AuthUseCaseRepo>(
       () => _i971.AuthUseCase(gh<_i647.AuthRepository>()),
@@ -185,23 +196,49 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i159.DirectionsCubit>(
       () => _i159.DirectionsCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
     );
+    gh.factory<_i933.StoriesPlayRepository>(
+      () => _i1050.StoriesPlayRepositoryImpl(
+        gh<_i1037.StoriesPlayDatasourceRepo>(),
+      ),
+    );
+    gh.factory<_i55.StoriesRepository>(
+      () => _i166.StoriesRepositoryImpl(gh<_i1073.StoriesDatasourceRepo>()),
+    );
     gh.factory<_i151.ChildrenRepository>(
       () => _i750.ChildrenRepositoryImpl(gh<_i424.ChildrenDatasourceRepo>()),
+    );
+    gh.factory<_i891.StoriesUseCaseRepo>(
+      () => _i809.StoriesUseCase(gh<_i55.StoriesRepository>()),
     );
     gh.factory<_i241.SettingsCubit>(
       () => _i241.SettingsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
+    gh.factory<_i380.StoriesPlayUseCaseRepo>(
+      () => _i936.StoriesPlayUseCase(gh<_i933.StoriesPlayRepository>()),
+    );
     gh.factory<_i192.AuthCubit>(
       () => _i192.AuthCubit(gh<_i628.AuthUseCaseRepo>()),
+    );
+    gh.factory<_i212.ChildrenStoriesCubit>(
+      () => _i212.ChildrenStoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
     );
     gh.factory<_i36.NewChildrenCubit>(
       () => _i36.NewChildrenCubit(gh<_i416.NewChildrenUseCaseRepo>()),
     );
-    gh.factory<_i341.ChildrenUseCaseRepo>(
+    gh.factory<_i830.StoriesPlayCubit>(
+      () => _i830.StoriesPlayCubit(gh<_i380.StoriesPlayUseCaseRepo>()),
+    );
+    gh.factory<_i402.ChildrenUseCaseRepo>(
       () => _i129.ChildrenUseCase(gh<_i151.ChildrenRepository>()),
     );
     gh.factory<_i537.ChildrenCubit>(
-      () => _i537.ChildrenCubit(gh<_i341.ChildrenUseCaseRepo>()),
+      () => _i537.ChildrenCubit(gh<_i402.ChildrenUseCaseRepo>()),
+    );
+    gh.factory<_i879.StoriesCubit>(
+      () => _i879.StoriesCubit(
+        gh<_i891.StoriesUseCaseRepo>(),
+        gh<_i402.ChildrenUseCaseRepo>(),
+      ),
     );
     return this;
   }

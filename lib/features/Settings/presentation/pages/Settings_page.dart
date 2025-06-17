@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_child/core/widgets/custom_app_bar.dart';
+import 'package:wise_child/features/layout/presentation/widgets/custom_button_navigation_bar.dart';
 import 'package:wise_child/localization/locale_cubit.dart';
 
 import '../../../../core/di/di.dart';
@@ -26,9 +28,22 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: viewModel,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
-        body:SettingsScreen(),
+      child: GradientBackground(
+        child: Stack(
+          children: [
+            CustomAppBar(),
+            Positioned(
+              top: 95,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body:SettingsScreen(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -53,150 +68,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back navigation
-          },
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        // --- Appearance Section ---
+        const _SectionHeader(title: 'Appearance'),
+        _SettingsGroup(
+          children: [
+            _SettingsRow(
+              icon: Icons.brightness_4_outlined,
+              title: 'Dark Mode',
+              subtitle: 'Switch to dark mode',
+              trailing: Switch(
+                value: _isDarkMode,
+                onChanged: (value) {
+                  setState(() {
+                    _isDarkMode = value;
+                  });
+                },
+                activeColor: Colors.black,
+              ),
+            ),
+          ],
         ),
-        title: const Text(
-          'Settings',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // --- Appearance Section ---
-          const _SectionHeader(title: 'Appearance'),
-          _SettingsGroup(
-            children: [
-              _SettingsRow(
-                icon: Icons.brightness_4_outlined,
-                title: 'Dark Mode',
-                subtitle: 'Switch to dark mode',
-                trailing: Switch(
-                  value: _isDarkMode,
-                  onChanged: (value) {
-                    setState(() {
-                      _isDarkMode = value;
-                    });
-                  },
-                  activeColor: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
+        const SizedBox(height: 24),
 
-          // --- Audio Section ---
-          const _SectionHeader(title: 'Audio'),
-          _SettingsGroup(
-            children: [
-              _SettingsRow(
-                icon: Icons.volume_up_outlined,
-                title: 'Volume',
-                trailing: Expanded(
-                  child: Row(
-                    children: [
-                      const Text('0%', style: TextStyle(color: Colors.grey)),
-                      Expanded(
-                        child: Slider(
-                          value: _volume,
-                          min: 0,
-                          max: 100,
-                          divisions: 100,
-                          onChanged: (value) {
-                            setState(() {
-                              _volume = value;
-                            });
-                          },
-                          activeColor: Colors.black,
-                          inactiveColor: Colors.grey[300],
-                        ),
-                      ),
-                      const Text('100%', style: TextStyle(color: Colors.grey)),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(height: 1, indent: 56),
-              _SettingsRow(
-                icon: Icons.timer_outlined,
-                title: 'Story Speed',
-                trailing: _buildDropdown(
-                  value: _selectedStorySpeed,
-                  items: ['Slow', 'Normal', 'Fast'],
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedStorySpeed = value!;
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
+        // --- Audio Section ---
 
-          // --- General Section ---
-          const _SectionHeader(title: 'General'),
-          _SettingsGroup(
-            children: [
-              _SettingsRow(
-                icon: Icons.notifications_outlined,
-                title: 'Notifications',
-                subtitle: 'Receive story recommendations',
-                trailing: Switch(
-                  value: _areNotificationsOn,
-                  onChanged: (value) {
-                    setState(() {
-                      _areNotificationsOn = value;
-                    });
-                  },
-                  activeColor: Colors.black,
-                ),
-              ),
-              const Divider(height: 1, indent: 56),
-              _SettingsRow(
-                icon: Icons.language_outlined,
-                title: 'Language',
-                trailing: _buildDropdown(
-                  value: _selectedLanguage,
-                  items: ['English', 'العربية', ],
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedLanguage = value!;
-                      if(value == 'English'){
-                        context.read<LocaleCubit>().changeLanguage('en');
-                      }
-                      else{
-                        context.read<LocaleCubit>().changeLanguage('ar');
-                      }
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
+        const SizedBox(height: 24),
 
-          // --- Account Section ---
-          const _SectionHeader(title: 'Account'),
-          _SettingsGroup(
-            children: [
-              _SettingsRow(
-                title: 'Edit Profile',
-                onTap: () {
-                  // Handle navigation to Edit Profile page
+        // --- General Section ---
+        const _SectionHeader(title: 'General'),
+        _SettingsGroup(
+          children: [
+            _SettingsRow(
+              icon: Icons.notifications_outlined,
+              title: 'Notifications',
+              subtitle: 'Receive story recommendations',
+              trailing: Switch(
+                value: _areNotificationsOn,
+                onChanged: (value) {
+                  setState(() {
+                    _areNotificationsOn = value;
+                  });
+                },
+                activeColor: Colors.black,
+              ),
+            ),
+            const Divider(height: 1, indent: 56),
+            _SettingsRow(
+              icon: Icons.language_outlined,
+              title: 'Language',
+              trailing: _buildDropdown(
+                value: _selectedLanguage,
+                items: ['English', 'العربية', ],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedLanguage = value!;
+                    if(value == 'English'){
+                      context.read<LocaleCubit>().changeLanguage('en');
+                    }
+                    else{
+                      context.read<LocaleCubit>().changeLanguage('ar');
+                    }
+                  });
                 },
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+
+        // --- Account Section ---
+        const _SectionHeader(title: 'Account'),
+        _SettingsGroup(
+          children: [
+            _SettingsRow(
+              title: 'Edit Profile',
+              onTap: () {
+                // Handle navigation to Edit Profile page
+              },
+            ),
+          ],
+        ),
+      ],
+
     );
   }
 

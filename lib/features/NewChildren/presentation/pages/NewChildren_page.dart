@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/widgets/custom_app_bar.dart';
 import 'package:wise_child/core/widgets/custom_text_form.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/addSisters_or_brother_sheet.dart';
@@ -12,6 +13,7 @@ import 'package:wise_child/features/NewChildren/presentation/widgets/gender_sele
 import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/set_date_of_birth.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/siblings_list_section.dart';
+import 'package:wise_child/features/layout/presentation/widgets/custom_button_navigation_bar.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/NewChildren_cubit.dart';
 
@@ -35,7 +37,7 @@ class _NewChildrenPageState extends State<NewChildrenPage> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: viewModel,
-      child: Scaffold(body: ProfileFormScreen(viewModel: viewModel)),
+      child:  ProfileFormScreen(viewModel: viewModel),
     );
   }
 }
@@ -86,126 +88,145 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'اضافة طفل',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 1,
-        ),
-        body: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  ),
-                  children: [
-                    ChangeUserImage(),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextForm(
-                            controller: widget.viewModel.lastNameController,
-                            hintText: 'الاسم الأخير',
-                            validator: (value) => value!.isEmpty
-                                ? 'الرجاء إدخال الاسم الأخير'
-                                : null,
-                          ),
-                        ),
+      child: GradientBackground(
+        child: Stack(
 
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: CustomTextForm(
-                            controller: widget.viewModel.firstNameController,
-                            hintText: 'الاسم الأول',
-                            validator: (value) => value!.isEmpty
-                                ? 'الرجاء إدخال الاسم الأول'
-                                : null,
+          children: [
+            CustomAppBar(
+              iconActionOne: Icons.arrow_back,
+              onTapActionOne: () => Navigator.pop(context),
+            ),
+            Positioned(
+              top: 95,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                // appBar: AppBar(
+                //   title: const Text(
+                //     'اضافة طفل',
+                //     style: TextStyle(fontWeight: FontWeight.bold),
+                //   ),
+                //   centerTitle: true,
+                //   backgroundColor: Colors.white,
+                //   foregroundColor: Colors.black,
+                //   elevation: 1,
+                // ),
+                body: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            bottom: 16,
                           ),
-                        ),
-                      ],
-                    ),
-                    GenderToggle(),
-                    SectionHeader(title: 'تاريخ الميلاد'),
-                    SetDateOfBirth(),
-                    SiblingsListSection(
-                      title: "العائلة (الإخوة)",
-                      buttonLabel: "إضافة أخ/أخت",
-                      list: widget.viewModel.siblings,
-                      onAdd: () =>
-                          _addPerson(widget.viewModel.siblings, 'أخ/أخت'),
-                      onRemove: (person) {
-                        setState(
-                          () => widget.viewModel.siblings.remove(person),
-                        );
-                      },
-                    ),
-                    FriendsListSection(
-                      title: "الأصدقاء",
-                      buttonLabel: "إضافة اصدقاء",
-                      list: widget.viewModel.friends,
-                      onAdd: () =>
-                          _addFriends(widget.viewModel.friends, 'صديق/صديقة'),
-                      onRemove: (friend) {
-                        setState(() => widget.viewModel.friends.remove(friend));
-                      },
-                    ),
-                    const SizedBox(height: 30),
-                    BlocListener<NewChildrenCubit, NewChildrenState>(
-                      listener: (context, state) {
-                        if (state is NewChildrenSuccess) {
-                          Navigator.pop(context);
-                          Navigator.pop(context, true);
-                        }
-                        if (state is NewChildrenFailure) {}
-                        if (state is NewChildrenLoading) {
-                          showDialog(
-                            barrierDismissible: false,
-                            barrierColor: Colors.transparent,
-                            context: context,
-                            builder: (context) => CircularProgressIndicator(
-                              color: ColorManager.primaryColor,
+                          children: [
+                            ChangeUserImage(),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CustomTextForm(
+                                    controller: widget.viewModel.lastNameController,
+                                    hintText: 'الاسم الأخير',
+                                    validator: (value) => value!.isEmpty
+                                        ? 'الرجاء إدخال الاسم الأخير'
+                                        : null,
+                                  ),
+                                ),
+
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: CustomTextForm(
+                                    controller: widget.viewModel.firstNameController,
+                                    hintText: 'الاسم الأول',
+                                    validator: (value) => value!.isEmpty
+                                        ? 'الرجاء إدخال الاسم الأول'
+                                        : null,
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        }
-                      },
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            widget.viewModel.saveChild();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          backgroundColor: ColorManager.primaryColor,
-                        ),
-                        child: Text(
-                          'إضافة',
-                          style: getSemiBoldStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
+                            GenderToggle(),
+                            SectionHeader(title: 'تاريخ الميلاد'),
+                            SetDateOfBirth(),
+                            SiblingsListSection(
+                              title: "العائلة (الإخوة)",
+                              buttonLabel: "إضافة أخ/أخت",
+                              list: widget.viewModel.siblings,
+                              onAdd: () =>
+                                  _addPerson(widget.viewModel.siblings, 'أخ/أخت'),
+                              onRemove: (person) {
+                                setState(
+                                  () => widget.viewModel.siblings.remove(person),
+                                );
+                              },
+                            ),
+                            FriendsListSection(
+                              title: "الأصدقاء",
+                              buttonLabel: "إضافة اصدقاء",
+                              list: widget.viewModel.friends,
+                              onAdd: () =>
+                                  _addFriends(widget.viewModel.friends, 'صديق/صديقة'),
+                              onRemove: (friend) {
+                                setState(() => widget.viewModel.friends.remove(friend));
+                              },
+                            ),
+                            const SizedBox(height: 30),
+                            BlocListener<NewChildrenCubit, NewChildrenState>(
+                              listener: (context, state) {
+                                if (state is NewChildrenSuccess) {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context, true);
+                                }
+                                if (state is NewChildrenFailure) {}
+                                if (state is NewChildrenLoading) {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    barrierColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) => CircularProgressIndicator(
+                                      color: ColorManager.primaryColor,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    widget.viewModel.saveChild();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  backgroundColor: ColorManager.primaryColor,
+                                ),
+                                child: Text(
+                                  'إضافة',
+                                  style: getSemiBoldStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: kBottomNavigationBarHeight+5),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

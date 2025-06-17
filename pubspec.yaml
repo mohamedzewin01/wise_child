@@ -75,6 +75,7 @@ dependencies:
   equatable: ^2.0.5
   flutter_tts: ^4.2.3
   syncfusion_flutter_datepicker: ^29.2.10
+  persistent_bottom_nav_bar: ^6.2.1
 
 
 

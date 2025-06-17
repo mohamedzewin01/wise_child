@@ -40,7 +40,7 @@ class AvatarWidget extends StatelessWidget {
         child: Text(
           NameUtils.extractNameInitials('$firstName $lastName'),
           style: TextStyle(
-            fontSize: radius * 0.7,
+            fontSize: radius * 0.6,
             fontWeight: FontWeight.bold,
             color: textColor,
           ),

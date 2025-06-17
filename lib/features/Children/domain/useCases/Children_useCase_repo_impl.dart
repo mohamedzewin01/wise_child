@@ -8,7 +8,7 @@ import 'package:wise_child/features/Children/domain/entities/delete_entity.dart'
 
 import '../repositories/Children_repository.dart';
 import 'package:injectable/injectable.dart';
-import '../useCases/Children_useCase_repo.dart';
+import '../../../../core/uses_cases/childern/Children_useCase_repo.dart';
 
 @Injectable(as: ChildrenUseCaseRepo)
 class ChildrenUseCase implements ChildrenUseCaseRepo {

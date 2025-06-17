@@ -5,7 +5,7 @@ import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/Children/data/models/request/delete_children_request.dart';
 import 'package:wise_child/features/Children/domain/entities/children_entity.dart';
 import 'package:wise_child/features/Children/domain/entities/delete_entity.dart';
-import '../../domain/useCases/Children_useCase_repo.dart';
+import '../../../../core/uses_cases/childern/Children_useCase_repo.dart';
 
 part 'Children_state.dart';
 

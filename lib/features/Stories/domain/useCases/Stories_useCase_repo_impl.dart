@@ -1,3 +1,7 @@
+import 'package:wise_child/core/common/api_result.dart';
+
+import 'package:wise_child/features/Stories/domain/entities/children_story_entity.dart';
+
 import '../repositories/Stories_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../useCases/Stories_useCase_repo.dart';
@@ -8,7 +12,8 @@ class StoriesUseCase implements StoriesUseCaseRepo {
 
   StoriesUseCase(this.repository);
 
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  @override
+  Future<Result<ChildrenStoriesEntity?>> getStoriesChildren(int idChildren) {
+    return repository.getStoriesChildren(idChildren);
+  }
 }

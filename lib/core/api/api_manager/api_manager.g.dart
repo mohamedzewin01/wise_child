@@ -346,6 +346,71 @@ class _ApiService implements ApiService {
     return _value;
   }
 
+  @override
+  Future<StoryPlayDto?> getClipsStory(
+    StoryPlayRequestModel storyPlayRequestModel,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(storyPlayRequestModel.toJson());
+    final _options = _setStreamType<StoryPlayDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'stories/getClipsStory',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late StoryPlayDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : StoryPlayDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetChildrenStoriesDto?> getChildrenStories(String? idChildren) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    if (idChildren != null) {
+      _data.fields.add(MapEntry('childrenId', idChildren));
+    }
+    final _options = _setStreamType<GetChildrenStoriesDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'stories/getChildrenStories2',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late GetChildrenStoriesDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : GetChildrenStoriesDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

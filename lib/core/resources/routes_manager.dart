@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/features/Auth/presentation/pages/Auth_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
-import 'package:wise_child/features/AddChildren/presentation/pages/add_child_chatbot_screen.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
 import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
 import 'package:wise_child/welcome_screen.dart';
@@ -12,7 +11,7 @@ class RoutesManager {
   static const String layoutScreen = '/LayoutScreen';
   static const String chatBotAssistantScreen = '/ChatBotAssistantScreen';
   static const String chatBotAddChildScreen = '/chatBotAddChildScreen';
-  static const String newChildrenPage = '/NewChildrenPage';
+  static const String newChildrenPage = '/addChildrenPage';
 }
 
 class RouteGenerator {
