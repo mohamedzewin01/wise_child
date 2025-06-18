@@ -11,7 +11,7 @@ class SetDateOfBirth extends StatefulWidget {
 }
 
 class _SetDateOfBirthState extends State<SetDateOfBirth> {
-  DateTime? _dateOfBirth = DateTime(1985, 8, 18);
+  DateTime? _dateOfBirth = DateTime(2000, 01, 01);
   late final TextEditingController _controller;
 
   @override
@@ -64,7 +64,7 @@ class _SetDateOfBirthState extends State<SetDateOfBirth> {
           });
         }
       },
-      suffixIcon: Icon(Icons.calendar_today, color: Colors.grey.shade600),
+      suffixIcon: Icon(Icons.calendar_today, color: Colors.white70),
       controller: _controller,
       hintText: 'تاريخ الميلاد',
     );

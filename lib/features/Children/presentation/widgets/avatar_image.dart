@@ -29,8 +29,10 @@ class AvatarWidget extends StatelessWidget {
       child = CircleAvatar(
         backgroundColor: Colors.grey.shade300,
         radius: radius,
+
         backgroundImage: CachedNetworkImageProvider(
           '${ApiConstants.urlImage}$imageUrl',
+
         ),
       );
     } else {

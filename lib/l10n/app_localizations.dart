@@ -451,6 +451,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'stories'**
   String get stories;
+
+  /// No description provided for @deleteChild.
+  ///
+  /// In en, this message translates to:
+  /// **'delete child'**
+  String get deleteChild;
+
+  /// No description provided for @areYouSureDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'are you sure delete'**
+  String get areYouSureDelete;
+
+  /// No description provided for @questionMark.
+  ///
+  /// In en, this message translates to:
+  /// **'?'**
+  String get questionMark;
+
+  /// No description provided for @deleteWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this child?'**
+  String get deleteWarning;
+
+  /// No description provided for @genderBoy.
+  ///
+  /// In en, this message translates to:
+  /// **'Boy'**
+  String get genderBoy;
+
+  /// No description provided for @genderGirl.
+  ///
+  /// In en, this message translates to:
+  /// **'Girl'**
+  String get genderGirl;
+
+  /// No description provided for @enterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter name'**
+  String get enterName;
+
+  /// No description provided for @enterAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter age'**
+  String get enterAge;
+
+  /// No description provided for @enterBirthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter birth date'**
+  String get enterBirthDate;
+
+  /// No description provided for @enterNameError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter name'**
+  String get enterNameError;
+
+  /// No description provided for @enterAgeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter age'**
+  String get enterAgeError;
+
+  /// No description provided for @enterBirthDateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter birth date'**
+  String get enterBirthDateError;
+
+  /// No description provided for @familySiblings.
+  ///
+  /// In en, this message translates to:
+  /// **'Family & Siblings'**
+  String get familySiblings;
+
+  /// No description provided for @addSibling.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Sibling'**
+  String get addSibling;
+
+  /// No description provided for @sibling.
+  ///
+  /// In en, this message translates to:
+  /// **'Sibling'**
+  String get sibling;
+
+  /// No description provided for @addFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Friend'**
+  String get addFriend;
+
+  /// No description provided for @addFriends.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get addFriends;
+
+  /// No description provided for @noFriendsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends added'**
+  String get noFriendsAdded;
+
+  /// No description provided for @noSiblingsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'No siblings added'**
+  String get noSiblingsAdded;
+
+  /// No description provided for @chooseImageSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose image source'**
+  String get chooseImageSource;
+
+  /// No description provided for @gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get gallery;
+
+  /// No description provided for @camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get camera;
+
+  /// No description provided for @pleaseEnterTheLastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the last name'**
+  String get pleaseEnterTheLastName;
+
+  /// No description provided for @pleaseEnterTheFirstName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the first name'**
+  String get pleaseEnterTheFirstName;
 }
 
 class _AppLocalizationsDelegate

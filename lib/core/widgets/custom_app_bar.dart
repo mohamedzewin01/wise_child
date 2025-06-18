@@ -69,12 +69,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({super.key, this.onTapActionTow, this.onTapActionOne, this.iconActionTwo, this.iconActionOne, });
+  const CustomAppBar({super.key, this.onTapActionTow, this.onTapActionOne, this.iconActionTwo, this.iconActionOne, this.showBadge, });
 
   final VoidCallback? onTapActionTow;
   final VoidCallback? onTapActionOne;
   final IconData ? iconActionTwo;
   final IconData ? iconActionOne;
+  final bool ? showBadge;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -90,8 +91,6 @@ class _CustomAppBarState extends State<CustomAppBar>
   @override
   void initState() {
     super.initState();
-
-    // إعداد أنيميشن النبضات
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -133,32 +132,6 @@ class _CustomAppBarState extends State<CustomAppBar>
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topLeft,
-      //     end: Alignment.bottomRight,
-      //     colors: [
-      //       const Color(0xFF667eea),
-      //       const Color(0xFF764ba2),
-      //       const Color(0xFF6B73FF),
-      //     ],
-      //     stops: const [0.0, 0.5, 1.0],
-      //   ),
-      //   boxShadow: [
-      //     BoxShadow(
-      //       color: const Color(0xFF667eea).withOpacity(0.3),
-      //       blurRadius: 20,
-      //       spreadRadius: 0,
-      //       offset: const Offset(0, 10),
-      //     ),
-      //     BoxShadow(
-      //       color: Colors.black.withOpacity(0.1),
-      //       blurRadius: 10,
-      //       spreadRadius: 0,
-      //       offset: const Offset(0, 5),
-      //     ),
-      //   ],
-      // ),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -171,7 +144,7 @@ class _CustomAppBarState extends State<CustomAppBar>
               ),
               const SizedBox(width: 16),
 
-              _buildActionButtons(iconActionOne: widget.iconActionOne,iconActionTwo: widget.iconActionTwo ),
+              _buildActionButtons(iconActionOne: widget.iconActionOne,iconActionTwo: widget.iconActionTwo ,showBadge: widget.showBadge?? false,),
             ],
           ),
         ),
@@ -289,29 +262,30 @@ class _CustomAppBarState extends State<CustomAppBar>
     );
   }
 
-  Widget _buildActionButtons({IconData? iconActionOne,IconData? iconActionTwo }) {
+  Widget _buildActionButtons({IconData? iconActionOne,IconData? iconActionTwo ,bool showBadge = false}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
 
         _buildActionButton(
-          icon: iconActionTwo?? Icons.search_rounded,
+          icon: iconActionTwo?? Icons.notifications_rounded,
           onTap: () {
             HapticFeedback.lightImpact();
             widget.onTapActionTow?.call();
           },
+          showBadge:showBadge,
         ),
 
         const SizedBox(width: 12),
 
-        // زر الإشعارات
+
         _buildActionButton(
-          icon: iconActionOne??Icons.notifications_rounded,
+          icon: iconActionOne??Icons.search_rounded,
           onTap: () {
             HapticFeedback.lightImpact();
             widget.onTapActionOne?.call();
           },
-          showBadge: true,
+
         ),
       ],
     );

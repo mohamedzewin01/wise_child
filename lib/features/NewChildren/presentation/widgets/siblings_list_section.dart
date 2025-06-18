@@ -4,6 +4,7 @@ import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/siblings_card.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 
 class SiblingsListSection extends StatelessWidget {
   const SiblingsListSection({
@@ -30,17 +31,14 @@ class SiblingsListSection extends StatelessWidget {
 
         if (list.isEmpty)
            Text(
-            'لا يوجد اخوه مضافون.',
+            AppLocalizations.of(context)!.noSiblingsAdded,
             style: getBoldStyle(color: Colors.grey),
           ),
         ...list.map(
               (person) =>
               SiblingsCard(person: person, onRemove: () => onRemove(person)),
         ),
-        const SizedBox(height: 12),
         OutlinedButton.icon(
-
-
           onPressed: onAdd,
           icon: const Icon(Icons.add),
           label: Text(buttonLabel,style: getBoldStyle(color: Colors.grey),),
@@ -50,7 +48,7 @@ class SiblingsListSection extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
             // minimumSize: const Size(double.infinity, 45),
-            backgroundColor: Colors.grey.shade100,
+            backgroundColor: Colors.grey.shade200,
           ),
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -37,9 +38,12 @@ class _ChildrenPageState extends State<ChildrenPage> {
           children: [
             CustomAppBar(
               iconActionOne: Icons.add,
-              onTapActionOne:  ()async {
+              onTapActionOne: () async {
+                final result = await Navigator.push(
+                  context,
+                  CupertinoPageRoute(builder: (context) => NewChildrenPage()),
+                );
 
-                final result = await     Navigator.push(context, MaterialPageRoute(builder: (context) =>NewChildrenPage() ,));
                 // final result = await Navigator.pushNamed(context, RoutesManager.newChildrenPage);
 
                 if (result == true && context.mounted) {
@@ -53,23 +57,31 @@ class _ChildrenPageState extends State<ChildrenPage> {
               right: 0,
               bottom: 0,
               child: Scaffold(
-                backgroundColor:Colors.transparent ,
+                backgroundColor: Colors.transparent,
 
                 body: BlocBuilder<ChildrenCubit, ChildrenState>(
                   builder: (context, state) {
                     if (state is ChildrenSuccess) {
-                      List<Children> children = state.getChildrenEntity.children ?? [];
-                      return children.isNotEmpty ? ListView.builder(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        itemCount: children.length,
-                        itemBuilder: (context, index) {
-
-                          return ChildCard(children: children[index]);
-                        },
-                      ): const Center(child: Text('No Children'),);
+                      List<Children> children =
+                          state.getChildrenEntity.children ?? [];
+                      return children.isNotEmpty
+                          ? Padding(
+                            padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                            child: ListView.builder(
+                                padding: const EdgeInsets.only(
+                                  top: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                itemCount: children.length,
+                                itemBuilder: (context, index) {
+                                  return ChildCard(children: children[index]);
+                                },
+                              ),
+                          )
+                          : const Center(child: Text('No Children'));
                     }
                     if (state is ChildrenFailure) {
-                      return const Center(child: Text('No Children'),);
+                      return const Center(child: Text('No Children'));
                     }
 
                     return SkeChildren();

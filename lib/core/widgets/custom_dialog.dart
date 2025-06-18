@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/functions/permission_service.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 import '../resources/color_manager.dart';
 import '../resources/style_manager.dart';
 
@@ -291,16 +292,16 @@ class CustomDialog {
             borderRadius: BorderRadius.circular(15),
           ),
           title: Text(
-            "Choose Image Source",
+           AppLocalizations.of(context)!.chooseImageSource,
             textAlign: TextAlign.center,
-            style:getBoldStyle(color: ColorManager.white, fontSize: 20),
+            style:getBoldStyle(color: ColorManager.white, fontSize: 16),
           ),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _buildOption(
                 icon: Icons.photo_library,
-                label: "Gallery",
+                label: AppLocalizations.of(context)!.gallery,
                 onTap: () async {
                   var permission = await isPermissionStorageGranted();
                   if (permission == false) return;
@@ -310,7 +311,7 @@ class CustomDialog {
               ),
               _buildOption(
                 icon: Icons.camera_alt,
-                label: "Camera",
+                label:  AppLocalizations.of(context)!.camera,
                 onTap: () async {
                   var permission = await isPermissionCameraGranted();
                   if (permission == false) return;
@@ -331,9 +332,9 @@ class CustomDialog {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 40, color: ColorManager.primaryColor),
+          Icon(icon, size: 35, color: ColorManager.white),
           SizedBox(height: 8),
-          Text(label, style:getBoldStyle(color: ColorManager.white, fontSize: 16)),
+          Text(label, style:getBoldStyle(color: ColorManager.white, fontSize: 14)),
         ],
       ),
     );

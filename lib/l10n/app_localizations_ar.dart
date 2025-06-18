@@ -185,4 +185,76 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get stories => 'قصص';
+
+  @override
+  String get deleteChild => 'حذف الطفل';
+
+  @override
+  String get areYouSureDelete => 'هل انت متاكد من حذف الطفل؟';
+
+  @override
+  String get questionMark => '؟';
+
+  @override
+  String get deleteWarning => 'لا يمكن التراجع عن هذا الإجراء';
+
+  @override
+  String get genderBoy => 'ولد';
+
+  @override
+  String get genderGirl => 'بنت';
+
+  @override
+  String get enterName => 'ادخل الاسم';
+
+  @override
+  String get enterAge => 'ادخل العمر';
+
+  @override
+  String get enterBirthDate => 'ادخل تاريخ الميلاد';
+
+  @override
+  String get enterNameError => 'الرجاء ادخال الاسم';
+
+  @override
+  String get enterAgeError => 'الرجاء ادخال العمر';
+
+  @override
+  String get enterBirthDateError => 'الرجاء ادخال تاريخ الميلاد';
+
+  @override
+  String get familySiblings => 'العائلة (الإخوة)';
+
+  @override
+  String get addSibling => 'إضافة أخ/أخت';
+
+  @override
+  String get sibling => 'أخ/أخت';
+
+  @override
+  String get addFriend => 'إضافة صديق/صديقة';
+
+  @override
+  String get addFriends => 'الأصدقاء';
+
+  @override
+  String get noFriendsAdded => 'لا يوجد أصدقاء مضافون.';
+
+  @override
+  String get noSiblingsAdded => 'لا يوجد اخوه مضافون.';
+
+  @override
+  String get chooseImageSource => 'اختر مصدر الصورة';
+
+  @override
+  String get gallery => 'المعرض';
+
+  @override
+  String get camera => 'الكاميرا';
+
+  @override
+  String get pleaseEnterTheLastName => 'الرجاء ادخال الاسم العائلة';
+
+  @override
+  String get pleaseEnterTheFirstName => ' الرجاء إدخال الاسم الأول ';
 }

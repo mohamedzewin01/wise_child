@@ -14,6 +14,7 @@ import 'package:wise_child/features/NewChildren/presentation/widgets/section_hea
 import 'package:wise_child/features/NewChildren/presentation/widgets/set_date_of_birth.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/siblings_list_section.dart';
 import 'package:wise_child/features/layout/presentation/widgets/custom_button_navigation_bar.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/NewChildren_cubit.dart';
 
@@ -37,7 +38,7 @@ class _NewChildrenPageState extends State<NewChildrenPage> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: viewModel,
-      child:  ProfileFormScreen(viewModel: viewModel),
+      child: ProfileFormScreen(viewModel: viewModel),
     );
   }
 }
@@ -55,10 +56,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _addPerson(List<Siblings> list, String type) async {
-    final result = await showModalBottomSheet<Siblings>(
+    final result = await showDialog<Siblings>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => AddSistersOrBrotherSheet(personType: type),
     );
 
@@ -69,11 +68,11 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     }
   }
 
+
   Future<void> _addFriends(List<Friends> list, String type) async {
-    final result = await showModalBottomSheet<Friends>(
+    final result = await showDialog<Friends>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+
       builder: (_) => AddFriendsSheet(personType: type),
     );
 
@@ -89,11 +88,11 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: GradientBackground(
-        child: Stack(
-
+        child:
+        Stack(
           children: [
             CustomAppBar(
-              iconActionOne: Icons.arrow_back,
+              iconActionOne: Icons.arrow_forward_ios_rounded,
               onTapActionOne: () => Navigator.pop(context),
             ),
             Positioned(
@@ -103,84 +102,90 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
               bottom: 0,
               child: Scaffold(
                 backgroundColor: Colors.transparent,
-                // appBar: AppBar(
-                //   title: const Text(
-                //     'اضافة طفل',
-                //     style: TextStyle(fontWeight: FontWeight.bold),
-                //   ),
-                //   centerTitle: true,
-                //   backgroundColor: Colors.white,
-                //   foregroundColor: Colors.black,
-                //   elevation: 1,
-                // ),
                 body: Form(
                   key: _formKey,
                   child: Column(
                     children: [
                       Expanded(
                         child: ListView(
+                     physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.only(
                             left: 16,
                             right: 16,
                             bottom: 16,
                           ),
                           children: [
+                            const SizedBox(height: 5),
                             ChangeUserImage(),
                             const SizedBox(height: 16),
                             Row(
                               children: [
                                 Expanded(
                                   child: CustomTextForm(
-                                    controller: widget.viewModel.lastNameController,
-                                    hintText: 'الاسم الأخير',
+                                    controller:
+                                    widget.viewModel.firstNameController,
+                                    hintText: AppLocalizations.of(context)!.firstName,
                                     validator: (value) => value!.isEmpty
-                                        ? 'الرجاء إدخال الاسم الأخير'
+                                        ? AppLocalizations.of(context)!.pleaseEnterTheFirstName
+
                                         : null,
                                   ),
                                 ),
 
+
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: CustomTextForm(
-                                    controller: widget.viewModel.firstNameController,
-                                    hintText: 'الاسم الأول',
+                                    controller:
+                                    widget.viewModel.lastNameController,
+                                    hintText: AppLocalizations.of(context)!.lastName,
                                     validator: (value) => value!.isEmpty
-                                        ? 'الرجاء إدخال الاسم الأول'
+                                        ?AppLocalizations.of(context)!.pleaseEnterTheLastName
                                         : null,
                                   ),
                                 ),
+
                               ],
                             ),
                             GenderToggle(),
-                            SectionHeader(title: 'تاريخ الميلاد'),
+                            SectionHeader(title: AppLocalizations.of(context)!.birthDate),
                             SetDateOfBirth(),
                             SiblingsListSection(
-                              title: "العائلة (الإخوة)",
-                              buttonLabel: "إضافة أخ/أخت",
+                              title: AppLocalizations.of(context)!.familySiblings,
+                              buttonLabel: AppLocalizations.of(context)!.addSibling,
                               list: widget.viewModel.siblings,
-                              onAdd: () =>
-                                  _addPerson(widget.viewModel.siblings, 'أخ/أخت'),
+                              onAdd: () => _addPerson(
+                                widget.viewModel.siblings,
+                               AppLocalizations.of(context)!.sibling,
+                              ),
                               onRemove: (person) {
                                 setState(
-                                  () => widget.viewModel.siblings.remove(person),
+                                  () =>
+                                      widget.viewModel.siblings.remove(person),
                                 );
                               },
                             ),
                             FriendsListSection(
-                              title: "الأصدقاء",
-                              buttonLabel: "إضافة اصدقاء",
+                              title: AppLocalizations.of(context)!.addFriends,
+                              buttonLabel: AppLocalizations.of(context)!.addFriend,
                               list: widget.viewModel.friends,
-                              onAdd: () =>
-                                  _addFriends(widget.viewModel.friends, 'صديق/صديقة'),
+                              onAdd: () => _addFriends(
+                                widget.viewModel.friends,
+                                AppLocalizations.of(context)!.addFriend,
+
+                              ),
                               onRemove: (friend) {
-                                setState(() => widget.viewModel.friends.remove(friend));
+                                setState(
+                                  () => widget.viewModel.friends.remove(friend),
+                                );
                               },
                             ),
                             const SizedBox(height: 30),
                             BlocListener<NewChildrenCubit, NewChildrenState>(
                               listener: (context, state) {
                                 if (state is NewChildrenSuccess) {
-                                  Navigator.pop(context);
+                                  Navigator.of(context, rootNavigator: true).pop();
+
                                   Navigator.pop(context, true);
                                 }
                                 if (state is NewChildrenFailure) {}
@@ -189,9 +194,12 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                                     barrierDismissible: false,
                                     barrierColor: Colors.transparent,
                                     context: context,
-                                    builder: (context) => CircularProgressIndicator(
-                                      color: ColorManager.primaryColor,
-                                    ),
+                                    builder: (context) =>
+                                        Center(
+                                          child: CircularProgressIndicator(
+                                            color: ColorManager.primaryColor,
+                                          ),
+                                        ),
                                   );
                                 }
                               },
@@ -202,14 +210,16 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   backgroundColor: ColorManager.primaryColor,
                                 ),
                                 child: Text(
-                                  'إضافة',
+                                  AppLocalizations.of(context)!.save,
                                   style: getSemiBoldStyle(
                                     color: Colors.white,
                                     fontSize: 14,
@@ -217,7 +227,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: kBottomNavigationBarHeight+5),
+                            SizedBox(height: kBottomNavigationBarHeight + 5),
                           ],
                         ),
                       ),

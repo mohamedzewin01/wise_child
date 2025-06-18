@@ -24,14 +24,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     const double navIconSize = 28;
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF667eea), Color(0xFF764ba2), Color(0xFF6B73FF)],
-          stops: [0.0, 0.5, 1.0],
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topLeft,
+      //     end: Alignment.bottomRight,
+      //     colors: [Color(0xFF667eea), Color(0xFF764ba2), Color(0xFF6B73FF)],
+      //     stops: [0.0, 0.5, 1.0],
+      //   ),
+      // ),
       child: PersistentTabView(
         context,
         controller: _controller,
@@ -59,7 +59,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           PersistentBottomNavBarItem(
             icon: SvgPicture.asset(Assets.settingSvg),
             opacity: .8,
-
             title: AppLocalizations.of(context)!.setting,
             activeColorPrimary: ColorManager.primaryColor,
             inactiveColorPrimary: Colors.grey,
@@ -71,7 +70,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         hideNavigationBarWhenKeyboardAppears: true,
         popBehaviorOnSelectedNavBarItemPress: PopBehavior.once,
 
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white54,
         bottomScreenMargin: 10,
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(20),

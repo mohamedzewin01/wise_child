@@ -13,8 +13,8 @@ class SiblingsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
 
-      elevation: 4,
-      color:  person.gender == 'male' ? Colors.blue.shade50 : Colors.pink.shade50,
+       elevation: 0,
+      color:  person.gender == 'male' ? Colors.white70.withOpacity(0.4) : Colors.white60.withOpacity(0.4),
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         titleTextStyle: getBoldStyle(color: Colors.black54,fontSize: 16),
@@ -25,14 +25,22 @@ class SiblingsCard extends StatelessWidget {
         ),
         title: Text(
           person.name??'',
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style:getBoldStyle(color: Colors.white,fontSize: 16),
+
+          // const TextStyle(fontWeight: FontWeight.w600),
         ),
 
-        subtitle: Text('العمر: ${person.age} سنة',style: getBoldStyle(color: Colors.black54,fontSize: 12),),
+        subtitle: Text('العمر: ${person.age} سنة',style: getBoldStyle(color: Colors.white70,fontSize: 12),),
 
-        trailing: IconButton(
-          icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-          onPressed: onRemove,
+        trailing: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: InkWell(
+            onTap: onRemove,
+            child: const Icon(Icons.delete_outline, color: Colors.redAccent)),
         ),
       ),
     );

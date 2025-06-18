@@ -3,6 +3,7 @@ import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/Friends_card.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 
 
 class FriendsListSection extends StatelessWidget {
@@ -26,11 +27,11 @@ class FriendsListSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(title: title),
+        SectionHeader(title: title,vertical: 5,),
 
         if (list.isEmpty)
            Text(
-            'لا يوجد اصدقاء مضافون.',
+           AppLocalizations.of(context)!.noFriendsAdded,
             style: getBoldStyle(color: Colors.grey),
           ),
         ...list.map(

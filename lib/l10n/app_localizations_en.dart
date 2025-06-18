@@ -186,4 +186,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stories => 'stories';
+
+  @override
+  String get deleteChild => 'delete child';
+
+  @override
+  String get areYouSureDelete => 'are you sure delete';
+
+  @override
+  String get questionMark => '?';
+
+  @override
+  String get deleteWarning => 'Are you sure you want to delete this child?';
+
+  @override
+  String get genderBoy => 'Boy';
+
+  @override
+  String get genderGirl => 'Girl';
+
+  @override
+  String get enterName => 'Enter name';
+
+  @override
+  String get enterAge => 'Enter age';
+
+  @override
+  String get enterBirthDate => 'Enter birth date';
+
+  @override
+  String get enterNameError => 'Please enter name';
+
+  @override
+  String get enterAgeError => 'Please enter age';
+
+  @override
+  String get enterBirthDateError => 'Please enter birth date';
+
+  @override
+  String get familySiblings => 'Family & Siblings';
+
+  @override
+  String get addSibling => 'Add Sibling';
+
+  @override
+  String get sibling => 'Sibling';
+
+  @override
+  String get addFriend => 'Add Friend';
+
+  @override
+  String get addFriends => 'Friends';
+
+  @override
+  String get noFriendsAdded => 'No friends added';
+
+  @override
+  String get noSiblingsAdded => 'No siblings added';
+
+  @override
+  String get chooseImageSource => 'Choose image source';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get pleaseEnterTheLastName => 'Please enter the last name';
+
+  @override
+  String get pleaseEnterTheFirstName => 'Please enter the first name';
 }

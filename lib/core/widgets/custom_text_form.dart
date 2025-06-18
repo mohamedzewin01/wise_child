@@ -118,6 +118,8 @@ class CustomTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: getSemiBoldStyle(color: Colors.white, fontSize: 14), // ← لون الكتابة
+
       onTap: onTap,
       readOnly: readOnly ?? false,
       maxLines: maxLines ?? 1,
@@ -150,7 +152,7 @@ class CustomTextForm extends StatelessWidget {
           vertical: 12.0,
         ),
         filled: true,
-        fillColor: const Color(0xFFF9F9F9),
+        fillColor:  Color(0xFFF9F9F9).withOpacity(0.2),
       ),
 
       keyboardType: textInputType,

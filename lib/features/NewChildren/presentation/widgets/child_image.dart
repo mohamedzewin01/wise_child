@@ -63,48 +63,57 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
       child: BlocBuilder<NewChildrenCubit, NewChildrenState>(
         builder: (context, state) {
           final profileImage = context.read<NewChildrenCubit>().profileImage;
-          return Stack(
-            alignment: Alignment.center,
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.all(AppSize.s0),
-                clipBehavior: Clip.antiAlias,
-                height: AppSize.s103,
-                width: AppSize.s103,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ColorManager.primaryColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorManager.primaryColor.withAlpha(AppSizeInt.s65),
-                      blurRadius: AppSize.s10,
-                      spreadRadius: AppSize.s3,
-                      offset: Offset(AppSize.s0, AppSize.s0),
+              Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(AppSize.s0),
+                    clipBehavior: Clip.antiAlias,
+                    height: AppSize.s100,
+                    width:  AppSize.s100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                          blurRadius: AppSize.s10,
+                          spreadRadius: AppSize.s3,
+                          offset: Offset(AppSize.s0, AppSize.s0),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: profileImage != null
-                    ? Image.file(
-                  profileImage,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                )
-                    : Image.asset(
-                  Assets.logo,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(AppPadding.p4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppPadding.p8),
-                ),
-                child: SvgPicture.asset(
-                  Assets.homeSvg,
-                  width: AppSize.s20,
-                  height: AppSize.s20,
-                ),
+                    child: profileImage != null
+                        ? Image.file(
+                      profileImage,
+                      fit: BoxFit.fill,
+                      width: double.infinity,
+                    )
+                        :Icon(Icons.person,size: AppSize.s50,color: ColorManager.white,),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+
+                    child: Container(
+                      height: AppSize.s30,
+                      width: AppSize.s30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                      ),
+                      child: Icon(
+                        Icons.edit,
+                        color: ColorManager.white,
+                        size: AppSize.s20,),
+                    ),
+                  ),
+                ],
               ),
             ],
           );

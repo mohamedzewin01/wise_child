@@ -21,7 +21,7 @@ class NewChildrenCubit extends Cubit<NewChildrenState> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   String? birthDate;
-  String? gender;
+  String? gender='Male';
   List<Siblings> siblings = [];
   List<Friends> friends = [];
   File? profileImage;
