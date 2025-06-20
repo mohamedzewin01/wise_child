@@ -18,7 +18,7 @@ class StoryChildrenScreen extends StatelessWidget {
         builder: (context, state) {
           // حالة التحميل
           if (state is ChildrenStoriesLoading) {
-            // return const SkeCardUser();
+            return const SkeCardUser();
           }
 
           // حالة النجاح
@@ -79,7 +79,7 @@ class StoryChildrenScreen extends StatelessWidget {
             );
           }
 
-          // حالة وجود خطأ
+
           if (state is ChildrenStoriesFailure) {
             return SliverToBoxAdapter(
               child: Center(
@@ -114,31 +114,8 @@ class StoryChildrenScreen extends StatelessWidget {
             );
           }
 
-          // الحالة الأولية - عرض رسالة للمستخدم
-          return const SliverToBoxAdapter(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.child_care,
-                      size: 64,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'اختر طفل لعرض قصصه',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+
+          return const SkeCardUser();
         },
       ),
     );

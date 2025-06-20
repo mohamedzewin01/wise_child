@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
@@ -14,7 +15,7 @@ class SiblingsCard extends StatelessWidget {
     return Card(
 
        elevation: 0,
-      color:  person.gender == 'male' ? Colors.white70.withOpacity(0.4) : Colors.white60.withOpacity(0.4),
+      color:  person.gender == 'male' ? ColorManager.primaryColor.withOpacity(0.2) : Colors.blueAccent.withOpacity(0.2),
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         titleTextStyle: getBoldStyle(color: Colors.black54,fontSize: 16),
@@ -25,12 +26,12 @@ class SiblingsCard extends StatelessWidget {
         ),
         title: Text(
           person.name??'',
-          style:getBoldStyle(color: Colors.white,fontSize: 16),
+          style:getBoldStyle(color: Colors.blueAccent,fontSize: 16),
 
           // const TextStyle(fontWeight: FontWeight.w600),
         ),
 
-        subtitle: Text('العمر: ${person.age} سنة',style: getBoldStyle(color: Colors.white70,fontSize: 12),),
+        subtitle: Text('العمر: ${person.age} سنة',style: getBoldStyle(color: ColorManager.primaryColor,fontSize: 12),),
 
         trailing: Container(
           padding: EdgeInsets.all(8),

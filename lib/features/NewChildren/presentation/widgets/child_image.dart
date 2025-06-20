@@ -78,10 +78,10 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
                     width:  AppSize.s100,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                      color: ColorManager.primaryColor,
                       boxShadow: [
                         BoxShadow(
-                          color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                          color: ColorManager.primaryColor.withAlpha(AppSizeInt.s65),
                           blurRadius: AppSize.s10,
                           spreadRadius: AppSize.s3,
                           offset: Offset(AppSize.s0, AppSize.s0),
@@ -97,19 +97,19 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
                         :Icon(Icons.person,size: AppSize.s50,color: ColorManager.white,),
                   ),
                   Positioned(
-                    bottom: 0,
-                    right: 0,
+                    bottom: -2,
+                    right: -2,
 
                     child: Container(
                       height: AppSize.s30,
                       width: AppSize.s30,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: ColorManager.white.withAlpha(AppSizeInt.s65),
+                        color: ColorManager.white,
                       ),
                       child: Icon(
                         Icons.edit,
-                        color: ColorManager.white,
+                        color: ColorManager.primaryColor,
                         size: AppSize.s20,),
                     ),
                   ),

@@ -12,7 +12,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get helloWorld => 'مرحبا بالعالم!';
 
   @override
-  String get home => 'home';
+  String get home => 'الرئيسية';
 
   @override
   String get category => ' القسم';
@@ -257,4 +257,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseEnterTheFirstName => ' الرجاء إدخال الاسم الأول ';
+
+  @override
+  String get notifications => 'الاشعارات';
+
+  @override
+  String get receiveStoryRecommendations => 'استقبل توصيات القصص';
+
+  @override
+  String get general => 'عام';
+
+  @override
+  String get about => 'حول';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get english => 'الانجليزية';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get removeAccount => 'حذف الحساب';
+
+  @override
+  String get myChildren => 'اطفالي';
 }

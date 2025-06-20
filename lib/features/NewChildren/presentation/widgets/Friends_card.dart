@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
@@ -12,10 +13,8 @@ class FriendsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-
-
       elevation: 0,
-      color:  friends.gender == 'male' ? Colors.white70.withOpacity(0.4) : Colors.white60.withOpacity(0.4),
+      color:  friends.gender == 'male' ? ColorManager.primaryColor.withOpacity(0.2) : Colors.blueAccent.withOpacity(0.2),
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         titleTextStyle: getBoldStyle(color: Colors.black54,fontSize: 16),
@@ -26,10 +25,10 @@ class FriendsCard extends StatelessWidget {
         ),
         title: Text(
           friends.name??'',
-          style:  getBoldStyle(color: Colors.white,fontSize: 16),
+          style:getBoldStyle(color: Colors.blueAccent,fontSize: 16),
         ),
 
-        subtitle: Text('العمر: ${friends.age} سنة',style: getBoldStyle(color: Colors.white70,fontSize: 12),),
+        subtitle: Text('العمر: ${friends.age} سنة',style: getBoldStyle(color: ColorManager.primaryColor,fontSize: 12),),
         trailing: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(

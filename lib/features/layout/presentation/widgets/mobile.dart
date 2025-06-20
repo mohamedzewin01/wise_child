@@ -20,13 +20,11 @@ class _LayoutMobileViewState extends State<LayoutMobileView> {
       builder: (context, state) {
         return Stack(
           children: [
-            GradientBackground(
-              child: Scaffold(
+      Scaffold(
                   backgroundColor: Colors.transparent,
                   resizeToAvoidBottomInset: false,
                   body: CustomBottomNavigationBar()
               ),
-            )
           ],
         );
       },

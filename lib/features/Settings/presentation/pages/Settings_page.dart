@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_child/assets_manager.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/custom_app_bar.dart';
+import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
+import 'package:wise_child/features/Settings/presentation/widgets/settings_group.dart';
+import 'package:wise_child/features/Settings/presentation/widgets/settings_row.dart';
 import 'package:wise_child/features/layout/presentation/widgets/custom_button_navigation_bar.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 import 'package:wise_child/localization/locale_cubit.dart';
 
 import '../../../../core/di/di.dart';
@@ -15,7 +23,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   late SettingsCubit viewModel;
 
   @override
@@ -28,28 +35,11 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: viewModel,
-      child: GradientBackground(
-        child: Stack(
-          children: [
-            CustomAppBar(),
-            Positioned(
-              top: 95,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body:SettingsScreen(),
-              ),
-            ),
-          ],
-        ),
-      ),
+
+      child: Scaffold(backgroundColor: Colors.white, body: SettingsScreen()),
     );
   }
 }
-
-
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -59,104 +49,193 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // State variables for the controls
-  bool _isDarkMode = false;
   bool _areNotificationsOn = true;
-  double _volume = 80.0;
-  String _selectedStorySpeed = 'Normal';
   String _selectedLanguage = 'English';
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16.0),
-      children: [
-        // --- Appearance Section ---
-        const _SectionHeader(title: 'Appearance'),
-        _SettingsGroup(
-          children: [
-            _SettingsRow(
-              icon: Icons.brightness_4_outlined,
-              title: 'Dark Mode',
-              subtitle: 'Switch to dark mode',
-              trailing: Switch(
-                value: _isDarkMode,
-                onChanged: (value) {
-                  setState(() {
-                    _isDarkMode = value;
-                  });
-                },
-                activeColor: Colors.black,
+    String? userImage = CacheService.getData(key: CacheKeys.userPhoto);
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            stretch: true,
+            title: Text(
+              AppLocalizations.of(context)!.appName,
+              style: getBoldStyle(color: Colors.white, fontSize: 24),
+            ),
+            pinned: true,
+            floating: true,
+            expandedHeight: 230,
+            collapsedHeight: 56,
+            backgroundColor: Colors.white,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    Assets.appbarbackgroundJpg,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: 200,
+                  ),
+                  Positioned(
+                    bottom: 8,
+                    left: 0,
+                    right: 0,
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(
+                          userImage ?? '',
+                          scale: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 24),
-
-        // --- Audio Section ---
-
-        const SizedBox(height: 24),
-
-        // --- General Section ---
-        const _SectionHeader(title: 'General'),
-        _SettingsGroup(
+          ),
+        ];
+      },
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            _SettingsRow(
-              icon: Icons.notifications_outlined,
-              title: 'Notifications',
-              subtitle: 'Receive story recommendations',
-              trailing: Switch(
-                value: _areNotificationsOn,
-                onChanged: (value) {
-                  setState(() {
-                    _areNotificationsOn = value;
-                  });
-                },
-                activeColor: Colors.black,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: SectionHeader(title: AppLocalizations.of(context)!.general),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SettingsGroup(
+                children: [
+                  SettingsRow(
+                    icon: Icons.notifications_outlined,
+                    title: AppLocalizations.of(context)!.notifications,
+                    subtitle: AppLocalizations.of(
+                      context,
+                    )!.receiveStoryRecommendations,
+                    trailing: Switch(
+                      value: _areNotificationsOn,
+                      inactiveTrackColor: ColorManager.white,
+                      inactiveThumbColor: Colors.grey,
+        
+                      activeTrackColor: ColorManager.primaryColor.withOpacity(
+                        0.6,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _areNotificationsOn = value;
+                        });
+                      },
+                      activeColor: Colors.white,
+                    ),
+                  ),
+                  const Divider(height: 1, indent: 56),
+                  SettingsRow(
+                    icon: Icons.language_outlined,
+                    title: AppLocalizations.of(context)!.language,
+                    trailing: _buildDropdown(
+                      value: _selectedLanguage,
+                      items: ['English', 'العربية'],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedLanguage = value!;
+                          if (value == 'English') {
+                            context.read<LocaleCubit>().changeLanguage('en');
+                          } else {
+                            context.read<LocaleCubit>().changeLanguage('ar');
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-            const Divider(height: 1, indent: 56),
-            _SettingsRow(
-              icon: Icons.language_outlined,
-              title: 'Language',
-              trailing: _buildDropdown(
-                value: _selectedLanguage,
-                items: ['English', 'العربية', ],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLanguage = value!;
-                    if(value == 'English'){
-                      context.read<LocaleCubit>().changeLanguage('en');
-                    }
-                    else{
-                      context.read<LocaleCubit>().changeLanguage('ar');
-                    }
-                  });
-                },
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: SectionHeader(title: AppLocalizations.of(context)!.account),
+            ),
+
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                color: Colors.white,
+                child: ListTile(
+                  splashColor: ColorManager.primaryColor.withOpacity(0.2),
+                  leading: Icon(
+                    Icons.edit_outlined,
+                  ),
+                  title: Text(
+                    AppLocalizations.of(context)!.editProfile,
+                    style: getMediumStyle(color:Colors.black87, fontSize: 16),
+                  ),
+                  trailing:  Icon(Icons.arrow_forward_ios_outlined,size: 16,),
+                  onTap: () {
+                    // Handle logout
+                  },
+                ),
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 24),
-
-        // --- Account Section ---
-        const _SectionHeader(title: 'Account'),
-        _SettingsGroup(
-          children: [
-            _SettingsRow(
-              title: 'Edit Profile',
-              onTap: () {
-                // Handle navigation to Edit Profile page
-              },
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+        
+                color: Colors.white,
+                child: ListTile(
+                  splashColor: ColorManager.primaryColor.withOpacity(0.2),
+                  leading: Icon(
+                    Icons.person_off_outlined,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    AppLocalizations.of(context)!.removeAccount,
+                    style: getMediumStyle(color: Colors.redAccent, fontSize: 16),
+                  ),
+                  trailing: Icon(Icons.delete),
+                  onTap: () {
+                    // Handle logout
+                  },
+                ),
+              ),
             ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                color: Colors.white,
+                child: ListTile(
+                  splashColor: ColorManager.primaryColor.withOpacity(0.2),
+                  title: Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.logout,
+                      style: getMediumStyle(color: Colors.redAccent, fontSize: 16),
+                    ),
+                  ),
+                  trailing: Icon(Icons.logout_outlined),
+                  onTap: () {
+                    // Handle logout
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
           ],
         ),
-      ],
-
+      ),
     );
   }
 
-  // Helper widget for custom dropdown to match the design
   Widget _buildDropdown({
     required String value,
     required List<String> items,
@@ -166,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(16.0),
         border: Border.all(color: Colors.grey.shade300, width: 1),
       ),
       child: DropdownButtonHideUnderline(
@@ -174,113 +253,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           value: value,
           icon: const Icon(Icons.unfold_more, color: Colors.grey),
           items: items.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
+            return DropdownMenuItem<String>(value: value, child: Text(value));
           }).toList(),
           onChanged: onChanged,
-        ),
-      ),
-    );
-  }
-}
-
-// Helper widget for section headers like "Appearance"
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  const _SectionHeader({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-        ),
-      ),
-    );
-  }
-}
-
-// Helper widget for the container with border and rounded corners
-class _SettingsGroup extends StatelessWidget {
-  final List<Widget> children;
-  const _SettingsGroup({required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: Colors.grey.shade200, width: 1),
-      ),
-      child: Column(
-        children: children,
-      ),
-    );
-  }
-}
-
-// Helper widget for each row in a settings group
-class _SettingsRow extends StatelessWidget {
-  final IconData? icon;
-  final String title;
-  final String? subtitle;
-  final Widget? trailing;
-  final VoidCallback? onTap;
-
-  const _SettingsRow({
-    this.icon,
-    required this.title,
-    this.subtitle,
-    this.trailing,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Row(
-          children: [
-            if (icon != null) ...[
-              Icon(icon, color: Colors.grey[600]),
-              const SizedBox(width: 16),
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle!,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ]
-                ],
-              ),
-            ),
-            if (trailing != null) trailing!,
-          ],
         ),
       ),
     );

@@ -41,10 +41,12 @@ class CacheService {
   }
 }
 
-class CacheConstants {
+class CacheKeys {
   static const String defaultLanguage = 'defaultLanguage';
   static const String userId = 'userId';
   static const String userPhoto = 'userPhoto';
+  static const String userFirstName = 'userFirstName';
+  static const String userLastName = 'userLastName';
 
 
 }

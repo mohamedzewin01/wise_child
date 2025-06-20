@@ -21,7 +21,10 @@ class AuthCubit extends Cubit<AuthState> {
       case Success<UserSignUpEntity?>():
         {
           if (!isClosed) {
-            CacheService.setData(key: CacheConstants.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
+            CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
+            CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
             emit(AuthLoginSuccess(result.data!));
           }
         }
@@ -42,7 +45,10 @@ class AuthCubit extends Cubit<AuthState> {
       case Success<UserSignUpEntity?>():
         {
           if (!isClosed) {
-            CacheService.setData(key: CacheConstants.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
+            CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
+            CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
             emit(AuthSingUpSuccess(result.data!));
           }
         }
@@ -63,7 +69,10 @@ class AuthCubit extends Cubit<AuthState> {
       case Success<UserSignUpEntity?>():
         {
           if (!isClosed) {
-            CacheService.setData(key: CacheConstants.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userId, value: result.data!.user?.id);
+            CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
+            CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
+            CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
             emit(AuthLoginSuccess(result.data!));
           }
         }

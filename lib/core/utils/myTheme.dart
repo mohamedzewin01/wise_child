@@ -1,12 +1,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/values_manager.dart';
 
 
 
 class AppThemes {
   static final lightTheme1 = ThemeData(
+    primarySwatch: Colors.deepPurple, // You can customize this
+    scaffoldBackgroundColor: Colors.white,
+    fontFamily: 'Poppins', // Example: Add a custom font
+    textTheme: const TextTheme(
+      headlineSmall: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+      titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black87),
+      titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black87),
+      bodyLarge: TextStyle(fontSize: 16, color: Colors.black54),
+      bodyMedium: TextStyle(fontSize: 14, color: Colors.grey),
+      labelLarge: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+    ),
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: const Color(0xFFE0F7FA), // Light cyan for some backgrounds
+      primary:  ColorManager.primaryColor, // A teal-ish primary
+    ),
 
     // colorScheme: ColorScheme.light(
     //   surface: Colors.white,

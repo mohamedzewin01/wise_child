@@ -30,7 +30,7 @@ class NewChildrenCubit extends Cubit<NewChildrenState> {
     emit(NewChildrenLoading());
     final result = await _newChildrenUseCaseRepo.addChild(
       AddNewChildRequest(
-        userId: CacheService.getData(key: CacheConstants.userId),
+        userId: CacheService.getData(key: CacheKeys.userId),
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         dateOfBirth: birthDate,

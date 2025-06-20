@@ -595,6 +595,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter the first name'**
   String get pleaseEnterTheFirstName;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @receiveStoryRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive story recommendations'**
+  String get receiveStoryRecommendations;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @removeAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove account'**
+  String get removeAccount;
+
+  /// No description provided for @myChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'MyChildren'**
+  String get myChildren;
 }
 
 class _AppLocalizationsDelegate

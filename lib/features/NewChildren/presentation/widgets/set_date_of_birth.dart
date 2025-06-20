@@ -40,7 +40,6 @@ class _SetDateOfBirthState extends State<SetDateOfBirth> {
         final maxDate = now;
         final minDate = DateTime(now.year - 15, now.month, now.day);
 
-
         DateTime validInitialDate = _dateOfBirth ?? maxDate;
         if (validInitialDate.isBefore(minDate)) {
           validInitialDate = minDate;
@@ -60,11 +59,10 @@ class _SetDateOfBirthState extends State<SetDateOfBirth> {
             _dateOfBirth = picked;
             _controller.text = _formatDate(picked);
             context.read<NewChildrenCubit>().updateBirthDate(_controller.text);
-
           });
         }
       },
-      suffixIcon: Icon(Icons.calendar_today, color: Colors.white70),
+      suffixIcon: Icon(Icons.calendar_today, color: Colors.black45),
       controller: _controller,
       hintText: 'تاريخ الميلاد',
     );

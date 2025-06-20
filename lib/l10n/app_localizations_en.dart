@@ -258,4 +258,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterTheFirstName => 'Please enter the first name';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get receiveStoryRecommendations => 'Receive story recommendations';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get removeAccount => 'Remove account';
+
+  @override
+  String get myChildren => 'MyChildren';
 }

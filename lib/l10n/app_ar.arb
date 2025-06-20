@@ -2,6 +2,7 @@
   "@@locale": "ar",
   "helloWorld": "مرحبا بالعالم!",
   "category": " القسم",
+  "home": "الرئيسية",
   "categories": " الاقسام",
   "user": "الحساب",
   "search": "بحث",
@@ -81,5 +82,21 @@
   "gallery": "المعرض",
   "camera": "الكاميرا",
   "pleaseEnterTheLastName": "الرجاء ادخال الاسم العائلة",
-  "pleaseEnterTheFirstName": " الرجاء إدخال الاسم الأول "
+  "pleaseEnterTheFirstName": " الرجاء إدخال الاسم الأول ",
+  "notifications": "الاشعارات",
+  "receiveStoryRecommendations": "استقبل توصيات القصص",
+  "general": "عام",
+  "about": "حول",
+  "language": "اللغة",
+  "english": "الانجليزية",
+  "arabic": "العربية",
+  "account": "الحساب",
+  "editProfile": "تعديل الملف الشخصي",
+  "logout": "تسجيل الخروج",
+  "removeAccount": "حذف الحساب",
+  "myChildren": "اطفالي"
+
+
+
+
 }

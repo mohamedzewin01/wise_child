@@ -3,6 +3,7 @@
   "helloWorld": "Hello World!",
   "home": "home",
   "category": "category",
+
   "categories": "categories",
   "user": "user",
   "search": "search",
@@ -82,5 +83,18 @@
   "gallery": "Gallery",
   "camera": "Camera",
   "pleaseEnterTheLastName": "Please enter the last name",
-  "pleaseEnterTheFirstName": "Please enter the first name"
+  "pleaseEnterTheFirstName": "Please enter the first name",
+  "notifications": "Notifications",
+  "receiveStoryRecommendations": "Receive story recommendations",
+  "general": "General",
+  "about": "About",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "account": "Account",
+  "editProfile": "Edit Profile",
+  "logout": "Logout",
+  "removeAccount": "Remove account",
+  "myChildren": "MyChildren"
+
 }

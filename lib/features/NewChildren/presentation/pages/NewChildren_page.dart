@@ -68,7 +68,6 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     }
   }
 
-
   Future<void> _addFriends(List<Friends> list, String type) async {
     final result = await showDialog<Friends>(
       context: context,
@@ -87,152 +86,134 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: GradientBackground(
-        child:
-        Stack(
-          children: [
-            CustomAppBar(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: CustomScrollView(
+          slivers: [
+            SliverCustomAppBar(
               iconActionOne: Icons.arrow_forward_ios_rounded,
               onTapActionOne: () => Navigator.pop(context),
             ),
-            Positioned(
-              top: 95,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                     physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            bottom: 16,
+            SliverToBoxAdapter(
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    bottom: 16,
+                  ),
+                  children: [
+                    const SizedBox(height: 5),
+                    ChangeUserImage(),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextForm(
+                            controller: widget.viewModel.firstNameController,
+                            hintText: AppLocalizations.of(context)!.firstName,
+                            validator: (value) => value!.isEmpty
+                                ? AppLocalizations.of(
+                                    context,
+                                  )!.pleaseEnterTheFirstName
+                                : null,
                           ),
-                          children: [
-                            const SizedBox(height: 5),
-                            ChangeUserImage(),
-                            const SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CustomTextForm(
-                                    controller:
-                                    widget.viewModel.firstNameController,
-                                    hintText: AppLocalizations.of(context)!.firstName,
-                                    validator: (value) => value!.isEmpty
-                                        ? AppLocalizations.of(context)!.pleaseEnterTheFirstName
+                        ),
 
-                                        : null,
-                                  ),
-                                ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: CustomTextForm(
+                            controller: widget.viewModel.lastNameController,
+                            hintText: AppLocalizations.of(context)!.lastName,
+                            validator: (value) => value!.isEmpty
+                                ? AppLocalizations.of(
+                                    context,
+                                  )!.pleaseEnterTheLastName
+                                : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    GenderToggle(),
+                    SectionHeader(
+                      title: AppLocalizations.of(context)!.birthDate,
+                    ),
+                    SetDateOfBirth(),
+                    SiblingsListSection(
+                      title: AppLocalizations.of(context)!.familySiblings,
+                      buttonLabel: AppLocalizations.of(context)!.addSibling,
+                      list: widget.viewModel.siblings,
+                      onAdd: () => _addPerson(
+                        widget.viewModel.siblings,
+                        AppLocalizations.of(context)!.sibling,
+                      ),
+                      onRemove: (person) {
+                        setState(
+                          () => widget.viewModel.siblings.remove(person),
+                        );
+                      },
+                    ),
+                    FriendsListSection(
+                      title: AppLocalizations.of(context)!.addFriends,
+                      buttonLabel: AppLocalizations.of(context)!.addFriend,
+                      list: widget.viewModel.friends,
+                      onAdd: () => _addFriends(
+                        widget.viewModel.friends,
+                        AppLocalizations.of(context)!.addFriend,
+                      ),
+                      onRemove: (friend) {
+                        setState(() => widget.viewModel.friends.remove(friend));
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    BlocListener<NewChildrenCubit, NewChildrenState>(
+                      listener: (context, state) {
+                        if (state is NewChildrenSuccess) {
+                          Navigator.of(context, rootNavigator: true).pop();
 
-
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: CustomTextForm(
-                                    controller:
-                                    widget.viewModel.lastNameController,
-                                    hintText: AppLocalizations.of(context)!.lastName,
-                                    validator: (value) => value!.isEmpty
-                                        ?AppLocalizations.of(context)!.pleaseEnterTheLastName
-                                        : null,
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            GenderToggle(),
-                            SectionHeader(title: AppLocalizations.of(context)!.birthDate),
-                            SetDateOfBirth(),
-                            SiblingsListSection(
-                              title: AppLocalizations.of(context)!.familySiblings,
-                              buttonLabel: AppLocalizations.of(context)!.addSibling,
-                              list: widget.viewModel.siblings,
-                              onAdd: () => _addPerson(
-                                widget.viewModel.siblings,
-                               AppLocalizations.of(context)!.sibling,
-                              ),
-                              onRemove: (person) {
-                                setState(
-                                  () =>
-                                      widget.viewModel.siblings.remove(person),
-                                );
-                              },
-                            ),
-                            FriendsListSection(
-                              title: AppLocalizations.of(context)!.addFriends,
-                              buttonLabel: AppLocalizations.of(context)!.addFriend,
-                              list: widget.viewModel.friends,
-                              onAdd: () => _addFriends(
-                                widget.viewModel.friends,
-                                AppLocalizations.of(context)!.addFriend,
-
-                              ),
-                              onRemove: (friend) {
-                                setState(
-                                  () => widget.viewModel.friends.remove(friend),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 30),
-                            BlocListener<NewChildrenCubit, NewChildrenState>(
-                              listener: (context, state) {
-                                if (state is NewChildrenSuccess) {
-                                  Navigator.of(context, rootNavigator: true).pop();
-
-                                  Navigator.pop(context, true);
-                                }
-                                if (state is NewChildrenFailure) {}
-                                if (state is NewChildrenLoading) {
-                                  showDialog(
-                                    barrierDismissible: false,
-                                    barrierColor: Colors.transparent,
-                                    context: context,
-                                    builder: (context) =>
-                                        Center(
-                                          child: CircularProgressIndicator(
-                                            color: ColorManager.primaryColor,
-                                          ),
-                                        ),
-                                  );
-                                }
-                              },
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    widget.viewModel.saveChild();
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  backgroundColor: ColorManager.primaryColor,
-                                ),
-                                child: Text(
-                                  AppLocalizations.of(context)!.save,
-                                  style: getSemiBoldStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
+                          Navigator.pop(context, true);
+                        }
+                        if (state is NewChildrenFailure) {}
+                        if (state is NewChildrenLoading) {
+                          showDialog(
+                            barrierDismissible: false,
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            builder: (context) => Center(
+                              child: CircularProgressIndicator(
+                                color: ColorManager.primaryColor,
                               ),
                             ),
-                            SizedBox(height: kBottomNavigationBarHeight + 5),
-                          ],
+                          );
+                        }
+                      },
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.viewModel.saveChild();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: ColorManager.primaryColor,
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.save,
+                          style: getSemiBoldStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: kBottomNavigationBarHeight + 5),
+                  ],
                 ),
               ),
             ),

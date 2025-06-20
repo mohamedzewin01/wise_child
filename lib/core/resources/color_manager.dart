@@ -23,6 +23,7 @@ class ColorManager {
   static const Color chatAssistantText = Color(0xFF333333);
   static const Color inputBorder = Color(0xFFE0E0E0);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color red = Color(0xfff44336 );
 
 
 

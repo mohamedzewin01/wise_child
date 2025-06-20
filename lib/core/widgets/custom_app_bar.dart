@@ -67,6 +67,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key, this.onTapActionTow, this.onTapActionOne, this.iconActionTwo, this.iconActionOne, this.showBadge, });
@@ -157,46 +159,52 @@ class _CustomAppBarState extends State<CustomAppBar>
       animation: _pulseAnimation,
       builder: (context, child) {
         return Container(
-          padding: const EdgeInsets.all(12),
+          width: 50,
+          height: 50,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.white.withOpacity(0.3),
-                Colors.white.withOpacity(0.1),
+                const Color(0xFF667eea),
+                const Color(0xFF764ba2).withOpacity(0.9),
+                const Color(0xFF6B73FF),
               ],
             ),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withOpacity(0.2),
+              color: const Color(0xFF764ba2).withOpacity(0.2),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withOpacity(0.1 + _pulseAnimation.value * 0.2),
+                color: const Color(0xFF764ba2)
+                    .withOpacity(0.1 + _pulseAnimation.value * 0.2),
                 blurRadius: 10 + _pulseAnimation.value * 5,
                 spreadRadius: _pulseAnimation.value * 2,
                 offset: const Offset(0, 0),
               ),
             ],
           ),
-          child: Icon(
-            Icons.auto_stories_rounded,
-            color: Colors.white,
-            size: 24,
-            shadows: [
-              Shadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
+          child: const Center(
+            child: Icon(
+              Icons.auto_stories_rounded,
+              color: Colors.white,
+              size: 24,
+              shadows: [
+                Shadow(
+                  color: Colors.black38,
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
+
 
   Widget _buildTitle() {
     return AnimatedBuilder(
@@ -205,8 +213,8 @@ class _CustomAppBarState extends State<CustomAppBar>
         return Stack(
           children: [
             // النص الأساسي
-            const Text(
-              'Stories',
+             Text(
+              AppLocalizations.of(context)!.appName,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -232,9 +240,9 @@ class _CustomAppBarState extends State<CustomAppBar>
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                         colors: [
-                          Colors.transparent,
-                          Colors.white.withOpacity(0.3),
-                          Colors.transparent,
+                          Color(0xFF667eea),
+                          Color(0xFF764ba2).withOpacity(0.3),
+                          Color(0xFF6B73FF),
                         ],
                         stops: [
                           (_shimmerAnimation.value - 0.3).clamp(0.0, 1.0),
@@ -243,11 +251,13 @@ class _CustomAppBarState extends State<CustomAppBar>
                         ],
                       ).createShader(bounds);
                     },
-                    child: const Text(
-                      'Stories',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    child:  Text(
+                      AppLocalizations.of(context)!.appName,
+                      style:
+
+                      TextStyle(
+                        color: Color(0xFF764ba2),
+                        fontWeight: FontWeight.w800,
                         fontSize: 24,
                         letterSpacing: 1.2,
                       ),
@@ -301,11 +311,20 @@ class _CustomAppBarState extends State<CustomAppBar>
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: Colors.white.withOpacity(0.2),
             width: 1,
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFF667eea),
+              const Color(0xFF764ba2),
+              const Color(0xFF6B73FF),
+            ],
+            stops: const [0.0, 0.5, 1.0],
           ),
           boxShadow: [
             BoxShadow(
@@ -315,6 +334,7 @@ class _CustomAppBarState extends State<CustomAppBar>
             ),
           ],
         ),
+
         child: Stack(
           children: [
             Icon(
@@ -352,41 +372,51 @@ class _CustomAppBarState extends State<CustomAppBar>
 // Widget للاستخدام مع SliverAppBar
 class SliverCustomAppBar extends StatelessWidget {
   const SliverCustomAppBar({
-    super.key,
-    this.onSearchTap,
-    this.onNotificationsTap,
+    super.key, this.onTapActionTow, this.onTapActionOne, this.iconActionTwo, this.iconActionOne, this.showBadge,
+
   });
 
-  final VoidCallback? onSearchTap;
-  final VoidCallback? onNotificationsTap;
+  final VoidCallback? onTapActionTow;
+  final VoidCallback? onTapActionOne;
+  final IconData ? iconActionTwo;
+  final IconData ? iconActionOne;
+  final bool ? showBadge;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 120,
+       expandedHeight: 60,
+      centerTitle: true,
       floating: true,
       pinned: true,
-      elevation: 0,
+      elevation: 3,
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: FlexibleSpaceBar(
+
         background: Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                const Color(0xFF667eea),
-                const Color(0xFF764ba2),
-                const Color(0xFF6B73FF),
+              colors:  [
+               ColorManager.primaryColor.withOpacity(0.2),
+               ColorManager.primaryColor.withOpacity(0.1),
+               ColorManager.primaryColor.withOpacity(0.2),
+
               ],
               stops: const [0.0, 0.5, 1.0],
             ),
           ),
+
           child: SafeArea(
             child: CustomAppBar(
-              onTapActionTow: onSearchTap,
-              onTapActionOne: onNotificationsTap,
+              onTapActionTow: onTapActionOne,
+              onTapActionOne: onTapActionTow,
             ),
           ),
         ),

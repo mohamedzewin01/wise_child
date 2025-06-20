@@ -2,6 +2,7 @@
 // ignore_for_file: constant_identifier_names
 
 class Assets {
+  static const String appbarbackgroundJpg = 'assets/images/appBarBackground.jpg';
   static const String carSvg = 'assets/images/car.svg';
   static const String categoriesSvg = 'assets/images/categories.svg';
   static const String childrenSvg = 'assets/images/children.svg';

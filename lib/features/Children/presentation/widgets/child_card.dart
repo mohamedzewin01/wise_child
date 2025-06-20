@@ -26,12 +26,25 @@ class ChildCard extends StatelessWidget {
       children.dateOfBirth ?? '',
       languageCode,
     );
-    return Container(
+    return  Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white, // تأكد إنها نفس خلفية الشاشة البيضاء
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: Colors.grey.shade500, width: 1.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.white, // من الأعلى
+            offset: Offset(-2, -2),
+            blurRadius: 4,
+            spreadRadius: 1,
+          ),
+          BoxShadow(
+            color: Colors.black12, // من الأسفل
+            offset: Offset(2, 2),
+            blurRadius: 4,
+            spreadRadius: 1,
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,15 +64,15 @@ class ChildCard extends StatelessWidget {
               children: [
                 Text(
                   '${children.firstName} ${children.lastName}',
-                  style: getMediumStyle(
-                    color: ColorManager.white,
+                  style: getBoldStyle(
+                    color: ColorManager.primaryColor,
                     fontSize: 16,
                   ),
                 ),
                 Text(
                   ageString,
                   style: getSemiBoldStyle(
-                    color: ColorManager.white.withOpacity(0.7),
+                    color: ColorManager.textSecondary.withOpacity(0.7),
                     fontSize: 14,
                   ),
                 ),
@@ -69,14 +82,14 @@ class ChildCard extends StatelessWidget {
                       TextSpan(
                         text: '${AppLocalizations.of(context)!.gender} : ',
                         style: getSemiBoldStyle(
-                          color: ColorManager.white.withOpacity(0.7),
+                          color: ColorManager.textSecondary.withOpacity(0.7),
                           fontSize: AppSize.s14,
                         ),
                       ),
                       TextSpan(
                         text: genderToText(children.gender ?? '', languageCode),
                         style: getSemiBoldStyle(
-                          color: ColorManager.white.withOpacity(0.7),
+                          color: ColorManager.chatUserBg.withOpacity(0.7),
                           fontSize: AppSize.s14,
                         ),
                       ),
@@ -89,7 +102,7 @@ class ChildCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // زر التعديل
+
                 InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
@@ -98,7 +111,7 @@ class ChildCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: ColorManager.primaryColor.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Icon(
@@ -128,7 +141,7 @@ class ChildCard extends StatelessWidget {
                     padding: const EdgeInsets.all(10.0),
 
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.6),
+                      color: ColorManager.red.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Icon(

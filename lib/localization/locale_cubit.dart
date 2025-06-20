@@ -14,7 +14,7 @@ static LocaleCubit get(context) => BlocProvider.of(context);
   void changeLanguage(String languageCode) async {
     emit(Locale(languageCode));
     await CacheService.setData(
-        key: CacheConstants.defaultLanguage, value: languageCode);
+        key: CacheKeys.defaultLanguage, value: languageCode);
   }
 
   String changeFontFamily() {
@@ -23,7 +23,7 @@ static LocaleCubit get(context) => BlocProvider.of(context);
 
   void _loadSavedLanguage() {
     final savedLanguage =
-        CacheService.getData(key: CacheConstants.defaultLanguage) ?? 'en';
+        CacheService.getData(key: CacheKeys.defaultLanguage) ?? 'en';
     emit(Locale(savedLanguage));
   }
 }

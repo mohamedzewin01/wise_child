@@ -13,7 +13,8 @@ class CustomTextFormAuth extends StatelessWidget {
     this.suffixIcon,
     this.onTap,
     this.readOnly,
-    this.prefixIcon, this.maxLines,
+    this.prefixIcon,
+    this.maxLines,
   });
 
   final TextEditingController controller;
@@ -36,23 +37,23 @@ class CustomTextFormAuth extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        title.isEmpty  ? const SizedBox() :  Text(
-          title,
-          style:getSemiBoldStyle(color: Colors.black54,fontSize: 14)
-
-
-        ),
-   SizedBox(height: 8),
+        title.isEmpty
+            ? const SizedBox()
+            : Text(
+                title,
+                style: getSemiBoldStyle(color: Colors.black54, fontSize: 14),
+              ),
+        SizedBox(height: 8),
         TextFormField(
           onTap: onTap,
           readOnly: readOnly ?? false,
           maxLines: maxLines ?? 1,
           controller: controller,
           decoration: InputDecoration(
-            hintText:hintText,
-              suffixIcon: suffixIcon,
-              prefixIcon: prefixIcon,
-            hintStyle: getSemiBoldStyle(color: Colors.black38,fontSize: 14),
+            hintText: hintText,
+            suffixIcon: suffixIcon,
+            prefixIcon: prefixIcon,
+            hintStyle: getSemiBoldStyle(color: Colors.black38, fontSize: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
               borderSide: BorderSide(color: ColorManager.inputBorder),
@@ -60,7 +61,7 @@ class CustomTextFormAuth extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
               borderSide: BorderSide(
-                color:  ColorManager.inputBorder.withOpacity(0.7),
+                color: ColorManager.inputBorder.withOpacity(0.7),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -98,7 +99,8 @@ class CustomTextForm extends StatelessWidget {
     this.suffixIcon,
     this.onTap,
     this.readOnly,
-    this.prefixIcon, this.maxLines,
+    this.prefixIcon,
+    this.maxLines,
   });
 
   final TextEditingController controller;
@@ -118,18 +120,17 @@ class CustomTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: getSemiBoldStyle(color: Colors.white, fontSize: 14), // ← لون الكتابة
-
+      style: getSemiBoldStyle(color: ColorManager.primaryColor, fontSize: 14),
       onTap: onTap,
       readOnly: readOnly ?? false,
       maxLines: maxLines ?? 1,
       controller: controller,
 
       decoration: InputDecoration(
-        hintText:hintText,
+        hintText: hintText,
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
-        hintStyle: getSemiBoldStyle(color: Colors.black38,fontSize: 14),
+        hintStyle: getSemiBoldStyle(color: Colors.black38, fontSize: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
           borderSide: BorderSide(color: ColorManager.inputBorder),
@@ -137,7 +138,7 @@ class CustomTextForm extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
           borderSide: BorderSide(
-            color:  ColorManager.inputBorder.withOpacity(0.7),
+            color: ColorManager.inputBorder.withOpacity(0.7),
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -152,7 +153,7 @@ class CustomTextForm extends StatelessWidget {
           vertical: 12.0,
         ),
         filled: true,
-        fillColor:  Color(0xFFF9F9F9).withOpacity(0.2),
+        fillColor: Colors.white,
       ),
 
       keyboardType: textInputType,

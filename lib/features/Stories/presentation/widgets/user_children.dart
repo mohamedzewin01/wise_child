@@ -23,6 +23,9 @@ class UserChildren extends StatelessWidget {
             builder: (context, state) {
               if (state is StoriesSuccess) {
                 var children = state.getChildrenEntity.children ?? [];
+                context
+                    .read<ChildrenStoriesCubit>()
+                    .changeIdChildren(children.first.idChildren ?? 0);
                 if (children.isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     context.read<ChildrenStoriesCubit>().setInitialChild(
@@ -30,7 +33,6 @@ class UserChildren extends StatelessWidget {
                     );
                   });
                 }
-
                 return BlocBuilder<ChildrenStoriesCubit, ChildrenStoriesState>(
                   builder: (context, childrenStoriesState) {
                     final selectedChildId = context.read<ChildrenStoriesCubit>().getSelectedChildId();
@@ -58,8 +60,6 @@ class UserChildren extends StatelessWidget {
                               ),
                               builder: (context, animation, child) {
                                 final scale = 1.0 + (animation * 0.2);
-
-
                                 return Transform.scale(
                                   scale: scale,
                                   alignment: Alignment.center,
@@ -156,11 +156,11 @@ class UserChildren extends StatelessWidget {
                                         child: AnimatedDefaultTextStyle(
                                           duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeInOutCubic,
-                                          style:getSemiBoldStyle(
+                                          style:getBoldStyle(
                                           fontSize: isSelected ? 14 : 12,
                                           color: isSelected
                                               ? Colors.blue.shade700
-                                              : Colors.black87,
+                                              : ColorManager.primaryColor,
 
 
                                           ).copyWith(

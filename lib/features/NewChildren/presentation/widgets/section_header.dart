@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 
 import 'package:wise_child/core/resources/style_manager.dart';
 
@@ -18,7 +19,7 @@ class SectionHeader extends StatelessWidget {
         child: Text(
           title,
           textAlign: TextAlign.start,
-          style: getBoldStyle(color:color?? Colors.white70, fontSize: 14)
+          style: getBoldStyle(color:color?? ColorManager.primaryColor, fontSize: 14)
               .copyWith(letterSpacing: 0.5),
         ),
       ),

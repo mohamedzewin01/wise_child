@@ -25,53 +25,55 @@ class StoriesPage extends StatefulWidget {
 
 class _StoriesPageState extends State<StoriesPage> {
   late StoriesCubit viewModel;
+  late ChildrenStoriesCubit childrenStoriesCubit;
 
   @override
   void initState() {
     viewModel = getIt.get<StoriesCubit>();
+    childrenStoriesCubit = getIt.get<ChildrenStoriesCubit>();
+    viewModel.getChildrenByUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    viewModel.getChildrenByUser();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => getIt.get<StoriesCubit>()..getChildrenByUser(),
+        BlocProvider.value(
+          value: viewModel,
         ),
-        BlocProvider(
-          create: (context) => getIt.get<ChildrenStoriesCubit>(),
+        BlocProvider.value(
+          value: childrenStoriesCubit,
         ),
       ],
-      child: CustomBackGround(
-        child: Stack(
-          children: [
-            CustomAppBar(),
-            Positioned(
-              top: 95,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: Column(
-                  children: [
-                    Expanded(
-                      child: CustomScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          UserChildren(),
-                          StoryChildrenScreen(),
-                        ],
-                      ),
-                    ),
-                  ],
+        child: RefreshIndicator(
+          displacement: 50,
+          color: ColorManager.primaryColor,
+          onRefresh: () async{
+
+            return viewModel.getChildrenByUser();
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Column(
+              children: [
+                Expanded(
+                  child: CustomScrollView(
+                    physics:  const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverCustomAppBar(),
+                      UserChildren(),
+                      StoryChildrenScreen(),
+
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+
     );
   }
 }

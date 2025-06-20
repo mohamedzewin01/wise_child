@@ -14,8 +14,10 @@ class SkeChildren extends StatelessWidget {
         baseColor: Colors.grey.shade300,
         highlightColor: Colors.grey.shade100,),
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-        itemCount: 10,
+        itemCount: 3,
         itemBuilder: (context, index) {
           return ChildCard(
             children: Children(
