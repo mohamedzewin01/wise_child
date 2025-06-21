@@ -22,7 +22,7 @@ class StoryPlayDto {
 
   StoryPlayEntity toEntity() => StoryPlayEntity(
     status: status,
-    clips: clips?.map((clip) => clip.toEntity()).toList() ?? [],
+    clips: clips,
   );
 }
 
@@ -32,12 +32,24 @@ class Clips {
   final int? clipGroupId;
   @JsonKey(name: "image_url")
   final String? imageUrl;
+  @JsonKey(name: "audio_url")
+  final String? audioUrl;
   @JsonKey(name: "clip_text")
   final String? clipText;
+  @JsonKey(name: "insert_child_name")
+  final String? insertChildName;
   @JsonKey(name: "clip_created_at")
   final String? clipCreatedAt;
 
-  Clips({this.clipGroupId, this.imageUrl, this.clipText, this.clipCreatedAt});
+  Clips({
+    this.clipGroupId,
+    this.imageUrl,
+    this.audioUrl,
+    this.clipText,
+    this.insertChildName,
+    this.clipCreatedAt,
+
+  });
 
   factory Clips.fromJson(Map<String, dynamic> json) {
     return _$ClipsFromJson(json);
@@ -47,8 +59,5 @@ class Clips {
     return _$ClipsToJson(this);
   }
 
-  ClipEntity toEntity() => ClipEntity(
-    imageUrl: imageUrl,
-    clipText: clipText,
-  );
+  // ClipEntity toEntity() => ClipEntity(imageUrl: imageUrl, clipText: clipText);
 }

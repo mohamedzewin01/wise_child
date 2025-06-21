@@ -1,11 +1,12 @@
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:wise_child/features/StoriesPlay/domain/entities/story_entity.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:wise_child/core/api/api_constants.dart';
 import '../../../../core/di/di.dart';
+import '../../data/models/response/story_play_dto.dart';
 import '../bloc/StoriesPlay_cubit.dart';
-import '../widgets/story_controls.dart';
 import '../widgets/story_page_view.dart';
 
 class StoriesPlayPage extends StatefulWidget {
@@ -29,9 +30,6 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: viewModel..getStories()),
-        // BlocProvider(
-        //   create: (context) => StoryCubit(storyPages),
-        // ),
       ],
       child: Padding(
         padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
@@ -40,9 +38,11 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
             if (state is StoriesPlayLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is StoriesPlayFailure) {}
+            if (state is StoriesPlayFailure) {
+              return const Center(child: Text('حدث خطأ في تحميل القصة'));
+            }
             if (state is StoriesPlaySuccess) {
-              List<ClipEntity> storyPages = state.storyPlayEntity.clips ?? [];
+              List<Clips> storyPages = state.storyPlayEntity.clips ?? [];
               return StoryScreen(storyPages: storyPages);
             }
             return const Center(child: CircularProgressIndicator());
@@ -53,30 +53,27 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
   }
 }
 
-class StoryPage {
-  final String imageUrl;
-  final String text;
-
-  StoryPage({required this.imageUrl, required this.text});
-}
-
-enum PlaybackStatus { playing, paused, finished }
+enum PlaybackStatus { playing, paused, finished, loading }
 
 class StoryState extends Equatable {
   final int currentPage;
   final int totalPages;
   final PlaybackStatus status;
-  final List<ClipEntity> storyPages;
+  final List<Clips> storyPages;
+  final Duration? duration;
+  final Duration? position;
 
   const StoryState({
     required this.currentPage,
     required this.totalPages,
     required this.status,
     required this.storyPages,
+    this.duration,
+    this.position,
   });
 
   // Initial state factory
-  factory StoryState.initial(List<ClipEntity> pages) {
+  factory StoryState.initial(List<Clips> pages) {
     return StoryState(
       currentPage: 0,
       totalPages: pages.length,
@@ -85,168 +82,122 @@ class StoryState extends Equatable {
     );
   }
 
-  StoryState copyWith({int? currentPage, PlaybackStatus? status}) {
+  StoryState copyWith({
+    int? currentPage,
+    PlaybackStatus? status,
+    Duration? duration,
+    Duration? position,
+  }) {
     return StoryState(
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages,
       status: status ?? this.status,
       storyPages: storyPages,
+      duration: duration ?? this.duration,
+      position: position ?? this.position,
     );
   }
 
   @override
-  List<Object?> get props => [currentPage, status, totalPages, storyPages];
+  List<Object?> get props => [currentPage, status, totalPages, storyPages, duration, position];
 }
 
 class StoryCubit extends Cubit<StoryState> {
-  final FlutterTts _flutterTts = FlutterTts();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
-  StoryCubit(List<ClipEntity> storyPages)
-    : super(StoryState.initial(storyPages)) {
-    _initTts();
+  StoryCubit(List<Clips> storyPages, {bool autoPlay = true})
+      : super(StoryState.initial(storyPages)) {
+    _initAudioPlayer();
+
+    if (autoPlay) {
+      _setPlaylistAndPlay();
+    }
+    _audioPlayer.positionStream.listen((position) {
+      if (isClosed) return;
+
+      final currentIndex = _audioPlayer.currentIndex ?? 0;
+
+      emit(state.copyWith(
+        currentPage: currentIndex,
+        position: position,
+      ));
+    });
+
   }
 
-  Future<void> _initTts() async {
-    await _flutterTts.awaitSpeakCompletion(true);
-    await _flutterTts.setLanguage("ar-EG");
-    await _flutterTts.setSpeechRate(0.35);
-    await _flutterTts.setPitch(1.0);
-    await _flutterTts.setPitch(1.0);
-    printVoices();
-    _flutterTts.setCompletionHandler(() async {
-      if (state.status == PlaybackStatus.playing) {
-        if (state.currentPage < state.totalPages - 1) {
-          final nextPage = state.currentPage + 1;
-          emit(state.copyWith(currentPage: nextPage));
-          await Future.delayed(Duration(milliseconds: 500));
-          _speak(state.storyPages[nextPage].clipText!);
-        } else {
-          // Story finished
-          emit(state.copyWith(status: PlaybackStatus.finished));
-        }
+  Future<void> _setPlaylistAndPlay() async {
+    try {
+
+      final playlist = ConcatenatingAudioSource(
+        useLazyPreparation: false, // تحميل مسبق لكل المقاطع لتفادي التقطيع
+        children: state.storyPages
+            .map((clip) => AudioSource.uri(Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
+            .toList(),
+      );
+
+      await _audioPlayer.setAudioSource(playlist, preload: true);
+      await _audioPlayer.play();
+
+      emit(state.copyWith(status: PlaybackStatus.playing, currentPage: 0));
+    } catch (e) {
+      print('Error setting playlist: $e');
+      emit(state.copyWith(status: PlaybackStatus.paused));
+    }
+  }
+
+  void _initAudioPlayer() {
+    _audioPlayer.playerStateStream.listen((playerState) {
+      print('Player state changed: ${playerState.processingState}, playing: ${playerState.playing}');
+
+      if (playerState.processingState == ProcessingState.completed) {
+        print('Playlist completed');
+        emit(state.copyWith(status: PlaybackStatus.finished));
+      }
+    });
+
+    _audioPlayer.positionStream.listen((position) {
+      final currentIndex = _audioPlayer.currentIndex ?? 0;
+
+      if (!isClosed && currentIndex != state.currentPage) {
+        emit(state.copyWith(currentPage: currentIndex));
+      }
+
+      if (!isClosed) {
+        emit(state.copyWith(position: position));
+      }
+    });
+
+    _audioPlayer.durationStream.listen((duration) {
+      if (duration != null && !isClosed) {
+        emit(state.copyWith(duration: duration));
       }
     });
   }
 
-  void printVoices() async {
-    List<dynamic> voices = await _flutterTts.getVoices;
-    for (var voice in voices) {
-      print(voice);
+  void pageChanged(int page) async {
+    if (!isClosed) {
+      await _audioPlayer.seek(Duration.zero, index: page);
+      emit(state.copyWith(currentPage: page, position: Duration.zero));
     }
-  }
-
-  void pageChanged(int page) {
-    // If user swipes, stop current speech
-    _flutterTts.stop();
-    emit(state.copyWith(currentPage: page));
-    if (state.status == PlaybackStatus.playing) {
-      _speak(state.storyPages[page].clipText!);
-    }
-  }
-
-  Future<void> _speak(String text) async {
-    await _flutterTts.speak(text);
   }
 
   void togglePlayPause() {
-    if (state.status == PlaybackStatus.playing) {
-      _flutterTts.stop();
+    if (_audioPlayer.playing) {
+      _audioPlayer.pause();
       emit(state.copyWith(status: PlaybackStatus.paused));
     } else {
+      _audioPlayer.play();
       emit(state.copyWith(status: PlaybackStatus.playing));
-      _speak(state.storyPages[state.currentPage].clipText!);
     }
   }
 
+  void seekTo(Duration position) {
+    _audioPlayer.seek(position);
+  }
+
   @override
-  Future<void> close() {
-    _flutterTts.stop();
+  Future<void> close() async {
+    await _audioPlayer.dispose();
     return super.close();
-  }
-}
-
-class StoryScreen extends StatefulWidget {
-  const StoryScreen({super.key, required this.storyPages});
-
-  final List<ClipEntity> storyPages;
-
-  @override
-  State<StoryScreen> createState() => _StoryScreenState();
-}
-
-class _StoryScreenState extends State<StoryScreen> {
-  late final PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => StoryCubit(widget.storyPages),
-      child: Scaffold(
-        body: BlocListener<StoryCubit, StoryState>(
-          listener: (context, state) {
-            if (_pageController.hasClients &&
-                state.currentPage != _pageController.page?.round()) {
-              _pageController.animateToPage(
-                state.currentPage,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeInOut,
-              );
-            }
-          },
-          child: Column(
-            children: [
-              Expanded(
-                child: BlocBuilder<StoryCubit, StoryState>(
-                  builder: (context, state) {
-                    final page = state.storyPages[state.currentPage];
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 700),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                      child: Stack(
-                        fit: StackFit.expand,
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          StoryPageView(
-                            key: ValueKey<int>(state.currentPage),
-                            imageUrl: page.imageUrl ?? '',
-                            text: page.clipText ?? '',
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-
-                            child: StoryControls(),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

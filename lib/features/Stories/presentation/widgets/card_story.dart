@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
+import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/widgets/ske_card_user.dart';
 import 'package:wise_child/features/Stories/presentation/widgets/story_card.dart';
@@ -64,11 +65,11 @@ class StoryChildrenScreen extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: StoryCard(
-                      title:  'عنوان القصة',
-                      description:  'وصف قصير للقصة...',
+                      title:  story.storyTitle ?? '',
+                      description:  story.storyDescription ?? '',
                       ageRange: 'Ages ',
                       duration: '10 mins',
-                      imageUrl: story.imageCover ?? '',
+                      imageUrl: story.storyCoverImage ?? '',
                       cardColor: const Color(0xFFFFF8E1), // لون كريمي
                       buttonColor: ColorManager.primaryColor,
                     ),
@@ -78,7 +79,6 @@ class StoryChildrenScreen extends StatelessWidget {
               ),
             );
           }
-
 
           if (state is ChildrenStoriesFailure) {
             return SliverToBoxAdapter(

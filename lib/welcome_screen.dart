@@ -29,6 +29,7 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
+
                       CircleAvatar(
                         radius: 50,
                         backgroundColor: ColorManager.cardBackground,
