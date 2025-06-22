@@ -19,7 +19,7 @@ Future<void> main() async {
   await FirebaseConfig.initializeFirebase();
   await CacheService.cacheInitialization();
   configureDependencies();
-  Bloc.observer = MyBlocObserver();
+  // Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 

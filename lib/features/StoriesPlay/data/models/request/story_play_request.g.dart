@@ -8,8 +8,14 @@ part of 'story_play_request.dart';
 
 StoryPlayRequestModel _$StoryPlayRequestModelFromJson(
   Map<String, dynamic> json,
-) => StoryPlayRequestModel(storyId: (json['story_id'] as num?)?.toInt());
+) => StoryPlayRequestModel(
+  storyId: (json['story_id'] as num?)?.toInt(),
+  childName: json['child_name'] as String?,
+);
 
 Map<String, dynamic> _$StoryPlayRequestModelToJson(
   StoryPlayRequestModel instance,
-) => <String, dynamic>{'story_id': instance.storyId};
+) => <String, dynamic>{
+  'story_id': instance.storyId,
+  'child_name': instance.childName,
+};

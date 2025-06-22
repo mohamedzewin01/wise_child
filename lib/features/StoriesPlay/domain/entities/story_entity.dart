@@ -7,11 +7,13 @@ import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_
 class StoryPlayEntity {
 
   final String? status;
+  final String? message;
 
   final List<Clips>? clips;
 
   StoryPlayEntity ({
     this.status,
+    this.message,
     this.clips,
   });
 

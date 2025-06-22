@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/cashed_image.dart';
@@ -103,6 +104,7 @@ class StoryScreen extends StatefulWidget {
 class _StoryScreenState extends State<StoryScreen> {
   late PageController _pageController;
   late StoryCubit _storyCubit;
+  int _lastCurrentPage = 0; // متغير لتتبع آخر صفحة
 
   @override
   void initState() {
@@ -119,121 +121,150 @@ class _StoryScreenState extends State<StoryScreen> {
     super.dispose();
   }
 
+  void _scrollToPage(int pageIndex) {
+    if (_pageController.hasClients &&
+        pageIndex != _lastCurrentPage &&
+        pageIndex >= 0 &&
+        pageIndex < widget.storyPages.length) {
+
+      _lastCurrentPage = pageIndex;
+
+      // استخدام animateToPage لضمان التحديث السلس
+      _pageController.animateToPage(
+        pageIndex,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<StoryCubit>(
       create: (context) => _storyCubit,
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: BlocListener<StoryCubit, StoryState>(
+        body: BlocConsumer<StoryCubit, StoryState>(
           listener: (context, state) {
-            // Auto-scroll to current page when state changes
-            if (_pageController.hasClients &&
-                _pageController.page?.round() != state.currentPage) {
-              _pageController.animateToPage(
-                state.currentPage,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
+            // تحديث الصفحة عند تغير المقطع الصوتي
+            if (state.currentPage != _lastCurrentPage) {
+              print('Changing to page: ${state.currentPage}');
+              _scrollToPage(state.currentPage);
             }
           },
-          child: BlocBuilder<StoryCubit, StoryState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  // PageView for story pages
-                  PageView.builder(
-                    controller: _pageController,
-                    itemCount: widget.storyPages.length,
-                    onPageChanged: (index) {
-                      // Update cubit when user manually swipes
+          builder: (context, state) {
+            return Stack(
+              children: [
+                // PageView for story pages
+                PageView.builder(
+                  controller: _pageController,
+                  itemCount: widget.storyPages.length,
+                  onPageChanged: (index) {
+                    // عدم تحديث الـ cubit إذا كان التغيير تلقائي من الصوت
+                    if (index != state.currentPage) {
+                      print('Manual page change to: $index');
                       context.read<StoryCubit>().pageChanged(index);
-                    },
-                    itemBuilder: (context, index) {
-                      final clip = widget.storyPages[index];
-                      return StoryPageView(
-                        imageUrl: clip.imageUrl ?? '',
-                        text: clip.clipText ?? '',
-                      );
-                    },
-                  ),
+                      _lastCurrentPage = index;
+                    }
+                  },
+                  itemBuilder: (context, index) {
+                    final clip = widget.storyPages[index];
+                    return StoryPageView(
+                      imageUrl: clip.imageUrl ?? '',
+                      text: clip.clipText ?? '',
+                    );
+                  },
+                ),
 
-                  // Story controls overlay
-                  const Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: StoryControls(),
-                  ),
+                // Story controls overlay
+                const Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: StoryControls(),
+                ),
 
-                  // Back button
-                  Positioned(
-                    top: MediaQuery.of(context).padding.top + 10,
-                    left: 16,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black.withOpacity(0.5),
+                // Back button
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 10,
+                  right: 16,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                    child: IconButton(
+                       padding: EdgeInsets.only(right: 10),
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
                       ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
+                ),
 
-                  // Story finished overlay
-                  if (state.status == PlaybackStatus.finished)
-                    Container(
-                      color: Colors.black.withOpacity(0.7),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                              size: 80,
+                // Story finished overlay
+                if (state.status == PlaybackStatus.finished)
+                  Container(
+                    color: Colors.black.withOpacity(0.7),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 80,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'انتهت القصة!',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'انتهت القصة!',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  // Replay story من البداية
+                                  _lastCurrentPage = 0;
+
+                                  // إعادة تعيين PageController إلى الصفحة الأولى
+                                  if (_pageController.hasClients) {
+                                    await _pageController.animateToPage(
+                                      0,
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  }
+
+                                  // بدء إعادة التشغيل
+                                  if (context.mounted) {
+                                    context.read<StoryCubit>().restartStory();
+                                  }
+                                },
+                                child: const Text('إعادة تشغيل'),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // Replay story
-                                    context.read<StoryCubit>().pageChanged(0);
-                                    context.read<StoryCubit>().togglePlayPause();
-                                  },
-                                  child: const Text('إعادة تشغيل'),
-                                ),
-                                const SizedBox(width: 20),
-                                ElevatedButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: const Text('العودة'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              const SizedBox(width: 20),
+                              ElevatedButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('العودة'),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                ],
-              );
-            },
-          ),
+                  ),
+              ],
+            );
+          },
         ),
       ),
     );

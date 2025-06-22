@@ -11,10 +11,15 @@ StoryPlayDto _$StoryPlayDtoFromJson(Map<String, dynamic> json) => StoryPlayDto(
   clips: (json['clips'] as List<dynamic>?)
       ?.map((e) => Clips.fromJson(e as Map<String, dynamic>))
       .toList(),
+  message: json['message'] as String?,
 );
 
 Map<String, dynamic> _$StoryPlayDtoToJson(StoryPlayDto instance) =>
-    <String, dynamic>{'status': instance.status, 'clips': instance.clips};
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'clips': instance.clips,
+    };
 
 Clips _$ClipsFromJson(Map<String, dynamic> json) => Clips(
   clipGroupId: (json['clip_group_id'] as num?)?.toInt(),

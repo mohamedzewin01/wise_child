@@ -7,10 +7,12 @@ part 'story_play_dto.g.dart';
 class StoryPlayDto {
   @JsonKey(name: "status")
   final String? status;
+  @JsonKey(name: "message")
+  final String? message;
   @JsonKey(name: "clips")
   final List<Clips>? clips;
 
-  StoryPlayDto({this.status, this.clips});
+  StoryPlayDto({this.status, this.clips, this.message});
 
   factory StoryPlayDto.fromJson(Map<String, dynamic> json) {
     return _$StoryPlayDtoFromJson(json);
@@ -23,6 +25,7 @@ class StoryPlayDto {
   StoryPlayEntity toEntity() => StoryPlayEntity(
     status: status,
     clips: clips,
+    message: message
   );
 }
 

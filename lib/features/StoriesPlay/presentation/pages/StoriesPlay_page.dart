@@ -1,4 +1,5 @@
 
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,11 +40,13 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is StoriesPlayFailure) {
-              return const Center(child: Text('حدث خطأ في تحميل القصة'));
+              return const Center(child: Text('حدث خطأ في تحميل القصة', style: TextStyle(color: Colors.red)));
             }
             if (state is StoriesPlaySuccess) {
+         String status = state.storyPlayEntity.status ?? '';
+
               List<Clips> storyPages = state.storyPlayEntity.clips ?? [];
-              return StoryScreen(storyPages: storyPages);
+              return status == 'processing' ?  Center(child: Text(state.storyPlayEntity.message ?? '')) : StoryScreen(storyPages: storyPages);
             }
             return const Center(child: CircularProgressIndicator());
           },
@@ -112,21 +115,11 @@ class StoryCubit extends Cubit<StoryState> {
     if (autoPlay) {
       _setPlaylistAndPlay();
     }
-    _audioPlayer.positionStream.listen((position) {
-      if (isClosed) return;
-
-      final currentIndex = _audioPlayer.currentIndex ?? 0;
-
-      emit(state.copyWith(
-        currentPage: currentIndex,
-        position: position,
-      ));
-    });
-
   }
 
   Future<void> _setPlaylistAndPlay() async {
     try {
+      emit(state.copyWith(status: PlaybackStatus.loading));
 
       final playlist = ConcatenatingAudioSource(
         useLazyPreparation: false, // تحميل مسبق لكل المقاطع لتفادي التقطيع
@@ -136,6 +129,10 @@ class StoryCubit extends Cubit<StoryState> {
       );
 
       await _audioPlayer.setAudioSource(playlist, preload: true);
+
+      // إعداد التشغيل لعدم التكرار
+      await _audioPlayer.setLoopMode(LoopMode.off);
+
       await _audioPlayer.play();
 
       emit(state.copyWith(status: PlaybackStatus.playing, currentPage: 0));
@@ -146,27 +143,48 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   void _initAudioPlayer() {
+    // مراقبة حالة المشغل
     _audioPlayer.playerStateStream.listen((playerState) {
       print('Player state changed: ${playerState.processingState}, playing: ${playerState.playing}');
 
+      // التحقق من انتهاء القائمة
       if (playerState.processingState == ProcessingState.completed) {
         print('Playlist completed');
-        emit(state.copyWith(status: PlaybackStatus.finished));
+        // التأكد من أننا انتهينا فعلاً من كل المقاطع
+        emit(state.copyWith(
+            status: PlaybackStatus.finished,
+            currentPage: state.storyPages.length - 1
+        ));
+      } else if (playerState.playing && playerState.processingState != ProcessingState.completed) {
+        if (state.status != PlaybackStatus.playing) {
+          emit(state.copyWith(status: PlaybackStatus.playing));
+        }
+      } else if (playerState.processingState == ProcessingState.ready && !playerState.playing) {
+        if (state.status != PlaybackStatus.paused && state.status != PlaybackStatus.finished) {
+          emit(state.copyWith(status: PlaybackStatus.paused));
+        }
       }
     });
 
-    _audioPlayer.positionStream.listen((position) {
-      final currentIndex = _audioPlayer.currentIndex ?? 0;
-
-      if (!isClosed && currentIndex != state.currentPage) {
-        emit(state.copyWith(currentPage: currentIndex));
+    // مراقبة التغيير في المقطع الحالي
+    _audioPlayer.currentIndexStream.listen((index) {
+      if (index != null && !isClosed) {
+        print('Audio track changed to index: $index');
+        // التأكد من أن الفهرس صحيح
+        if (index >= 0 && index < state.storyPages.length && index != state.currentPage) {
+          emit(state.copyWith(currentPage: index));
+        }
       }
+    });
 
+    // مراقبة الموضع
+    _audioPlayer.positionStream.listen((position) {
       if (!isClosed) {
         emit(state.copyWith(position: position));
       }
     });
 
+    // مراقبة المدة
     _audioPlayer.durationStream.listen((duration) {
       if (duration != null && !isClosed) {
         emit(state.copyWith(duration: duration));
@@ -174,8 +192,38 @@ class StoryCubit extends Cubit<StoryState> {
     });
   }
 
+  // إضافة دالة لإعادة تشغيل القصة من البداية
+  Future<void> restartStory() async {
+    try {
+      print('Restarting story from beginning');
+
+      // إيقاف التشغيل أولاً
+      await _audioPlayer.stop();
+
+      // الذهاب إلى المقطع الأول
+      await _audioPlayer.seek(Duration.zero, index: 0);
+
+      // تحديث الحالة
+      emit(state.copyWith(
+          currentPage: 0,
+          status: PlaybackStatus.paused,
+          position: Duration.zero
+      ));
+
+      // بدء التشغيل
+      await _audioPlayer.play();
+
+      emit(state.copyWith(status: PlaybackStatus.playing));
+
+    } catch (e) {
+      print('Error restarting story: $e');
+      emit(state.copyWith(status: PlaybackStatus.paused));
+    }
+  }
+
   void pageChanged(int page) async {
-    if (!isClosed) {
+    if (!isClosed && page >= 0 && page < state.storyPages.length) {
+      print('Manually changing to page: $page');
       await _audioPlayer.seek(Duration.zero, index: page);
       emit(state.copyWith(currentPage: page, position: Duration.zero));
     }
