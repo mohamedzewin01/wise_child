@@ -65,6 +65,8 @@ class StoryChildrenScreen extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: StoryCard(
+                      storyId:story.storyId ?? 0,
+                      childId:story.childrenId ?? 0,
                       title:  story.storyTitle ?? '',
                       description:  story.storyDescription ?? '',
                       ageRange: 'Ages ',

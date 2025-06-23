@@ -9,7 +9,7 @@ import 'package:wise_child/core/resources/values_manager.dart';
 class AppThemes {
   static final lightTheme1 = ThemeData(
     primarySwatch: Colors.deepPurple, // You can customize this
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: ColorManager.appBackground,
     fontFamily: 'Poppins', // Example: Add a custom font
     textTheme: const TextTheme(
       headlineSmall: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),

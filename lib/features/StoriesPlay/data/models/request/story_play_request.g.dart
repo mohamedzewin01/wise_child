@@ -10,12 +10,12 @@ StoryPlayRequestModel _$StoryPlayRequestModelFromJson(
   Map<String, dynamic> json,
 ) => StoryPlayRequestModel(
   storyId: (json['story_id'] as num?)?.toInt(),
-  childName: json['child_name'] as String?,
+  childId: (json['child_id'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$StoryPlayRequestModelToJson(
   StoryPlayRequestModel instance,
 ) => <String, dynamic>{
   'story_id': instance.storyId,
-  'child_name': instance.childName,
+  'child_id': instance.childId,
 };

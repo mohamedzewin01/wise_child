@@ -12,7 +12,7 @@ class ApiConstants {
   static const String newChild = "children/newChild";
   static const String imageChild = "children/imageChild";
   static const String deleteChildren = "children/delete_children";
-  static const String getClipsStory = "stories/getClipsStory2";
+  static const String getClipsStory = "stories/getClipsStory3";
   static const String getChildrenStories = "stories/getChildrenStories2";
 
 

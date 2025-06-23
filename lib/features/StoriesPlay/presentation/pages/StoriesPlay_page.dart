@@ -11,8 +11,9 @@ import '../bloc/StoriesPlay_cubit.dart';
 import '../widgets/story_page_view.dart';
 
 class StoriesPlayPage extends StatefulWidget {
-  const StoriesPlayPage({super.key});
-
+  const StoriesPlayPage({super.key, required this.childId, required this.storyId});
+final int childId;
+final int storyId;
   @override
   State<StoriesPlayPage> createState() => _StoriesPlayPageState();
 }
@@ -30,7 +31,7 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: viewModel..getStories()),
+        BlocProvider.value(value: viewModel..getStories(childId: widget.childId ,storyId: widget.storyId)),
       ],
       child: Padding(
         padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),

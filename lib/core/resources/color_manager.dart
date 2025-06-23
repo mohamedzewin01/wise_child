@@ -8,10 +8,11 @@ class ColorManager {
   static const Color cardBackground = Color(0xFFEAE6F9);
   static const Color titleColor = Color(0xFF303046);
   static const Color textSecondary = Color(0xFF6E6D7A);
+  static const Color textSecondary2 = Color(0xFF9d9996);
   static const Color textPlaceholder = Color(0xFFBAB9C3);
   static const Color textColors = Color(0xFF4A4A6A);
   static const Color primaryColor = Color(0xFF9B51E0);
-  // static const Color primaryColor = Color(0xFF577D8F);
+  static const Color background = Color(0xFFf7f7f7);
   static const Color textMuted = Color(0xFF8A8A9E);
   static const Color feature1Bg = Color(0xFFAEFFD0);
   static const Color feature1Icon = Color(0xFF00A539);

@@ -5,6 +5,7 @@ import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/custom_app_bar.dart';
+import 'package:wise_child/features/EditProfile/presentation/pages/EditProfile_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
 import 'package:wise_child/features/Settings/presentation/widgets/settings_group.dart';
 import 'package:wise_child/features/Settings/presentation/widgets/settings_row.dart';
@@ -179,7 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   trailing:  Icon(Icons.arrow_forward_ios_outlined,size: 16,),
                   onTap: () {
-                    // Handle logout
+               Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
                   },
                 ),
               ),

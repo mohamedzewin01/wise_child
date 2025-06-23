@@ -11,6 +11,7 @@ import 'core/utils/cashed_data_shared_preferences.dart';
 import 'core/utils/myTheme.dart';
 import 'core/utils/my_bloc_observer.dart';
 
+import 'features/layout/presentation/cubit/layout_cubit.dart';
 import 'l10n/app_localizations.dart';
 import 'localization/locale_cubit.dart';
 
@@ -28,8 +29,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocaleCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => LocaleCubit()),
+        BlocProvider(create: (_) => LayoutCubit()),
+      ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
           return MaterialApp(
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
+            supportedLocales: const [
               Locale('ar'),
               Locale('en'),
             ],
@@ -49,11 +53,11 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: RouteGenerator.getRoute,
             initialRoute: RoutesManager.welcomeScreen,
-            // home: ChatBotAssistantPage(),
           );
         },
       ),
     );
+
   }
 }
 

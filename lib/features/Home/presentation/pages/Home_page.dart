@@ -26,19 +26,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: viewModel,
-
-        child: HomeScreen(),
-
-    );
+    return BlocProvider.value(value: viewModel, child: HomeScreen());
   }
 }
-
-
-
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,43 +38,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(textTheme),
-              const SizedBox(height: 24),
-
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text('Progress Overview', style: textTheme.titleMedium),
-              ),
-              const SizedBox(height: 12),
-              _buildProgressOverview(textTheme),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(AppLocalizations.of(context)!.myChildren, style: textTheme.titleMedium),
-              ),
-              const SizedBox(height: 12),
-              _buildMyChildren(),
-              const SizedBox(height: 30),
-              _buildUploadCustomStoryButton(textTheme),
-              const SizedBox(height: kBottomNavigationBarHeight),
-            ],
+      body: CustomScrollView(
+        slivers: [
+          SliverCustomAppBar(),
+          SliverToBoxAdapter(child: _buildHeader(textTheme)),
+          SliverToBoxAdapter(child: const SizedBox(height: 24)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text('Progress Overview', style: textTheme.titleMedium),
+            ),
           ),
-        ),
+          SliverToBoxAdapter(child: const SizedBox(height: 12)),
+          SliverToBoxAdapter(child: _buildProgressOverview(textTheme)),
+          SliverToBoxAdapter(child: const SizedBox(height: 24)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                AppLocalizations.of(context)!.myChildren,
+                style: textTheme.titleMedium,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(child: const SizedBox(height: 12)),
+          SliverToBoxAdapter(child: _buildMyChildren()),
+          SliverToBoxAdapter(child: const SizedBox(height: 30)),
+          SliverToBoxAdapter(child: _buildUploadCustomStoryButton(textTheme)),
+          SliverToBoxAdapter(
+            child: const SizedBox(height: kBottomNavigationBarHeight),
+          ),
+        ],
       ),
-
     );
   }
 
@@ -94,30 +84,29 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppLocalizations.of(context)!.home, style: textTheme.headlineSmall?.copyWith(fontSize: 24)),
-              IconButton(
-                icon: const Icon(Icons.settings_outlined, color: Colors.black54),
-                onPressed: () { /* TODO: Settings action */ },
-              ),
-            ],
-          ),
           const SizedBox(height: 16),
           Row(
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(CacheService.getData(key: CacheKeys.userPhoto)), // Use your asset
+                backgroundImage: NetworkImage(
+                  CacheService.getData(key: CacheKeys.userPhoto),
+                ),
+                // Use your asset
                 backgroundColor: Colors.grey[200],
               ),
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Hi, ${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}!', style: textTheme.titleLarge),
-                  Text('Welcome back', style: textTheme.bodyMedium?.copyWith(fontSize: 16)),
+                  Text(
+                    'Hi, ${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}!',
+                    style: textTheme.titleLarge,
+                  ),
+                  Text(
+                    'Welcome back',
+                    style: textTheme.bodyMedium?.copyWith(fontSize: 16),
+                  ),
                 ],
               ),
             ],
@@ -126,22 +115,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Widget _buildProgressOverview(TextTheme textTheme) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: [
-          Expanded(
-            child: _buildProgressCard(textTheme, 'Stories Read', '15'),
-          ),
+          Expanded(child: _buildProgressCard(textTheme, 'Stories Read', '15')),
           const SizedBox(width: 16),
-          Expanded(
-            child: _buildProgressCard(textTheme, 'Days Active', '22'),
-          ),
+          Expanded(child: _buildProgressCard(textTheme, 'Days Active', '22')),
         ],
       ),
     );
   }
+
   Widget _buildProgressCard(TextTheme textTheme, String title, String value) {
     return Card(
       elevation: 1,
@@ -151,7 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
         child: Column(
           children: [
-            Text(title, style: textTheme.bodyMedium?.copyWith(color: Colors.black54)),
+            Text(
+              title,
+              style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
+            ),
             const SizedBox(height: 8),
             Text(value, style: textTheme.headlineSmall?.copyWith(fontSize: 28)),
           ],
@@ -159,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Widget _buildMyChildren() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -172,33 +163,39 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Widget _buildChildAvatar() {
     return Container(
       padding: const EdgeInsets.all(2), // For border effect if needed
       decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white, // Background for the border
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 3,
-            )
-          ]
+        shape: BoxShape.circle,
+        color: Colors.white, // Background for the border
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 3,
+          ),
+        ],
       ),
       child: CircleAvatar(
         radius: 25,
-        backgroundImage: NetworkImage(CacheService.getData(key: CacheKeys.userPhoto)), // Use your asset
+        backgroundImage: NetworkImage(
+          CacheService.getData(key: CacheKeys.userPhoto),
+        ), // Use your asset
         backgroundColor: Colors.grey[200],
       ),
     );
   }
+
   Widget _buildUploadCustomStoryButton(TextTheme textTheme) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Center(
         child: TextButton(
-          onPressed: () { /* TODO: Upload action */ },
+          onPressed: () {
+            /* TODO: Upload action */
+          },
           child: Text(
             'Upload Custom Story',
             style: textTheme.bodyLarge?.copyWith(
@@ -210,7 +207,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
-
 }

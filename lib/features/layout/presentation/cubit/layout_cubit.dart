@@ -8,10 +8,10 @@ class LayoutCubit extends Cubit<LayoutState> {
 
   static LayoutCubit get(context) => BlocProvider.of(context);
   int index = 0;
-  int initialTabIndex=0;
-  void changeIndex(int selectIndex,{int? tabIndex}) {
+
+  void changeIndex(int selectIndex) {
     index = selectIndex;
-    initialTabIndex=tabIndex??0;
     emit(LayoutChangePage());
   }
 }
+

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:wise_child/core/widgets/custom_app_bar.dart';
+import 'package:wise_child/core/widgets/custom_app_bar2.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/widgets/child_card.dart';
 import 'package:wise_child/features/Children/presentation/widgets/skeletonizer_children.dart';
@@ -35,19 +36,20 @@ class _ChildrenPageState extends State<ChildrenPage> {
         backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
+
             SliverCustomAppBar(
               iconActionOne: Icons.add,
-              onTapActionOne: () async {
+              onTapActionTow: () async {
                 final result = await Navigator.push(
                   context,
                   CupertinoPageRoute(builder: (context) => NewChildrenPage()),
                 );
-                // final result = await Navigator.pushNamed(context, RoutesManager.newChildrenPage);
                 if (result == true && context.mounted) {
                   context.read<ChildrenCubit>().getChildrenByUser();
                 }
               },
             ),
+
             SliverToBoxAdapter(
               child: BlocBuilder<ChildrenCubit, ChildrenState>(
                 builder: (context, state) {
@@ -92,3 +94,5 @@ class _ChildrenPageState extends State<ChildrenPage> {
 }
 
 //NetworkImage('https://i.pravatar.cc/300'),
+
+

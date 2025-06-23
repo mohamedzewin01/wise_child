@@ -14,10 +14,9 @@ class StoriesPlayCubit extends Cubit<StoriesPlayState> {
   final StoriesPlayUseCaseRepo _storiesPlayUseCaseRepo;
 
 
-  Future<void> getStories() async {
+  Future<void> getStories({required int storyId,required int childId}) async {
     emit(StoriesPlayLoading());
-    /// TODO GET CHILDREN BY USER AND GET THEIR STORIES
-    var storyPlayRequestModel = StoryPlayRequestModel(storyId: 1,childName:'عمار' );
+    var storyPlayRequestModel = StoryPlayRequestModel(storyId: storyId,childId:childId);
     var result = await _storiesPlayUseCaseRepo.getClipsStory(storyPlayRequestModel);
     switch (result) {
       case Success<StoryPlayEntity?>():

@@ -11,6 +11,7 @@ import 'package:wise_child/features/Home/presentation/pages/Home_page.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/widgets/user_children.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+import 'package:wise_child/features/layout/presentation/cubit/layout_cubit.dart';
 
 import '../../../../core/di/di.dart';
 import '../bloc/Stories_cubit.dart';
@@ -62,7 +63,10 @@ class _StoriesPageState extends State<StoriesPage> {
                   child: CustomScrollView(
                     physics:  const AlwaysScrollableScrollPhysics(),
                     slivers: [
-                      SliverCustomAppBar(),
+                      SliverCustomAppBar(
+                        iconActionOne: Icons.arrow_forward_ios_rounded,
+                        onTapActionTow: () => LayoutCubit.get(context).changeIndex(0),
+                      ),
                       UserChildren(),
                       StoryChildrenScreen(),
 

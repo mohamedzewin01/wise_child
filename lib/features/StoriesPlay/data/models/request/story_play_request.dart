@@ -6,12 +6,13 @@ part 'story_play_request.g.dart';
 class StoryPlayRequestModel {
   @JsonKey(name: "story_id")
   final int? storyId;
-  @JsonKey(name: "child_name")
-  final String? childName;
+  @JsonKey(name: "child_id")
+  final int? childId;
 
   StoryPlayRequestModel ({
     this.storyId,
-    this.childName
+    this.childId
+
   });
 
   factory StoryPlayRequestModel.fromJson(Map<String, dynamic> json) {

@@ -18,6 +18,8 @@ class SkeCardUser extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10.0,),
             child: StoryCard(
+              childId: 223,
+              storyId: 223,
 
               title: 'عنوان القصة',
               description: 'وصف قصير للقصة...',

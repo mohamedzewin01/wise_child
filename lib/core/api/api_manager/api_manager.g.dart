@@ -359,7 +359,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'stories/getClipsStory2',
+            'stories/getClipsStory3',
             queryParameters: queryParameters,
             data: _data,
           )

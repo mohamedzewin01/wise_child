@@ -10,6 +10,8 @@ class StoryCard extends StatelessWidget {
   final String imageUrl;
   final Color cardColor;
   final Color buttonColor;
+  final int childId;
+  final int storyId;
 
   const StoryCard({
     super.key,
@@ -20,6 +22,8 @@ class StoryCard extends StatelessWidget {
     required this.imageUrl,
     required this.cardColor,
     required this.buttonColor,
+    required this.childId,
+    required this.storyId,
   });
 
   @override
@@ -77,6 +81,8 @@ class StoryCard extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => StoriesPlayPage(
+                        childId: childId,
+                        storyId: storyId,
 
                       ),
                     ),
@@ -122,7 +128,8 @@ class StoryCard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => StoriesPlayPage(
-
+                            childId: childId,
+                            storyId: storyId,
                           ),
                         ),
                       );

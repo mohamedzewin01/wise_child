@@ -11,14 +11,14 @@ import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/values_manager.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 
-class ChangeUserImage extends StatefulWidget {
-  const ChangeUserImage({super.key});
+class ChangeChildrenImage extends StatefulWidget {
+  const ChangeChildrenImage({super.key});
 
   @override
-  State<ChangeUserImage> createState() => _ChangeUserImageState();
+  State<ChangeChildrenImage> createState() => _ChangeChildrenImageState();
 }
 
-class _ChangeUserImageState extends State<ChangeUserImage> {
+class _ChangeChildrenImageState extends State<ChangeChildrenImage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

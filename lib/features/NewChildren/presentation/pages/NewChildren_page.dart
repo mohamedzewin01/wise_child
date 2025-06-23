@@ -87,12 +87,12 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+
         body: CustomScrollView(
           slivers: [
             SliverCustomAppBar(
               iconActionOne: Icons.arrow_forward_ios_rounded,
-              onTapActionOne: () => Navigator.pop(context),
+              onTapActionTow: () => Navigator.pop(context),
             ),
             SliverToBoxAdapter(
               child: Form(
@@ -107,7 +107,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                   ),
                   children: [
                     const SizedBox(height: 5),
-                    ChangeUserImage(),
+                    ChangeChildrenImage(),
                     const SizedBox(height: 16),
                     Row(
                       children: [
