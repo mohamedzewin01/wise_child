@@ -111,7 +111,6 @@ class StoriesList {
   final String? problemDescription;
   @JsonKey(name: "problem_created_at")
   final String? problemCreatedAt;
-
   @JsonKey(name: "story_id")
   final int? storyId;
   @JsonKey(name: "story_title")
