@@ -9,7 +9,7 @@ class StoriesLoadingGrid extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.all(20),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 1,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
         childAspectRatio: 0.8,
@@ -35,6 +35,7 @@ class StoriesLoadingGrid extends StatelessWidget {
         ),
       ),
       child: Stack(
+        clipBehavior: Clip.antiAlias,
         children: [
           // محتوى skeleton
           Positioned(
