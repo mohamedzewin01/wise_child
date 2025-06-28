@@ -10,7 +10,7 @@ class StoriesRepositoryImpl implements StoriesRepository {
   StoriesRepositoryImpl(this.datasource);
 
   @override
-  Future<Result<ChildrenStoriesEntity?>> getStoriesChildren(int idChildren) {
+  Future<Result<ChildrenStoriesModelEntity?>> getStoriesChildren(int idChildren) {
    return datasource.getStoriesChildren(idChildren);
   }
   // implementation

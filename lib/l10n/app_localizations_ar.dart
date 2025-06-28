@@ -293,4 +293,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get myChildren => 'اطفالي';
+
+  @override
+  String get yearsOld => 'سنه';
+
+  @override
+  String get bestPlaymate => 'اكثر صديق يحب اللعب معه';
+
+  @override
+  String get addBestPlaymate => 'اضافة صديق يحب اللعب معه';
+
+  @override
+  String get invalidAge => 'الرجاء ادخال العمر صحيحة';
+
+  @override
+  String get add_one_friend_only => 'يمكنك إضافة صديق واحد فقط';
 }

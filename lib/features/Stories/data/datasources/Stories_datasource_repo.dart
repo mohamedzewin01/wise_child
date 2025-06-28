@@ -3,6 +3,6 @@ import 'package:wise_child/features/Stories/domain/entities/children_story_entit
 
 abstract class StoriesDatasourceRepo {
 
-  Future<Result<ChildrenStoriesEntity?>> getStoriesChildren(int idChildren);
+  Future<Result<ChildrenStoriesModelEntity?>> getStoriesChildren(int idChildren);
 
 }

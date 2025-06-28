@@ -20,6 +20,9 @@ AddNewChildRequest _$AddNewChildRequestFromJson(Map<String, dynamic> json) =>
       friends: (json['friends'] as List<dynamic>?)
           ?.map((e) => Friends.fromJson(e as Map<String, dynamic>))
           .toList(),
+      bestPlaymate: (json['best_playmate'] as List<dynamic>?)
+          ?.map((e) => BestPlaymate.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$AddNewChildRequestToJson(AddNewChildRequest instance) =>
@@ -32,6 +35,7 @@ Map<String, dynamic> _$AddNewChildRequestToJson(AddNewChildRequest instance) =>
       'imageUrl': instance.imageUrl,
       'siblings': instance.siblings,
       'friends': instance.friends,
+      'best_playmate': instance.bestPlaymate,
     };
 
 Siblings _$SiblingsFromJson(Map<String, dynamic> json) => Siblings(
@@ -57,3 +61,16 @@ Map<String, dynamic> _$FriendsToJson(Friends instance) => <String, dynamic>{
   'age': instance.age,
   'gender': instance.gender,
 };
+
+BestPlaymate _$BestPlaymateFromJson(Map<String, dynamic> json) => BestPlaymate(
+  name: json['name'] as String?,
+  age: (json['age'] as num?)?.toInt(),
+  gender: json['gender'] as String?,
+);
+
+Map<String, dynamic> _$BestPlaymateToJson(BestPlaymate instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'age': instance.age,
+      'gender': instance.gender,
+    };

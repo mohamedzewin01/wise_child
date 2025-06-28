@@ -6,7 +6,7 @@ sealed class ChildrenStoriesState {}
 final class ChildrenStoriesInitial extends ChildrenStoriesState {}
 final class ChildrenStoriesLoading extends ChildrenStoriesState {}
 final class ChildrenStoriesSuccess extends ChildrenStoriesState {
-  final ChildrenStoriesEntity? getChildrenEntity;
+  final ChildrenStoriesModelEntity? getChildrenEntity;
 
   ChildrenStoriesSuccess(this.getChildrenEntity);
 }

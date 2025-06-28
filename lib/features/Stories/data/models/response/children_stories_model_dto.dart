@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wise_child/features/Stories/domain/entities/children_story_entity.dart';
 
 part 'children_stories_model_dto.g.dart';
 
@@ -21,6 +22,10 @@ class ChildrenStoriesModelDto {
   Map<String, dynamic> toJson() {
     return _$ChildrenStoriesModelDtoToJson(this);
   }
+  ChildrenStoriesModelEntity toEntity() => ChildrenStoriesModelEntity(
+    status: status,
+    data: data,
+  );
 }
 
 @JsonSerializable()
@@ -53,8 +58,14 @@ class StoriesModeData {
   final String? problemTitle;
   @JsonKey(name: "problem_description")
   final String? problemDescription;
-  @JsonKey(name: "problem_created_at")
-  final String? problemCreatedAt;
+
+  @JsonKey(name: "category_id")
+  final int? categoryId;
+  @JsonKey(name: "category_name")
+  final String? categoryName;
+  @JsonKey(name: "category_description")
+  final String? categoryDescription;
+
 
   StoriesModeData ({
     this.childrenStoriesId,
@@ -71,8 +82,11 @@ class StoriesModeData {
     this.problemId,
     this.problemTitle,
     this.problemDescription,
-    this.problemCreatedAt,
+    this.categoryId,
+    this.categoryName,
+    this.categoryDescription
   });
+
 
   factory StoriesModeData.fromJson(Map<String, dynamic> json) {
     return _$StoriesModeDataFromJson(json);

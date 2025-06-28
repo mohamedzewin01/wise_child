@@ -51,14 +51,14 @@ class ChildrenStoriesCubit extends Cubit<ChildrenStoriesState> {
     emit(ChildrenStoriesLoading());
     var result = await _storiesUseCaseRepo.getStoriesChildren(idChildren);
     switch (result) {
-      case Success<ChildrenStoriesEntity?>():
+      case Success<ChildrenStoriesModelEntity?>():
         {
           if (!isClosed) {
             emit(ChildrenStoriesSuccess(result.data!));
           }
         }
         break;
-      case Fail():
+      case Fail<ChildrenStoriesModelEntity?>():
         {
           if (!isClosed) {
             emit(ChildrenStoriesFailure(result.exception));

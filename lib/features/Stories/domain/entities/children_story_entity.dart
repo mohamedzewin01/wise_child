@@ -3,17 +3,18 @@
 
 
 
-// import '../../data/models/response/get_children_stories_dto.dart';
 
-import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
 
-class ChildrenStoriesEntity {
+import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
+
+
+class ChildrenStoriesModelEntity {
 
   final String? status;
 
-  final Data? data;
+  final List<StoriesModeData>? data;
 
-  ChildrenStoriesEntity ({
+  ChildrenStoriesModelEntity ({
     this.status,
     this.data,
   });

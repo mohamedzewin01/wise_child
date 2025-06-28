@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/app_constants.dart';
+import 'package:wise_child/core/resources/routes_manager.dart';
+import 'package:wise_child/core/widgets/movable_icon_button.dart';
 import 'package:wise_child/features/layout/presentation/widgets/custom_button_navigation_bar.dart';
 import '../cubit/layout_cubit.dart';
 
@@ -19,7 +21,22 @@ class _LayoutScreenState extends State<LayoutScreen> {
     return BlocBuilder<LayoutCubit, LayoutState>(
       builder: (context, state) {
         return Scaffold(
-          body: AppConstants.viewOptions[cubit.index],
+          body: Stack(
+            children: [
+              AppConstants.viewOptions[cubit.index],
+              MovableIcon(
+                onTap: () {
+                  // if (cubit.index == 1) {
+                  //   Navigator.pushNamed(context, RoutesManager.chatBotAddChildScreen);
+                  //   return;
+                  // }
+                  Navigator.pushNamed(context, RoutesManager.chatBotAssistantScreen);
+
+
+                },
+              ),
+            ],
+          ),
           bottomNavigationBar: CustomBottomNavigationBar(
             currentIndex: cubit.index,
             onItemTapped: (index) {

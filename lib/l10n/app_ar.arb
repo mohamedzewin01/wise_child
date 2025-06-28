@@ -94,7 +94,12 @@
   "editProfile": "تعديل الملف الشخصي",
   "logout": "تسجيل الخروج",
   "removeAccount": "حذف الحساب",
-  "myChildren": "اطفالي"
+  "myChildren": "اطفالي",
+  "yearsOld": "سنه",
+  "bestPlaymate": "اكثر صديق يحب اللعب معه",
+  "addBestPlaymate": "اضافة صديق يحب اللعب معه",
+  "invalidAge": "الرجاء ادخال العمر صحيحة",
+  "add_one_friend_only": "يمكنك إضافة صديق واحد فقط"
 
 
 

@@ -24,6 +24,7 @@ class NewChildrenCubit extends Cubit<NewChildrenState> {
   String? gender='Male';
   List<Siblings> siblings = [];
   List<Friends> friends = [];
+  List<BestPlaymate> bestPlaymates = [];
   File? profileImage;
 
   Future<void> saveChild() async {
@@ -37,6 +38,7 @@ class NewChildrenCubit extends Cubit<NewChildrenState> {
         gender: gender,
         siblings: siblings,
         friends: friends,
+        bestPlaymate: bestPlaymates,
       ),
     );
     switch (result) {

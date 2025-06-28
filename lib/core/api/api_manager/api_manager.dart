@@ -17,7 +17,8 @@ import 'package:wise_child/features/Children/data/models/response/get_children_d
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
-import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
+import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
+import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_request.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
 
@@ -58,9 +59,14 @@ abstract class ApiService {
   Future<GetChildrenDto?> getChildrenByUser(
     @Body() GetChildrenRequest getChildrenRequest,
   );
+  //
+  // @POST(ApiConstants.newChild)
+  // Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
 
-  @POST(ApiConstants.newChild)
+  @POST(ApiConstants.addChild)
   Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
+
+
 
   @MultiPart()
   @POST(ApiConstants.imageChild)
@@ -78,12 +84,15 @@ abstract class ApiService {
     @Body() StoryPlayRequestModel storyPlayRequestModel,
   );
 
-  @POST(ApiConstants.getChildrenStories)
-  Future<GetChildrenStoriesDto?> getChildrenStories(
-      @Part(name: "childrenId") String? idChildren
+  // @POST(ApiConstants.getChildrenStories)
+  // Future<GetChildrenStoriesDto?> getChildrenStories(
+  //     @Part(name: "childrenId") String? idChildren
+  //     );
+
+  @POST(ApiConstants.getChildrenStories3)
+  Future<ChildrenStoriesModelDto?> getChildrenStories(
+      @Body() GetChildrenStoriesRequest? getChildrenStoriesRequest
       );
-
-
 
 
 }

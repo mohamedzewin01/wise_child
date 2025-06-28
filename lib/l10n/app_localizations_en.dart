@@ -294,4 +294,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myChildren => 'MyChildren';
+
+  @override
+  String get yearsOld => 'years';
+
+  @override
+  String get bestPlaymate => 'best playmate';
+
+  @override
+  String get addBestPlaymate => 'add best playmate';
+
+  @override
+  String get invalidAge => 'Please enter valid age';
+
+  @override
+  String get add_one_friend_only => 'You can only add one friend';
 }

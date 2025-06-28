@@ -667,6 +667,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'MyChildren'**
   String get myChildren;
+
+  /// No description provided for @yearsOld.
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get yearsOld;
+
+  /// No description provided for @bestPlaymate.
+  ///
+  /// In en, this message translates to:
+  /// **'best playmate'**
+  String get bestPlaymate;
+
+  /// No description provided for @addBestPlaymate.
+  ///
+  /// In en, this message translates to:
+  /// **'add best playmate'**
+  String get addBestPlaymate;
+
+  /// No description provided for @invalidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter valid age'**
+  String get invalidAge;
+
+  /// No description provided for @add_one_friend_only.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only add one friend'**
+  String get add_one_friend_only;
 }
 
 class _AppLocalizationsDelegate

@@ -10,10 +10,12 @@ class ApiConstants {
   static const String getDirections = "directions/getDirections";
   static const String getChildrenByUser = "children/getChildrenByUser";
   static const String newChild = "children/newChild";
+  static const String addChild = "children/add_child";
   static const String imageChild = "children/imageChild";
   static const String deleteChildren = "children/delete_children";
-  static const String getClipsStory = "stories/getClipsStory3";
+  static const String getClipsStory = "stories/getClipsStory4";
   static const String getChildrenStories = "stories/getChildrenStories2";
+  static const String getChildrenStories3 = "stories/getChildrenStories3";
 
 
 }

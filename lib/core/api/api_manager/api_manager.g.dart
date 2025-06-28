@@ -246,7 +246,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'children/newChild',
+            'children/add_child',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -359,7 +359,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'stories/getClipsStory3',
+            'stories/getClipsStory4',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -379,31 +379,31 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<GetChildrenStoriesDto?> getChildrenStories(String? idChildren) async {
+  Future<ChildrenStoriesModelDto?> getChildrenStories(
+    GetChildrenStoriesRequest? getChildrenStoriesRequest,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    final _data = FormData();
-    if (idChildren != null) {
-      _data.fields.add(MapEntry('childrenId', idChildren));
-    }
-    final _options = _setStreamType<GetChildrenStoriesDto>(
+    final _data = <String, dynamic>{};
+    _data.addAll(getChildrenStoriesRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<ChildrenStoriesModelDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'stories/getChildrenStories2',
+            'stories/getChildrenStories3',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
-    late GetChildrenStoriesDto? _value;
+    late ChildrenStoriesModelDto? _value;
     try {
       _value = _result.data == null
           ? null
-          : GetChildrenStoriesDto.fromJson(_result.data!);
+          : ChildrenStoriesModelDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -35,7 +35,9 @@ StoriesModeData _$StoriesModeDataFromJson(Map<String, dynamic> json) =>
       problemId: (json['problem_id'] as num?)?.toInt(),
       problemTitle: json['problem_title'] as String?,
       problemDescription: json['problem_description'] as String?,
-      problemCreatedAt: json['problem_created_at'] as String?,
+      categoryId: (json['category_id'] as num?)?.toInt(),
+      categoryName: json['category_name'] as String?,
+      categoryDescription: json['category_description'] as String?,
     );
 
 Map<String, dynamic> _$StoriesModeDataToJson(StoriesModeData instance) =>
@@ -54,5 +56,7 @@ Map<String, dynamic> _$StoriesModeDataToJson(StoriesModeData instance) =>
       'problem_id': instance.problemId,
       'problem_title': instance.problemTitle,
       'problem_description': instance.problemDescription,
-      'problem_created_at': instance.problemCreatedAt,
+      'category_id': instance.categoryId,
+      'category_name': instance.categoryName,
+      'category_description': instance.categoryDescription,
     };

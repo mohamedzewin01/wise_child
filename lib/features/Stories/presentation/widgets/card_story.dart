@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
-import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
-import 'package:wise_child/features/Stories/data/models/response/get_children_stories_dto.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/widgets/ske_card_user.dart';
 import 'package:wise_child/features/Stories/presentation/widgets/story_card.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 
 class StoryChildrenScreen extends StatelessWidget {
   const StoryChildrenScreen({super.key});
@@ -17,25 +18,22 @@ class StoryChildrenScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       sliver: BlocBuilder<ChildrenStoriesCubit, ChildrenStoriesState>(
         builder: (context, state) {
-          // حالة التحميل
           if (state is ChildrenStoriesLoading) {
             return const SkeCardUser();
           }
-
-          // حالة النجاح
           if (state is ChildrenStoriesSuccess) {
-            final List<StoriesList> stories =
-                state.getChildrenEntity?.data?.storiesList ?? [];
-
+            final List<StoriesModeData> stories =
+                state.getChildrenEntity?.data ?? [];
             if (stories.isEmpty) {
-              return  SliverToBoxAdapter(
+              return SliverToBoxAdapter(
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        SizedBox(height: MediaQuery.sizeOf(context).width * 0.25),
-
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).width * 0.25,
+                        ),
                         Icon(
                           Icons.menu_book_outlined,
                           size: 64,
@@ -44,41 +42,35 @@ class StoryChildrenScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         Text(
                           'لا توجد قصص متاحة لهذا الطفل حاليًا',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
                           textAlign: TextAlign.center,
                         ),
-
                       ],
                     ),
                   ),
                 ),
               );
             }
-
             return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                  final story = stories[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: StoryCard(
-                      storyId:story.storyId ?? 0,
-                      childId:story.childrenId ?? 0,
-                      title:  story.storyTitle ?? '',
-                      description:  story.storyDescription ?? '',
-                      ageRange: 'Ages ',
-                      duration: '10 mins',
-                      imageUrl: story.storyCoverImage ?? '',
-                      cardColor: const Color(0xFFFFF8E1), // لون كريمي
-                      buttonColor: ColorManager.primaryColor,
-                    ),
-                  );
-                },
-                childCount: stories.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final story = stories[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: StoryCard(
+                    storyId: story.storyId ?? 0,
+                    childId: story.childrenId ?? 0,
+                    title: story.storyTitle ?? '',
+                    description: story.storyDescription ?? '',
+                    ageRange:
+                        '${story.ageGroup} ${AppLocalizations.of(context)!.yearsOld}',
+                    duration: story.categoryName ?? '',
+                    imageUrl: story.imageCover ?? '',
+                    cardColor: const Color(0xFFFFF8E1),
+                    // لون كريمي
+                    buttonColor: ColorManager.primaryColor,
+                  ),
+                );
+              }, childCount: stories.length),
             );
           }
 
@@ -89,25 +81,36 @@ class StoryChildrenScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).width * 0.25,),
                       const Icon(
-                        Icons.error_outline,
+                        Icons.menu_book_outlined,
                         size: 64,
-                        color: Colors.red,
+                        color: Colors.grey,
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'حدث خطأ في تحميل القصص',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.red[600],
-                        ),
+                        'لم يتم تفعيل اي قصص لهذا الطفل حاليًا',
+                        style: getBoldStyle(color: Colors.grey),
                       ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
+                      const SizedBox(height: 20),
+
+                      ElevatedButton.icon(
                         onPressed: () {
-                          context.read<ChildrenStoriesCubit>().getStoriesChildren();
+                          context
+                              .read<ChildrenStoriesCubit>()
+                              .getStoriesChildren();
                         },
-                        child: const Text('إعادة المحاولة'),
+                        label: Text('إعادة التحميل',   style: getBoldStyle(color: ColorManager.white),),
+                        icon: Icon(Icons.refresh),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.primaryColor,
+                          foregroundColor: ColorManager.white,
+
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -115,8 +118,6 @@ class StoryChildrenScreen extends StatelessWidget {
               ),
             );
           }
-
-
           return const SkeCardUser();
         },
       ),

@@ -13,7 +13,7 @@ class StoriesUseCase implements StoriesUseCaseRepo {
   StoriesUseCase(this.repository);
 
   @override
-  Future<Result<ChildrenStoriesEntity?>> getStoriesChildren(int idChildren) {
+  Future<Result<ChildrenStoriesModelEntity?>> getStoriesChildren(int idChildren) {
     return repository.getStoriesChildren(idChildren);
   }
 }

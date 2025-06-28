@@ -3,7 +3,6 @@
   "helloWorld": "Hello World!",
   "home": "home",
   "category": "category",
-
   "categories": "categories",
   "user": "user",
   "search": "search",
@@ -95,6 +94,11 @@
   "editProfile": "Edit Profile",
   "logout": "Logout",
   "removeAccount": "Remove account",
-  "myChildren": "MyChildren"
+  "myChildren": "MyChildren",
+  "yearsOld": "years",
+  "bestPlaymate": "best playmate",
+  "addBestPlaymate": "add best playmate",
+  "invalidAge": "Please enter valid age",
+  "add_one_friend_only": "You can only add one friend"
 
 }

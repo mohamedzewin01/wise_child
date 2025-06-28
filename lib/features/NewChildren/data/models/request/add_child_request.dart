@@ -24,6 +24,9 @@ class AddNewChildRequest {
   final List<Siblings>? siblings;
   @JsonKey(name: "friends")
   final List<Friends>? friends;
+  @JsonKey(name: "best_playmate")
+  final List<BestPlaymate>? bestPlaymate ;
+
 
   AddNewChildRequest ({
     this.userId,
@@ -34,6 +37,7 @@ class AddNewChildRequest {
     this.imageUrl,
     this.siblings,
     this.friends,
+    this.bestPlaymate
   });
 
   factory AddNewChildRequest.fromJson(Map<String, dynamic> json) {
@@ -97,3 +101,27 @@ class Friends {
 
 
 
+@JsonSerializable()
+class BestPlaymate {
+
+  @JsonKey(name: "name")
+  final String? name;
+  @JsonKey(name: "age")
+  final int? age;
+  @JsonKey(name: "gender")
+  final String? gender;
+
+  BestPlaymate ({
+    this.name,
+    this.age,
+    this.gender,
+  });
+
+  factory BestPlaymate.fromJson(Map<String, dynamic> json) {
+    return _$BestPlaymateFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$BestPlaymateToJson(this);
+  }
+}

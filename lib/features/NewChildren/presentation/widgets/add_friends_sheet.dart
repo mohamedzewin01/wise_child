@@ -109,18 +109,17 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/utils/custom_validator.dart';
 import 'package:wise_child/core/widgets/custom_text_form.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/presentation/widgets/section_header.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class AddFriendsSheet extends StatefulWidget {
-  final String personType;
-
   const AddFriendsSheet({super.key, required this.personType});
-
+  final String personType;
   @override
-  _AddFriendsSheetState createState() => _AddFriendsSheetState();
+  State<AddFriendsSheet> createState() => _AddFriendsSheetState();
 }
 
 class _AddFriendsSheetState extends State<AddFriendsSheet> {
@@ -178,6 +177,7 @@ class _AddFriendsSheetState extends State<AddFriendsSheet> {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.enterName;
                       }
+
                       return null;
                     },
                   ),
@@ -186,12 +186,13 @@ class _AddFriendsSheetState extends State<AddFriendsSheet> {
                     controller: _ageController,
                     hintText: AppLocalizations.of(context)!.age,
                     textInputType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)!.enterAge;
-                      }
-                      return null;
-                    },
+                    validator: (value) => CustomValidator.validateAge(
+                      value,
+                      emptyMessage: AppLocalizations.of(context)!.enterAge,
+                      invalidMessage: AppLocalizations.of(
+                        context,
+                      )!.invalidAge,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   SectionHeader(
@@ -323,3 +324,7 @@ class _AddFriendsSheetState extends State<AddFriendsSheet> {
     );
   }
 }
+
+
+
+
