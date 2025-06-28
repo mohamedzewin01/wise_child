@@ -23,7 +23,7 @@ class StoryChildrenScreen extends StatelessWidget {
           }
           if (state is ChildrenStoriesSuccess) {
             final List<StoriesModeData> stories =
-                state.getChildrenEntity?.data ?? [];
+                state.getChildrenEntity?.data?.reversed.toList() ?? [];
             if (stories.isEmpty) {
               return SliverToBoxAdapter(
                 child: Center(
