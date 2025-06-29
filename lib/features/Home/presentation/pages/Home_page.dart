@@ -1,223 +1,11 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:wise_child/core/api/api_constants.dart';
-// import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
-// import 'package:wise_child/core/widgets/custom_app_bar.dart';
-// import 'package:wise_child/l10n/app_localizations.dart';
-//
-// import '../../../../core/di/di.dart';
-// import '../bloc/Home_cubit.dart';
-//
-// class HomePage extends StatefulWidget {
-//   const HomePage({super.key});
-//
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage> {
-//   late HomeCubit viewModel;
-//
-//   @override
-//   void initState() {
-//     viewModel = getIt.get<HomeCubit>();
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider.value(value: viewModel, child: HomeScreen());
-//   }
-// }
-//
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({super.key});
-//
-//   @override
-//   State<HomeScreen> createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomeScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final textTheme = Theme.of(context).textTheme;
-//
-//     return Scaffold(
-//       body: CustomScrollView(
-//         slivers: [
-//           SliverCustomAppBar(),
-//           SliverToBoxAdapter(child: _buildHeader(textTheme)),
-//           SliverToBoxAdapter(child: const SizedBox(height: 24)),
-//           SliverToBoxAdapter(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               child: Text('Progress Overview', style: textTheme.titleMedium),
-//             ),
-//           ),
-//           SliverToBoxAdapter(child: const SizedBox(height: 12)),
-//           SliverToBoxAdapter(child: _buildProgressOverview(textTheme)),
-//           SliverToBoxAdapter(child: const SizedBox(height: 24)),
-//           SliverToBoxAdapter(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               child: Text(
-//                 AppLocalizations.of(context)!.myChildren,
-//                 style: textTheme.titleMedium,
-//               ),
-//             ),
-//           ),
-//           SliverToBoxAdapter(child: const SizedBox(height: 12)),
-//           SliverToBoxAdapter(child: _buildMyChildren()),
-//           SliverToBoxAdapter(child: const SizedBox(height: 30)),
-//           SliverToBoxAdapter(child: _buildUploadCustomStoryButton(textTheme)),
-//           SliverToBoxAdapter(
-//             child: const SizedBox(height: kBottomNavigationBarHeight),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildHeader(TextTheme textTheme) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           const SizedBox(height: 16),
-//           Row(
-//             children: [
-//               CircleAvatar(
-//                 radius: 40,
-//                 backgroundImage: NetworkImage(
-//                   CacheService.getData(key: CacheKeys.userPhoto),
-//                 ),
-//                 // Use your asset
-//                 backgroundColor: Colors.grey[200],
-//               ),
-//               const SizedBox(width: 16),
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     'Hi, ${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}!',
-//                     style: textTheme.titleLarge,
-//                   ),
-//                   Text(
-//                     'Welcome back',
-//                     style: textTheme.bodyMedium?.copyWith(fontSize: 16),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildProgressOverview(TextTheme textTheme) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//       child: Row(
-//         children: [
-//           Expanded(child: _buildProgressCard(textTheme, 'Stories Read', '15')),
-//           const SizedBox(width: 16),
-//           Expanded(child: _buildProgressCard(textTheme, 'Days Active', '22')),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildProgressCard(TextTheme textTheme, String title, String value) {
-//     return Card(
-//       elevation: 1,
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-//       color: Colors.grey[50],
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-//         child: Column(
-//           children: [
-//             Text(
-//               title,
-//               style: textTheme.bodyMedium?.copyWith(color: Colors.black54),
-//             ),
-//             const SizedBox(height: 8),
-//             Text(value, style: textTheme.headlineSmall?.copyWith(fontSize: 28)),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildMyChildren() {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//       child: Row(
-//         children: [
-//           _buildChildAvatar(),
-//           const SizedBox(width: 10),
-//           _buildChildAvatar(),
-//           // Add more children or an "add child" button
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildChildAvatar() {
-//     return Container(
-//       padding: const EdgeInsets.all(2), // For border effect if needed
-//       decoration: BoxDecoration(
-//         shape: BoxShape.circle,
-//         color: Colors.white, // Background for the border
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.grey.withOpacity(0.2),
-//             spreadRadius: 1,
-//             blurRadius: 3,
-//           ),
-//         ],
-//       ),
-//       child: CircleAvatar(
-//         radius: 25,
-//         backgroundImage: NetworkImage(
-//           CacheService.getData(key: CacheKeys.userPhoto),
-//         ), // Use your asset
-//         backgroundColor: Colors.grey[200],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildUploadCustomStoryButton(TextTheme textTheme) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//       child: Center(
-//         child: TextButton(
-//           onPressed: () {
-//             /* TODO: Upload action */
-//           },
-//           child: Text(
-//             'Upload Custom Story',
-//             style: textTheme.bodyLarge?.copyWith(
-//               color: Theme.of(context).colorScheme.primary,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-///
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/custom_app_bar.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
-
 import '../../../../core/di/di.dart';
+import '../../../../core/widgets/custom_app_bar_app.dart';
 import '../bloc/Home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -282,16 +70,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         opacity: _fadeAnimation,
         child: CustomScrollView(
           slivers: [
-            SliverCustomAppBar(),
-            SliverToBoxAdapter(child: _buildWelcomeHeader(textTheme, colorScheme)),
+            SliverToBoxAdapter(
+              child: CustomAppBarApp(
+                title: AppLocalizations.of(context)!.appName,
+                subtitle: '',
+                colorContainerStack: ColorManager.grey.withOpacity(0.09)),
+              ),
+
+            SliverToBoxAdapter(
+              child: _buildWelcomeHeader(textTheme, colorScheme),
+            ),
             SliverToBoxAdapter(child: const SizedBox(height: 24)),
             SliverToBoxAdapter(child: _buildQuickActions(colorScheme)),
             SliverToBoxAdapter(child: const SizedBox(height: 24)),
-            SliverToBoxAdapter(child: _buildProgressSection(textTheme, colorScheme)),
+            SliverToBoxAdapter(
+              child: _buildProgressSection(textTheme, colorScheme),
+            ),
             SliverToBoxAdapter(child: const SizedBox(height: 24)),
-            SliverToBoxAdapter(child: _buildMyChildrenSection(textTheme, colorScheme)),
+            SliverToBoxAdapter(
+              child: _buildMyChildrenSection(textTheme, colorScheme),
+            ),
             SliverToBoxAdapter(child: const SizedBox(height: 24)),
-            SliverToBoxAdapter(child: _buildFeaturedStories(textTheme, colorScheme)),
+            SliverToBoxAdapter(
+              child: _buildFeaturedStories(textTheme, colorScheme),
+            ),
             SliverToBoxAdapter(child: const SizedBox(height: 24)),
             SliverToBoxAdapter(child: _buildDailyTip(textTheme, colorScheme)),
             SliverToBoxAdapter(
@@ -304,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildWelcomeHeader(TextTheme textTheme, ColorScheme colorScheme) {
-    final firstName = CacheService.getData(key: CacheKeys.userFirstName) ?? 'عزيزي الوالد';
+    final firstName =
+        CacheService.getData(key: CacheKeys.userFirstName) ?? 'عزيزي الوالد';
     final userPhoto = CacheService.getData(key: CacheKeys.userPhoto);
 
     return Container(
@@ -340,7 +143,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             child: CircleAvatar(
               radius: 35,
-              backgroundImage: userPhoto != null ? NetworkImage(userPhoto) : null,
+              backgroundImage: userPhoto != null
+                  ? NetworkImage(userPhoto)
+                  : null,
               backgroundColor: colorScheme.primary.withOpacity(0.1),
               child: userPhoto == null
                   ? Icon(Icons.person, size: 35, color: colorScheme.primary)
@@ -368,7 +173,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(12),
@@ -397,9 +205,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           Text(
             'الإجراءات السريعة',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           Row(
@@ -460,36 +268,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: color.withOpacity(0.2),
-            width: 1,
-          ),
+          border: Border.all(color: color.withOpacity(0.2), width: 1),
         ),
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               child: Icon(icon, color: Colors.white, size: 24),
             ),
             const SizedBox(height: 8),
             Text(
               title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               textAlign: TextAlign.center,
             ),
             Text(
               subtitle,
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 10, color: Colors.grey[600]),
               textAlign: TextAlign.center,
             ),
           ],
@@ -509,7 +305,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             children: [
               Text(
                 'إحصائيات التقدم',
-                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -581,14 +379,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildProgressCard(
-      TextTheme textTheme,
-      ColorScheme colorScheme,
-      String title,
-      String value,
-      IconData icon,
-      Color color,
-      String subtitle,
-      ) {
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    String subtitle,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -601,10 +399,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border.all(
-          color: color.withOpacity(0.1),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.1), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -632,16 +427,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           const SizedBox(height: 8),
           Text(
             title,
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: textTheme.bodySmall?.copyWith(
-              color: Colors.grey[600],
-            ),
+            style: textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
           ),
         ],
       ),
@@ -659,7 +450,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             children: [
               Text(
                 AppLocalizations.of(context)!.myChildren,
-                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               IconButton(
                 onPressed: () {
@@ -675,9 +468,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                _buildChildCard('أحمد', '7 سنوات', 'assets/images/child1.png', true),
+                _buildChildCard(
+                  'أحمد',
+                  '7 سنوات',
+                  'assets/images/child1.png',
+                  true,
+                ),
                 const SizedBox(width: 12),
-                _buildChildCard('فاطمة', '5 سنوات', 'assets/images/child2.png', false),
+                _buildChildCard(
+                  'فاطمة',
+                  '5 سنوات',
+                  'assets/images/child2.png',
+                  false,
+                ),
                 const SizedBox(width: 12),
                 _buildAddChildCard(),
               ],
@@ -688,12 +491,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildChildCard(String name, String age, String imagePath, bool isActive) {
+  Widget _buildChildCard(
+    String name,
+    String age,
+    String imagePath,
+    bool isActive,
+  ) {
     return Container(
       width: 100,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isActive ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.white,
+        color: isActive
+            ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+            : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isActive
@@ -715,12 +525,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundImage: CacheService.getData(key: CacheKeys.userPhoto) != null
-                    ? NetworkImage(CacheService.getData(key: CacheKeys.userPhoto))
+                backgroundImage:
+                    CacheService.getData(key: CacheKeys.userPhoto) != null
+                    ? NetworkImage(
+                        CacheService.getData(key: CacheKeys.userPhoto),
+                      )
                     : null,
-                backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
                 child: CacheService.getData(key: CacheKeys.userPhoto) == null
-                    ? Icon(Icons.child_care, color: Theme.of(context).colorScheme.primary)
+                    ? Icon(
+                        Icons.child_care,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                     : null,
               ),
               if (isActive)
@@ -742,18 +560,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           const SizedBox(height: 8),
           Text(
             name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             textAlign: TextAlign.center,
           ),
           Text(
             age,
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 10, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -767,26 +579,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.add,
-            size: 30,
-            color: Colors.grey[600],
-          ),
+          Icon(Icons.add, size: 30, color: Colors.grey[600]),
           const SizedBox(height: 8),
           Text(
             'إضافة طفل',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -810,9 +612,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                _buildStoryCard('الأسد الشجاع', 'قصة عن الشجاعة', Colors.orange),
+                _buildStoryCard(
+                  'الأسد الشجاع',
+                  'قصة عن الشجاعة',
+                  Colors.orange,
+                ),
                 const SizedBox(width: 12),
-                _buildStoryCard('النملة المجتهدة', 'قصة عن العمل الجاد', Colors.green),
+                _buildStoryCard(
+                  'النملة المجتهدة',
+                  'قصة عن العمل الجاد',
+                  Colors.green,
+                ),
                 const SizedBox(width: 12),
                 _buildStoryCard('الصديق الوفي', 'قصة عن الصداقة', Colors.blue),
               ],
@@ -843,11 +653,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
             child: const Center(
-              child: Icon(
-                Icons.menu_book,
-                color: Colors.white,
-                size: 40,
-              ),
+              child: Icon(Icons.menu_book, color: Colors.white, size: 40),
             ),
           ),
           Padding(
@@ -865,10 +671,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 10, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -892,9 +695,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
-        ),
+        border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
       ),
       child: Row(
         children: [
@@ -904,11 +705,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               color: colorScheme.tertiary,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.lightbulb,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: const Icon(Icons.lightbulb, color: Colors.white, size: 24),
           ),
           const SizedBox(width: 16),
           Expanded(
