@@ -264,6 +264,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           subtitle: 'تفعيل/إيقاف المساعد الذكي',
           trailing: _buildAnimatedSwitch(_isChatbotEnabled, (value) {
             setState(() => _isChatbotEnabled = value);
+            LayoutCubit.get(context).setChatbotEnabled(value);
           }),
         ),
 

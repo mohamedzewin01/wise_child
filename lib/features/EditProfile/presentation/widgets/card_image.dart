@@ -10,6 +10,7 @@ import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/values_manager.dart';
 import '../../../../core/widgets/custom_dialog.dart';
+import '../bloc/EditProfile_cubit.dart';
 
 class ChangeUserImage extends StatefulWidget {
   const ChangeUserImage({super.key});
@@ -37,7 +38,7 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
               );
               setState(() {});
               if (context.mounted) {
-
+                // context.read<NewChildrenCubit>().changeImage(resizedImageFile);
               }
             }
           },
@@ -60,9 +61,9 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
         );
       },
 
-      child: BlocBuilder<NewChildrenCubit, NewChildrenState>(
+      child: BlocBuilder<EditProfileCubit, EditProfileState>(
         builder: (context, state) {
-          final profileImage = context.read<NewChildrenCubit>().profileImage;
+          final profileImage = context.read<EditProfileCubit>().profileImage;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

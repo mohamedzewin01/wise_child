@@ -14,15 +14,14 @@ class EditProfileRequest {
   final int? age;
   @JsonKey(name: "gender")
   final String? gender;
-  @JsonKey(name: "password")
-  final String? password;
+
 
   EditProfileRequest ({
     this.id,
     this.firstName,
     this.lastName,
     this.age,
-    this.password,
+
     this.gender
   });
 

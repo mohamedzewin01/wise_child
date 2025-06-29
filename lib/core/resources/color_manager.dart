@@ -27,6 +27,11 @@ class ColorManager {
   static const Color white = Color(0xFFFFFFFF);
   static const Color red = Color(0xfff44336);
   static const Color color = Color(0xffE8F0F2);
+  static const Color darkGrey = Color(0xFF212121); // Dark Grey
+  static const Color grey = Color(0xFF9E9E9E); // Grey
+  static const Color error = Color(0xFFB00020); // Error (Red for errors)
+  static const Color success = Color(0xFF4CAF50); // Success (Green for success messages)
+  static const Color warning = Color(0xFFFFC107); // Warning (Amber for warnings)
 
 
 

@@ -1,109 +1,82 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:wise_child/assets_manager.dart';
-import 'package:wise_child/core/resources/app_constants.dart';
-import 'package:wise_child/core/resources/color_manager.dart';
-import 'package:wise_child/core/resources/style_manager.dart';
-import 'package:wise_child/core/resources/values_manager.dart';
-import 'package:wise_child/core/utils/helper.dart';
-import 'package:wise_child/l10n/app_localizations.dart';
-//
-// class CustomBottomNavigationBar extends StatefulWidget {
-//   const CustomBottomNavigationBar({super.key});
-//
-//   @override
-//   State<CustomBottomNavigationBar> createState() =>
-//       _CustomBottomNavigationBarState();
-// }
-//
-// class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-//   final PersistentTabController _controller = PersistentTabController(
-//     initialIndex: 0,
-//   );
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     const double navIconSize = 28;
-//     return PersistentTabView(
-//       context,
-//       controller: _controller,
-//       screens: AppConstants.viewOptions,
-//       items: [
-//         PersistentBottomNavBarItem(
-//           icon: SvgPicture.asset(Assets.homeSvg),
-//           title: AppLocalizations.of(context)!.home,
-//           activeColorPrimary: ColorManager.primaryColor,
-//           inactiveColorPrimary: Colors.grey,
-//         ),
-//         PersistentBottomNavBarItem(
-//           icon: SvgPicture.asset(Assets.childrenSvg),
-//           title: AppLocalizations.of(context)!.children,
-//           activeColorPrimary: ColorManager.primaryColor,
-//           inactiveColorPrimary: Colors.grey,
-//         ),
-//         PersistentBottomNavBarItem(
-//           icon: SvgPicture.asset(Assets.storiesSvg),
-//           title: AppLocalizations.of(context)!.stories,
-//           activeColorPrimary: ColorManager.primaryColor,
-//
-//           inactiveColorPrimary: Colors.grey,
-//         ),
-//         PersistentBottomNavBarItem(
-//           icon: SvgPicture.asset(Assets.settingSvg),
-//           opacity: .8,
-//           title: AppLocalizations.of(context)!.setting,
-//           activeColorPrimary: ColorManager.primaryColor,
-//           inactiveColorPrimary: Colors.grey,
-//         ),
-//       ],
-//       handleAndroidBackButtonPress: true,
-//       resizeToAvoidBottomInset: true,
-//       stateManagement: true,
-//       hideNavigationBarWhenKeyboardAppears: true,
-//       popBehaviorOnSelectedNavBarItemPress: PopBehavior.once,
-//
-//       backgroundColor: ColorManager.white,
-//       bottomScreenMargin: 10,
-//       decoration: NavBarDecoration(
-//         borderRadius: BorderRadius.circular(20),
-//         colorBehindNavBar: Colors.white,
-//         border: Border.all(color: Colors.grey.shade200, width: 1),
-//       ),
-//       isVisible: true,
-//
-//       margin: EdgeInsets.all(8),
-//       confineToSafeArea: true,
-//       navBarHeight: kBottomNavigationBarHeight + 5,
-//       navBarStyle:
-//           NavBarStyle.style3, // Choose the nav bar style with this property
-//     );
-//   }
-// }
 
-
-
-
-// class GradientBackground extends StatelessWidget {
-//   final Widget child;
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/svg.dart';
+// import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+// import 'package:wise_child/assets_manager.dart';
+// import 'package:wise_child/core/resources/app_constants.dart';
+// import 'package:wise_child/core/resources/color_manager.dart';
+// import 'package:wise_child/core/resources/style_manager.dart';
+// import 'package:wise_child/core/resources/values_manager.dart';
+// import 'package:wise_child/core/utils/helper.dart';
+// import 'package:wise_child/l10n/app_localizations.dart';
 //
-//   const GradientBackground({super.key, required this.child});
+//
+// class CustomBottomNavigationBar extends StatelessWidget {
+//   const CustomBottomNavigationBar({
+//     super.key,
+//     required this.currentIndex,
+//     required this.onItemTapped,
+//   });
+//
+//   final int currentIndex;
+//   final Function(int) onItemTapped;
 //
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
-//       decoration: const BoxDecoration(
-//         gradient: LinearGradient(
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//           colors: [Color(0xFF667eea), Color(0xFF764ba2), Color(0xFF6B73FF)],
-//           stops: [0.0, 0.5, 1.0],
-//         ),
+//
+//       decoration: BoxDecoration(
+//           color: ColorManager.white,
+//           borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)))
+//       ,
+//       child: BottomNavigationBar(
+//         elevation: 6,
+//         backgroundColor: ColorManager.background,
+//
+//         items: [
+//           BottomNavigationBarItem(
+//             icon: buildIcon(Assets.homeSvg, 0, currentIndex),
+//             label: AppLocalizations.of(context)!.home,
+//             backgroundColor: ColorManager.background,
+//           ),
+//           BottomNavigationBarItem(
+//             icon: buildIcon(Assets.childrenSvg, 1, currentIndex),
+//             label: AppLocalizations.of(context)!.children,
+//             backgroundColor: ColorManager.background,
+//           ),
+//           BottomNavigationBarItem(
+//             icon: buildIcon(Assets.storiesSvg, 2, currentIndex),
+//             label: AppLocalizations.of(context)!.stories,
+//             backgroundColor: ColorManager.background,
+//           ),
+//           BottomNavigationBarItem(
+//             icon: buildIcon(Assets.settingSvg, 3, currentIndex),
+//             label: AppLocalizations.of(context)!.setting,
+//             backgroundColor: ColorManager.background,
+//           ),
+//
+//         ],
+//         selectedFontSize: AppSize.s14,
+//         unselectedItemColor: ColorManager.chatAssistantText,
+//         selectedItemColor: ColorManager.primaryColor,
+//         selectedLabelStyle: getSemiBoldStyle(color: ColorManager.textSecondary),
+//         unselectedLabelStyle: getSemiBoldStyle(color: ColorManager.textSecondary),
+//         currentIndex: currentIndex,
+//         onTap: onItemTapped,
+//         type: BottomNavigationBarType.fixed,
+//
 //       ),
-//       child: child,
 //     );
 //   }
 // }
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wise_child/assets_manager.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/resources/values_manager.dart';
+import 'package:wise_child/l10n/app_localizations.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
@@ -118,48 +91,129 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
+      // margin: const EdgeInsets.all(AppMargin.m16),
       decoration: BoxDecoration(
-          color: ColorManager.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)))
-      ,
-      child: BottomNavigationBar(
-        elevation: 6,
-        backgroundColor: ColorManager.background,
-
-        items: [
-          BottomNavigationBarItem(
-            icon: buildIcon(Assets.homeSvg, 0, currentIndex),
-            label: AppLocalizations.of(context)!.home,
-            backgroundColor: ColorManager.background,
+        color: ColorManager.white,
+        borderRadius: BorderRadius.circular(AppSize.s20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
-          BottomNavigationBarItem(
-            icon: buildIcon(Assets.childrenSvg, 1, currentIndex),
-            label: AppLocalizations.of(context)!.children,
-            backgroundColor: ColorManager.background,
-          ),
-          BottomNavigationBarItem(
-            icon: buildIcon(Assets.storiesSvg, 2, currentIndex),
-            label: AppLocalizations.of(context)!.stories,
-            backgroundColor: ColorManager.background,
-          ),
-          BottomNavigationBarItem(
-            icon: buildIcon(Assets.settingSvg, 3, currentIndex),
-            label: AppLocalizations.of(context)!.setting,
-            backgroundColor: ColorManager.background,
-          ),
-
         ],
-        selectedFontSize: AppSize.s14,
-        unselectedItemColor: ColorManager.chatAssistantText,
-        selectedItemColor: ColorManager.primaryColor,
-        selectedLabelStyle: getSemiBoldStyle(color: ColorManager.textSecondary),
-        unselectedLabelStyle: getSemiBoldStyle(color: ColorManager.textSecondary),
-        currentIndex: currentIndex,
-        onTap: onItemTapped,
-        type: BottomNavigationBarType.fixed,
-
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppSize.s20),
+        child: BottomNavigationBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          items: [
+            _buildNavItem(
+              context,
+              Assets.homeSvg,
+              AppLocalizations.of(context)!.home,
+              0,
+            ),
+            _buildNavItem(
+              context,
+              Assets.childrenSvg,
+              AppLocalizations.of(context)!.children,
+              1,
+            ),
+            _buildNavItem(
+              context,
+              Assets.storiesSvg,
+              AppLocalizations.of(context)!.stories,
+              2,
+            ),
+            _buildNavItem(
+              context,
+              Assets.settingSvg,
+              AppLocalizations.of(context)!.setting,
+              3,
+            ),
+          ],
+          selectedFontSize: AppSize.s12,
+          unselectedFontSize: AppSize.s10,
+          selectedItemColor: ColorManager.primaryColor,
+          unselectedItemColor: ColorManager.grey,
+          selectedLabelStyle: getSemiBoldStyle(
+            color: ColorManager.primaryColor,
+            fontSize: AppSize.s12,
+          ),
+          unselectedLabelStyle: getRegularStyle(
+            color: ColorManager.grey,
+            fontSize: AppSize.s10,
+          ),
+          currentIndex: currentIndex,
+          onTap: onItemTapped,
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+        ),
       ),
     );
   }
+
+  BottomNavigationBarItem _buildNavItem(
+      BuildContext context,
+      String iconPath,
+      String label,
+      int index,
+      ) {
+    final bool isSelected = currentIndex == index;
+
+    return BottomNavigationBarItem(
+      icon: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppPadding.p12,
+          vertical: AppPadding.p8,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? ColorManager.primaryColor.withOpacity(0.15)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(AppSize.s12),
+        ),
+        child: SvgPicture.asset(
+          iconPath,
+          width: AppSize.s24,
+          height: AppSize.s24,
+          colorFilter: ColorFilter.mode(
+            isSelected ? ColorManager.primaryColor : ColorManager.grey,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+      label: label,
+    );
+  }
+}
+
+// دالة مساعدة لبناء الأيقونات (إذا كنت تحتاجها في مكان آخر)
+Widget buildIcon(String iconPath, int index, int currentIndex) {
+  final bool isSelected = currentIndex == index;
+
+  return Container(
+    padding: const EdgeInsets.symmetric(
+      horizontal: AppPadding.p8,
+      vertical: AppPadding.p4,
+    ),
+    decoration: BoxDecoration(
+      color: isSelected
+          ? ColorManager.primaryColor.withOpacity(0.15)
+          : Colors.transparent,
+      borderRadius: BorderRadius.circular(AppSize.s8),
+    ),
+    child: SvgPicture.asset(
+      iconPath,
+      width: AppSize.s24,
+      height: AppSize.s24,
+      colorFilter: ColorFilter.mode(
+        isSelected ? ColorManager.primaryColor : ColorManager.grey,
+        BlendMode.srcIn,
+      ),
+    ),
+  );
 }

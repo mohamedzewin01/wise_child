@@ -7,6 +7,7 @@ import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCub
 import 'package:wise_child/features/Stories/presentation/bloc/Stories_cubit.dart';
 import 'package:wise_child/features/layout/presentation/cubit/layout_cubit.dart';
 import '../../../../core/di/di.dart';
+import '../../../../core/widgets/custom_app_bar_app.dart';
 import '../widgets/side_by_side_stories_grid.dart';
 
 class StoriesPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _StoriesPageState extends State<StoriesPage>
   late ChildrenStoriesCubit childrenStoriesCubit;
   late AnimationController _fadeController;
   late AnimationController _slideController;
+
 
   @override
   void initState() {
@@ -82,7 +84,10 @@ class _StoriesPageState extends State<StoriesPage>
           ),
           child: Column(
             children: [
-              _buildCustomAppBar(),
+              CustomAppBarApp(
+                title: 'مكتبة القصص',
+                subtitle: 'اختر طفلك واستمتع بالقصص المثيرة' ,
+              ),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: _onRefresh,
@@ -103,95 +108,6 @@ class _StoriesPageState extends State<StoriesPage>
     );
   }
 
-  Widget _buildCustomAppBar() {
-    return Container(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 10,
-        left: 20,
-        right: 20,
-        bottom: 15,
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            ColorManager.primaryColor.withOpacity(0.1),
-            Colors.transparent,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: Row(
-        children: [
-          // زر الرجوع
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_rounded,
-                color: ColorManager.primaryColor,
-              ),
-              onPressed: () => LayoutCubit.get(context).changeIndex(0),
-            ),
-          ),
-
-          const SizedBox(width: 16),
-
-          // العنوان والوصف
-          Expanded(
-            child: FadeTransition(
-              opacity: _fadeController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'مكتبة القصص',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: ColorManager.primaryColor,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'اختر طفلك واستمتع بالقصص المثيرة',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // أيقونة إضافية
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: ColorManager.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              Icons.auto_stories_rounded,
-              color: ColorManager.primaryColor,
-              size: 24,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildChildrenSidebar() {
     return Container(
@@ -256,6 +172,7 @@ class _StoriesPageState extends State<StoriesPage>
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context.read<ChildrenStoriesCubit>().setInitialChild(
                           children.first.idChildren ?? 0);
+
                     });
                   }
 

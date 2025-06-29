@@ -48,6 +48,9 @@ class CacheKeys {
   static const String userFirstName = 'userFirstName';
   static const String userLastName = 'userLastName';
   static const String userEmail = 'userEmail';
+  static const String userGender = 'userGender';
+  static const String userAge = 'userAge';
+  static const String userPhone = 'userPhone';
 
 
 

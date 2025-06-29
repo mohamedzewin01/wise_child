@@ -697,6 +697,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can only add one friend'**
   String get add_one_friend_only;
+
+  /// No description provided for @personalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInformation;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @profileUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdatedSuccessfully;
+
+  /// No description provided for @pleaseEnterYourFirstName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get pleaseEnterYourFirstName;
+
+  /// No description provided for @pleaseEnterYourLastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your last name'**
+  String get pleaseEnterYourLastName;
+
+  /// No description provided for @pleaseEnterYourPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number'**
+  String get pleaseEnterYourPhoneNumber;
+
+  /// No description provided for @pleaseEnterYourAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your age'**
+  String get pleaseEnterYourAge;
+
+  /// No description provided for @pleaseSelectGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select gender'**
+  String get pleaseSelectGender;
+
+  /// No description provided for @pleaseConfirmYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get pleaseConfirmYourPassword;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @firstNameMustBeAtLeast2Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'First name must be at least 2 characters'**
+  String get firstNameMustBeAtLeast2Characters;
+
+  /// No description provided for @lastNameMustBeAtLeast2Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name must be at least 2 characters'**
+  String get lastNameMustBeAtLeast2Characters;
+
+  /// No description provided for @pleaseEnterAValidPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get pleaseEnterAValidPhoneNumber;
+
+  /// No description provided for @pleaseEnterAValidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid age'**
+  String get pleaseEnterAValidAge;
+
+  /// No description provided for @passwordMustBeAtLeast6Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordMustBeAtLeast6Characters;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @changePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get changePhoto;
+
+  /// No description provided for @selectPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Select photo'**
+  String get selectPhoto;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhoto;
+
+  /// No description provided for @areYouSureRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove the photo?'**
+  String get areYouSureRemovePhoto;
+
+  /// No description provided for @imageUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Image updated successfully'**
+  String get imageUpdatedSuccessfully;
+
+  /// No description provided for @imageRemovedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Image removed successfully'**
+  String get imageRemovedSuccessfully;
+
+  /// No description provided for @failedToUpdateImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the image'**
+  String get failedToUpdateImage;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPassword;
+
+  /// No description provided for @confirmYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get confirmYourPassword;
 }
 
 class _AppLocalizationsDelegate

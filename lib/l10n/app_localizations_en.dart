@@ -309,4 +309,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add_one_friend_only => 'You can only add one friend';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get profileUpdatedSuccessfully => 'Profile updated successfully';
+
+  @override
+  String get pleaseEnterYourFirstName => 'Please enter your first name';
+
+  @override
+  String get pleaseEnterYourLastName => 'Please enter your last name';
+
+  @override
+  String get pleaseEnterYourPhoneNumber => 'Please enter your phone number';
+
+  @override
+  String get pleaseEnterYourAge => 'Please enter your age';
+
+  @override
+  String get pleaseSelectGender => 'Please select gender';
+
+  @override
+  String get pleaseConfirmYourPassword => 'Please confirm your password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get firstNameMustBeAtLeast2Characters =>
+      'First name must be at least 2 characters';
+
+  @override
+  String get lastNameMustBeAtLeast2Characters =>
+      'Last name must be at least 2 characters';
+
+  @override
+  String get pleaseEnterAValidPhoneNumber =>
+      'Please enter a valid phone number';
+
+  @override
+  String get pleaseEnterAValidAge => 'Please enter a valid age';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'Password must be at least 6 characters';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get changePhoto => 'Change photo';
+
+  @override
+  String get selectPhoto => 'Select photo';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String get areYouSureRemovePhoto =>
+      'Are you sure you want to remove the photo?';
+
+  @override
+  String get imageUpdatedSuccessfully => 'Image updated successfully';
+
+  @override
+  String get imageRemovedSuccessfully => 'Image removed successfully';
+
+  @override
+  String get failedToUpdateImage => 'Failed to update the image';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get confirmPassword => 'Confirm password';
+
+  @override
+  String get confirmYourPassword => 'Confirm your password';
 }

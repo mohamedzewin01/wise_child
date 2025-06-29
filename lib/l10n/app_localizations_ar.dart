@@ -308,4 +308,97 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get add_one_friend_only => 'يمكنك إضافة صديق واحد فقط';
+
+  @override
+  String get personalInformation => 'المعلومات الشخصية';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+
+  @override
+  String get profileUpdatedSuccessfully => 'تم تحديث الملف الشخصي بنجاح';
+
+  @override
+  String get pleaseEnterYourFirstName => 'يرجى إدخال الاسم الأول';
+
+  @override
+  String get pleaseEnterYourLastName => 'يرجى إدخال الاسم الأخير';
+
+  @override
+  String get pleaseEnterYourPhoneNumber => 'يرجى إدخال رقم الهاتف';
+
+  @override
+  String get pleaseEnterYourAge => 'يرجى إدخال العمر';
+
+  @override
+  String get pleaseSelectGender => 'يرجى اختيار الجنس';
+
+  @override
+  String get pleaseConfirmYourPassword => 'يرجى تأكيد كلمة المرور';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get firstNameMustBeAtLeast2Characters =>
+      'الاسم الأول يجب أن يكون على الأقل حرفين';
+
+  @override
+  String get lastNameMustBeAtLeast2Characters =>
+      'الاسم الأخير يجب أن يكون على الأقل حرفين';
+
+  @override
+  String get pleaseEnterAValidPhoneNumber => 'يرجى إدخال رقم هاتف صحيح';
+
+  @override
+  String get pleaseEnterAValidAge => 'يرجى إدخال عمر صحيح';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'كلمة المرور يجب أن تكون على الأقل 6 أحرف';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get changePhoto => 'تغيير الصورة';
+
+  @override
+  String get selectPhoto => 'اختيار صورة';
+
+  @override
+  String get remove => 'حذف';
+
+  @override
+  String get removePhoto => 'حذف الصورة';
+
+  @override
+  String get areYouSureRemovePhoto => 'هل أنت متأكد من حذف الصورة؟';
+
+  @override
+  String get imageUpdatedSuccessfully => 'تم تحديث الصورة بنجاح';
+
+  @override
+  String get imageRemovedSuccessfully => 'تم حذف الصورة بنجاح';
+
+  @override
+  String get failedToUpdateImage => 'فشل في تحديث الصورة';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get confirmYourPassword => 'تأكيد كلمة المرور';
 }
