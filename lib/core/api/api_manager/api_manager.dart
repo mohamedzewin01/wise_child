@@ -14,6 +14,8 @@ import 'package:wise_child/features/Children/data/models/request/delete_children
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/Children/data/models/response/delete_children_dto.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
+import 'package:wise_child/features/EditProfile/data/models/request/edit_profile_request.dart';
+import 'package:wise_child/features/EditProfile/data/models/response/edit_profile_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
@@ -92,6 +94,10 @@ abstract class ApiService {
   @POST(ApiConstants.getChildrenStories3)
   Future<ChildrenStoriesModelDto?> getChildrenStories(
       @Body() GetChildrenStoriesRequest? getChildrenStoriesRequest
+      );
+  @POST(ApiConstants.editProfile)
+  Future<EditProfileDto?> editProfile(
+      @Body() EditProfileRequest? editProfileRequest
       );
 
 

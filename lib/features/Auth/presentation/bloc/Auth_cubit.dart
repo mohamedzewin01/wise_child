@@ -25,6 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
             CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
             CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
             CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
+            CacheService.setData(key: CacheKeys.userEmail, value: result.data!.user?.email);
             emit(AuthLoginSuccess(result.data!));
           }
         }
@@ -49,6 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
             CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
             CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
             CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
+            CacheService.setData(key: CacheKeys.userEmail, value: result.data!.user?.email);
             emit(AuthSingUpSuccess(result.data!));
           }
         }
@@ -73,6 +75,7 @@ class AuthCubit extends Cubit<AuthState> {
             CacheService.setData(key: CacheKeys.userPhoto, value: result.data!.user?.profileImage);
             CacheService.setData(key: CacheKeys.userFirstName, value: result.data!.user?.firstName);
             CacheService.setData(key: CacheKeys.userLastName, value: result.data!.user?.lastName);
+            CacheService.setData(key: CacheKeys.userEmail, value: result.data!.user?.email);
             emit(AuthLoginSuccess(result.data!));
           }
         }

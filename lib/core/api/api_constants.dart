@@ -16,6 +16,7 @@ class ApiConstants {
   static const String getClipsStory = "stories/getClipsStory4";
   static const String getChildrenStories = "stories/getChildrenStories2";
   static const String getChildrenStories3 = "stories/getChildrenStories3";
+  static const String editProfile = "profile/edit_user";
 
 
 }

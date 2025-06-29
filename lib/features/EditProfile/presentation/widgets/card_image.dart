@@ -37,7 +37,7 @@ class _ChangeUserImageState extends State<ChangeUserImage> {
               );
               setState(() {});
               if (context.mounted) {
-                context.read<NewChildrenCubit>().changeImage(resizedImageFile);
+
               }
             }
           },

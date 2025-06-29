@@ -60,212 +60,206 @@ class _EditProfileBodyState extends State<EditProfileBody> {
     return Scaffold(
       backgroundColor: ColorManager.appBackground,
       body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 40.0),
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ChangeUserImage(),
-                      SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          children: [
-
-
-                            SizedBox(height: 15),
-                            Row(
-                              children: [
-                                SizedBox(height: 15),
-                                Expanded(
-                                  child: CustomTextFormAuth(
-                                    title: AppLocalizations.of(
-                                      context,
-                                    )!.firstName,
-                                    controller:
-                                    _firstNameController,
-                                    hintText:  AppLocalizations.of(
-                                      context,
-                                    )!.firstName,
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty) {
-                                        return AppLocalizations.of(
-                                          context,
-                                        )!.pleaseEnterYourUsername;
-                                      }
-                                      return null;
-                                    },
-                                    textInputType: TextInputType.name,
-                                  ),
-                                )
-                                  ,
-                                SizedBox(width: 16),
-
-                                  Expanded(
-                                  child: CustomTextFormAuth(
-                                    title: AppLocalizations.of(
-                                      context,
-                                    )!.lastName,
-                                    controller:
-                                    _lastNameController,
-                                    hintText: AppLocalizations.of(
-                                      context,
-                                    )!.lastName,
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty) {
-                                        return AppLocalizations.of(
-                                          context,
-                                        )!.pleaseEnterYourUsername;
-                                      }
-                                      return null;
-                                    },
-                                    textInputType: TextInputType.name,
-                                  ),
-                                )
-
-                              ],
-                            ),
-                            CustomTextFormAuth(
-                              title: AppLocalizations.of(context)!.email,
-                              controller: _emailController,
-                              hintText: 'm@example.com',
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.pleaseEnterYourEmail;
-                                }
-                                if (!value.contains('@')) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.pleaseEnterAValidEmail;
-                                }
-                                return null;
-                              },
-                              textInputType: TextInputType.emailAddress,
-                            ),
-
-                             CustomTextFormAuth(
-                              controller: _dateController,
-                              hintText: '21/10/1999',
-                              title: AppLocalizations.of(
-                                context,
-                              )!.birthday,
-                              suffixIcon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey[600],
-                              ),
-                              readOnly: true,
-                              onTap: () {},
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter event Date';
-                                }
-                                return null;
-                              },
-                            ),
-
-                            CustomTextFormAuth(
-                              title: AppLocalizations.of(context)!.password,
-                              controller: _passwordController,
-                              hintText: AppLocalizations.of(
-                                context,
-                              )!.enterYourPassword,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.pleaseEnterYourPassword;
-                                }
-                                if (value.length < 6) {
-                                  return 'Password must be at least 6 characters';
-                                }
-                                return null;
-                              },
-                              textInputType: TextInputType.visiblePassword,
-                            ),
-
-                                Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {
-
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                                child: Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.forgotPassword,
-                                  style: getSemiBoldStyle(
-                                    color: ColorManager.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            )
-
-                          ],
-                        ),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ChangeUserImage(),
+                    SizedBox(height: 20),
+                    Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey[300]!),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 16,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              onPressed:(){},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorManager.primaryColor,
-                                foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15),
+                          Row(
+                            children: [
+                              SizedBox(height: 15),
+                              Expanded(
+                                child: CustomTextFormAuth(
+                                  title: AppLocalizations.of(
+                                    context,
+                                  )!.firstName,
+                                  controller:
+                                  _firstNameController,
+                                  hintText:  AppLocalizations.of(
+                                    context,
+                                  )!.firstName,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty) {
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.pleaseEnterYourUsername;
+                                    }
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.name,
                                 ),
-                                elevation: 3,
+                              )
+                                ,
+                              SizedBox(width: 16),
+
+                                Expanded(
+                                child: CustomTextFormAuth(
+                                  title: AppLocalizations.of(
+                                    context,
+                                  )!.lastName,
+                                  controller:
+                                  _lastNameController,
+                                  hintText: AppLocalizations.of(
+                                    context,
+                                  )!.lastName,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty) {
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.pleaseEnterYourUsername;
+                                    }
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.name,
+                                ),
+                              )
+
+                            ],
+                          ),
+                          CustomTextFormAuth(
+                            title: AppLocalizations.of(context)!.email,
+                            controller: _emailController,
+                            hintText: 'm@example.com',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppLocalizations.of(
+                                  context,
+                                )!.pleaseEnterYourEmail;
+                              }
+                              if (!value.contains('@')) {
+                                return AppLocalizations.of(
+                                  context,
+                                )!.pleaseEnterAValidEmail;
+                              }
+                              return null;
+                            },
+                            textInputType: TextInputType.emailAddress,
+                          ),
+
+                           CustomTextFormAuth(
+                            controller: _dateController,
+                            hintText: '21/10/1999',
+                            title: AppLocalizations.of(
+                              context,
+                            )!.birthday,
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: Colors.grey[600],
+                            ),
+                            readOnly: true,
+                            onTap: () {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter event Date';
+                              }
+                              return null;
+                            },
+                          ),
+
+                          CustomTextFormAuth(
+                            title: AppLocalizations.of(context)!.password,
+                            controller: _passwordController,
+                            hintText: AppLocalizations.of(
+                              context,
+                            )!.enterYourPassword,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppLocalizations.of(
+                                  context,
+                                )!.pleaseEnterYourPassword;
+                              }
+                              if (value.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              }
+                              return null;
+                            },
+                            textInputType: TextInputType.visiblePassword,
+                          ),
+
+                              Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
                               ),
                               child: Text(
-
-                                   AppLocalizations.of(context)!.register,///
-
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                AppLocalizations.of(
+                                  context,
+                                )!.forgotPassword,
+                                style: getSemiBoldStyle(
+                                  color: ColorManager.primaryColor,
                                 ),
                               ),
                             ),
+                          )
 
-
-                            SizedBox(height: 25),
-
-                          ],
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 16,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ElevatedButton(
+                            onPressed:(){},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorManager.primaryColor,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              elevation: 3,
+                            ),
+                            child: Text(
 
-                ],
-              ),
+                                 AppLocalizations.of(context)!.register,///
+
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+
+
+                          SizedBox(height: 25),
+
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+              ],
             ),
           ),
         ),
