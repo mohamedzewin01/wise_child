@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
@@ -182,7 +181,11 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
         // appBar: _buildAppBar(),
         body: Column(
           children: [
-            CustomAppBarApp(title: 'اضافة طفل جديد', subtitle: 'قم باضافة طقلك الجديد',backFunction: () => Navigator.pop(context),),
+            CustomAppBarApp(
+              title: 'اضافة طفل جديد',
+              subtitle: 'قم باضافة طقلك الجديد',
+              backFunction: () => Navigator.pop(context),
+            ),
             _buildProgressIndicator(),
             Expanded(
               child: AnimatedBuilder(
@@ -247,10 +250,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
       ),
       title: Text(
         'إضافة طفل جديد',
-        style: getBoldStyle(
-          color: Colors.grey.shade800,
-          fontSize: 20,
-        ),
+        style: getBoldStyle(color: Colors.grey.shade800, fontSize: 20),
       ),
       centerTitle: true,
     );
@@ -297,7 +297,9 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         height: 4,
                         decoration: BoxDecoration(
                           color: isActive
-                              ? (isRequired ? Colors.orange.shade400 : ColorManager.primaryColor)
+                              ? (isRequired
+                                    ? Colors.orange.shade400
+                                    : ColorManager.primaryColor)
                               : Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(2),
                         ),
@@ -333,7 +335,10 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                   if (_currentStep == 4) // Best Playmate Step
                     Container(
                       margin: const EdgeInsets.only(top: 4),
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.orange.shade50,
                         borderRadius: BorderRadius.circular(8),
@@ -352,10 +357,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
               ),
               Text(
                 '${((_currentStep + 1) / _totalSteps * 100).round()}%',
-                style: getBoldStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 14,
-                ),
+                style: getBoldStyle(color: Colors.grey.shade600, fontSize: 14),
               ),
             ],
           ),
@@ -386,9 +388,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         controller: widget.viewModel.firstNameController,
                         hintText: 'الاسم الأول *',
                         prefixIcon: Icon(Icons.person),
-                        validator: (value) => value!.isEmpty
-                            ? 'الرجاء إدخال الاسم الأول'
-                            : null,
+                        validator: (value) =>
+                            value!.isEmpty ? 'الرجاء إدخال الاسم الأول' : null,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -397,9 +398,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         controller: widget.viewModel.lastNameController,
                         hintText: 'اسم العائلة *',
                         prefixIcon: Icon(Icons.person_outline),
-                        validator: (value) => value!.isEmpty
-                            ? 'الرجاء إدخال اسم العائلة'
-                            : null,
+                        validator: (value) =>
+                            value!.isEmpty ? 'الرجاء إدخال اسم العائلة' : null,
                       ),
                     ),
                   ],
@@ -450,10 +450,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
               title: 'قائمة الأشقاء',
               buttonLabel: 'إضافة أخ/أخت',
               list: widget.viewModel.siblings,
-              onAdd: () => _addPerson(
-                widget.viewModel.siblings,
-                'أخ/أخت',
-              ),
+              onAdd: () => _addPerson(widget.viewModel.siblings, 'أخ/أخت'),
               onRemove: (person) {
                 setState(() => widget.viewModel.siblings.remove(person));
               },
@@ -478,10 +475,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
               title: 'قائمة الأصدقاء',
               buttonLabel: 'إضافة صديق',
               list: widget.viewModel.friends,
-              onAdd: () => _addFriends(
-                widget.viewModel.friends,
-                'صديق',
-              ),
+              onAdd: () => _addFriends(widget.viewModel.friends, 'صديق'),
               onRemove: (friend) {
                 setState(() => widget.viewModel.friends.remove(friend));
               },
@@ -540,22 +534,26 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                   list: widget.viewModel.bestPlaymates,
                   onAdd: () => widget.viewModel.bestPlaymates.isNotEmpty
                       ? ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('يمكن إضافة صديق مفضل واحد فقط'),
-                      behavior: SnackBarBehavior.floating,
-                      duration: const Duration(seconds: 2),
-                      backgroundColor: Colors.orange.shade400,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  )
+                          SnackBar(
+                            content: const Text(
+                              'يمكن إضافة صديق مفضل واحد فقط',
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.orange.shade400,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        )
                       : _addBestPlaymate(
-                    widget.viewModel.bestPlaymates,
-                    'الصديق المفضل',
-                  ),
+                          widget.viewModel.bestPlaymates,
+                          'الصديق المفضل',
+                        ),
                   onRemove: (bestPlaymate) {
-                    setState(() => widget.viewModel.bestPlaymates.remove(bestPlaymate));
+                    setState(
+                      () => widget.viewModel.bestPlaymates.remove(bestPlaymate),
+                    );
                   },
                 ),
               ],
@@ -621,7 +619,12 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
     );
   }
 
-  Widget _buildReviewItem(String title, String value, IconData icon, {bool isRequired = false}) {
+  Widget _buildReviewItem(
+    String title,
+    String value,
+    IconData icon, {
+    bool isRequired = false,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -721,7 +724,9 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                 ),
                 child: Icon(
                   icon,
-                  color: isRequired ? Colors.orange.shade600 : ColorManager.primaryColor,
+                  color: isRequired
+                      ? Colors.orange.shade600
+                      : ColorManager.primaryColor,
                   size: 24,
                 ),
               ),
@@ -742,7 +747,10 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         if (isRequired) ...[
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.orange.shade100,
                               borderRadius: BorderRadius.circular(6),
@@ -866,7 +874,9 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('يرجى التأكد من إضافة الصديق المفضل'),
+                              content: const Text(
+                                'يرجى التأكد من إضافة الصديق المفضل',
+                              ),
                               backgroundColor: Colors.red.shade400,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
