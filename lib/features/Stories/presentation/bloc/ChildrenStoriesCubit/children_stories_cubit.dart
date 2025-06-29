@@ -37,13 +37,16 @@ class ChildrenStoriesCubit extends Cubit<ChildrenStoriesState> {
     return selectedChildId;
   }
 
-  // دالة لتعيين الطفل الأول كمحدد افتراضياً
-  void setInitialChild(int childId) {
+  // دالة لتعيين الطفل الأول كمحدد افتراضياً وتحميل قصصه
+  Future<void> setInitialChild(int childId) async {
     if (selectedChildId == -1) {
       selectedChildId = childId;
       idChildren = childId;
 
       emit(ChildrenStoriesChildChanged(selectedChildId));
+
+      // تحميل القصص للطفل الأول تلقائياً
+      await getStoriesChildren();
     }
   }
 

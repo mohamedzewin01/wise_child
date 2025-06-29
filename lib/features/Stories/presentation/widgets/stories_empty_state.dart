@@ -24,8 +24,8 @@ class StoriesEmptyState extends StatelessWidget {
             opacity: controller.value,
             child: Center(
               child: Container(
-                margin: const EdgeInsets.all(40),
-                padding: const EdgeInsets.all(32),
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -212,26 +212,19 @@ class StoriesEmptyState extends StatelessWidget {
                     horizontal: 32,
                     vertical: 16,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.refresh_rounded,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'إعادة التحميل',
+                      style: TextStyle(
                         color: Colors.white,
-                        size: 22,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        letterSpacing: 0.5,
                       ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'إعادة التحميل',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
+
                 ),
               ),
             ),

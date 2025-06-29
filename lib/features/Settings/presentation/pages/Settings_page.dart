@@ -1,8 +1,7 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' ;
+import 'package:http/http.dart';
 import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
@@ -64,13 +63,9 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
     _animationController.forward();
   }
 
@@ -83,8 +78,11 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
   @override
   Widget build(BuildContext context) {
     String? userImage = CacheService.getData(key: CacheKeys.userPhoto);
-    String? userName = '${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}' ?? 'مستخدم';
-    String? userEmail = CacheService.getData(key: CacheKeys.userEmail) ?? 'user@example.com';
+    String? userName =
+        '${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}' ??
+        'مستخدم';
+    String? userEmail =
+        CacheService.getData(key: CacheKeys.userEmail) ?? 'user@example.com';
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -126,7 +124,11 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 
-  Widget _buildSliverAppBar(String? userImage, String userName, String userEmail) {
+  Widget _buildSliverAppBar(
+    String? userImage,
+    String userName,
+    String userEmail,
+  ) {
     return SliverAppBar(
       expandedHeight: 280,
       floating: false,
@@ -202,10 +204,10 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                             : null,
                         child: userImage == null
                             ? Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Colors.grey.shade400,
-                        )
+                                Icons.person,
+                                size: 40,
+                                color: Colors.grey.shade400,
+                              )
                             : null,
                       ),
                     ),
@@ -273,7 +275,9 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
         _buildModernSettingsRow(
           icon: Icons.child_care_outlined,
           title: 'وضع الأطفال',
-          subtitle: _isChildModeActive ? 'نشط - واجهة مبسطة للأطفال' : 'غير نشط - واجهة عادية',
+          subtitle: _isChildModeActive
+              ? 'نشط - واجهة مبسطة للأطفال'
+              : 'غير نشط - واجهة عادية',
           trailing: _buildAnimatedSwitch(_isChildModeActive, (value) {
             setState(() => _isChildModeActive = value);
             _showChildModeDialog(value);
@@ -323,17 +327,6 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           },
         ),
 
-        const Divider(height: 1, indent: 72),
-
-        _buildModernSettingsRow(
-          icon: Icons.backup_outlined,
-          title: 'النسخ الاحتياطي',
-          subtitle: 'حفظ واستعادة البيانات',
-          trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-          onTap: () {
-            _showBackupDialog();
-          },
-        ),
       ],
     );
   }
@@ -571,7 +564,11 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                 ),
               ),
 
-              Icon(Icons.arrow_forward_ios, size: 16, color: Colors.red.shade400),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.red.shade400,
+              ),
             ],
           ),
         ),
@@ -612,7 +609,10 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
               value: value,
               child: Text(
                 value,
-                style: getRegularStyle(color: Colors.grey.shade700, fontSize: 12),
+                style: getRegularStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 12,
+                ),
               ),
             );
           }).toList(),
@@ -764,9 +764,15 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
       context: context,
       applicationName: 'Wise Child',
       applicationVersion: '1.0.0',
-      applicationIcon: Icon(Icons.child_care, size: 48, color: ColorManager.primaryColor),
+      applicationIcon: Icon(
+        Icons.child_care,
+        size: 48,
+        color: ColorManager.primaryColor,
+      ),
       children: [
-        Text('تطبيق تعليمي تفاعلي للأطفال يساعد في تنمية مهاراتهم وقدراتهم التعليمية.'),
+        Text(
+          'تطبيق تعليمي تفاعلي للأطفال يساعد في تنمية مهاراتهم وقدراتهم التعليمية.',
+        ),
       ],
     );
   }
@@ -828,4 +834,5 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 }
+
 ///

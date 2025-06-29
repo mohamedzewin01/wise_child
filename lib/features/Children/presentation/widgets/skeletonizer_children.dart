@@ -1,181 +1,274 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:wise_child/core/widgets/custom_app_bar_app.dart';
 
-class SkeChildren extends StatelessWidget {
-  const SkeChildren({super.key});
+class ChildrenLoadingSkeleton extends StatelessWidget {
+  const ChildrenLoadingSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: kBottomNavigationBarHeight,
-        right: 16,
-        left: 16,
+    return Container(
+      // padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          // CustomAppBarApp without padding
+          CustomAppBarApp(
+            subtitle: '',
+            title: 'الأطفال',
+          ),
+
+          const SizedBox(height: 16),
+
+          // Header skeleton
+          _buildHeaderSkeleton(),
+
+          const SizedBox(height: 20),
+
+          // Cards skeleton
+          Expanded(
+            child: ListView.builder(
+              itemCount: 4,
+              itemBuilder: (context, index) => _buildCardSkeleton(index),
+            ),
+          ),
+        ],
       ),
-      child: Skeletonizer(
-        effect: ShimmerEffect(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          duration: const Duration(milliseconds: 1200),
-        ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          itemCount: 4,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 6.0,
-                horizontal: 12.0,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    offset: const Offset(0, 4),
-                    blurRadius: 12,
-                    spreadRadius: 0,
+    );
+  }
+
+  Widget _buildHeaderSkeleton() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Icon skeleton
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+
+          const SizedBox(width: 20),
+
+          // Text skeleton
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 16,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    // Avatar skeleton
-                    Stack(
-                      children: [
-                        const CircleAvatar(
-                          radius: 32.0,
-                          backgroundColor: Colors.grey,
-                        ),
-                        Positioned(
-                          bottom: 2,
-                          right: 2,
-                          child: Container(
-                            width: 16,
-                            height: 16,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade400,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 2,
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 32,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Badge skeleton
+          Container(
+            width: 60,
+            height: 28,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardSkeleton(int index) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 800 + (index * 100)),
+      tween: Tween(begin: 0.0, end: 1.0),
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16, top: 24),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Main card skeleton
+                Container(
+                  margin: const EdgeInsets.only(top: 28, left: 28),
+                  padding: const EdgeInsets.fromLTRB(88, 20, 20, 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: Colors.grey.shade200,
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 15,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      // Content skeleton
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Name skeleton
+                            Container(
+                              height: 18,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(9),
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 12),
+
+                            // Age skeleton
+                            Container(
+                              height: 24,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Tags skeleton
+                            Row(
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.shade50,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  height: 20,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange.shade50,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Progress skeleton
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 12,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Container(
+                                  height: 4,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(width: 16),
+
+                      // Actions skeleton
+                      Column(
+                        children: [
+                          for (int i = 0; i < 3; i++) ...[
+                            Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            if (i < 2) const SizedBox(height: 10),
+                          ]
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Floating avatar skeleton
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 15,
+                          offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-
-                    const SizedBox(width: 20.0),
-
-                    // Content skeleton
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Name skeleton
-                          Container(
-                            height: 18,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          // Age skeleton
-                          Container(
-                            height: 14,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-
-                          const SizedBox(height: 12),
-
-                          // Stats row skeleton
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 6,
-                            children: [
-                              // Gender chip skeleton
-                              Container(
-                                height: 24,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-
-                              // Stat chip 1
-                              Container(
-                                height: 20,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-
-                              // Stat chip 2
-                              Container(
-                                height: 20,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade200,
+                        ),
                       ),
                     ),
-
-                    // Action buttons skeleton
-                    SizedBox(
-                      width: 50,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 32,
-                            width: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          Container(
-                            height: 32,
-                            width: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-      ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
