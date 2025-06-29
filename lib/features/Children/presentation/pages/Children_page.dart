@@ -591,7 +591,6 @@ class _ChildrenPageState extends State<ChildrenPage>
              return   ChildrenLoadingSkeleton();
               }
 
-              // عرض الواجهة العادية
               return RefreshIndicator(
                 onRefresh: _onRefresh,
                 color: ColorManager.primaryColor,
