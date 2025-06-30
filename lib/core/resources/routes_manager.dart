@@ -29,8 +29,8 @@ class RouteGenerator {
         return FadeScaleAnimation(const LayoutScreen());
       case RoutesManager.newChildrenPage:
         return SlideFromBottomAnimation(const NewChildrenPage());
-        case RoutesManager.selectStoriesScreenPage:
-        return SlideFromBottomAnimation(const SelectStoriesScreenPage());
+        // case RoutesManager.selectStoriesScreenPage:
+        // return SlideFromBottomAnimation(const SelectStoriesScreenPage());
       default:
         return unDefinedRoute();
     }
