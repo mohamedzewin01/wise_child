@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:wise_child/core/common/api_result.dart';
@@ -12,7 +13,7 @@ class StoriesCategoryCubit extends Cubit<StoriesCategoryState> {
   StoriesCategoryCubit(this._selectStoriesScreenUseCaseRepo)
       : super(StoriesCategoryInitial());
   final SelectStoriesScreenUseCaseRepo _selectStoriesScreenUseCaseRepo;
-
+static StoriesCategoryCubit get(context) => BlocProvider.of(context);
   Future<void> getCategoriesStories({
     int? idChildren,
     int? categoryId,

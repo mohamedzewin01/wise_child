@@ -2,6 +2,7 @@ import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
 
 import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
@@ -48,6 +49,14 @@ class SelectStoriesScreenDatasourceRepoImpl
       var stories = await apiService.storiesByCategory(
         storiesByCategoryRequest,
       );
+      return stories?.toEntity();
+    });
+  }
+
+  @override
+  Future<Result<SaveStoryEntity?>> saveChildrenStories(SaveStoryRequest saveStoryRequest) {
+   return executeApi(() async {
+      var stories = await apiService.saveChildStory(saveStoryRequest);
       return stories?.toEntity();
     });
   }

@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
 import '../../domain/repositories/SelectStoriesScreen_repository.dart';
 
@@ -27,6 +28,11 @@ class SelectStoriesScreenRepositoryImpl
       idChildren: idChildren,
       page: page,
     );
+  }
+
+  @override
+  Future<Result<SaveStoryEntity?>> saveChildrenStories(SaveStoryRequest saveStoryRequest) {
+ return selectStoriesScreenDatasourceRepo.saveChildrenStories(saveStoryRequest);
   }
 
   // implementation

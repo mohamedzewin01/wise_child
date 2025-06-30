@@ -20,8 +20,10 @@ import 'package:wise_child/features/NewChildren/data/models/request/add_child_re
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
 import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
@@ -113,6 +115,13 @@ abstract class ApiService {
   Future<StoriesByCategoryDto?> storiesByCategory(
     @Body() StoriesByCategoryRequest? storiesByCategoryRequest,
   );
+
+  @POST(ApiConstants.saveChildStory)
+  Future<SaveStoryDto?> saveChildStory(
+    @Body() SaveStoryRequest? saveStoryRequest,
+  );
+
+
 }
 
 //  @MultiPart()

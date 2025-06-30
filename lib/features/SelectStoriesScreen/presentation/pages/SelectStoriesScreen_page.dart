@@ -1423,6 +1423,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/widgets/custom_app_bar_app.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../localization/locale_cubit.dart';
@@ -1444,6 +1445,7 @@ class _SelectStoriesScreenPageState extends State<SelectStoriesScreenPage>
     with TickerProviderStateMixin {
   late SelectStoriesScreenCubit categoriesViewModel;
   late StoriesCategoryCubit storiesViewModel;
+  late SaveStoryCubit saveStoryViewModel;
   late AnimationController _fadeController;
   late AnimationController _slideController;
 
@@ -1466,6 +1468,7 @@ class _SelectStoriesScreenPageState extends State<SelectStoriesScreenPage>
   void _initializeViewModels() {
     categoriesViewModel = getIt.get<SelectStoriesScreenCubit>();
     storiesViewModel = getIt.get<StoriesCategoryCubit>();
+    saveStoryViewModel=getIt.get<SaveStoryCubit>();
   }
 
   void _initializeAnimations() {
@@ -1554,6 +1557,7 @@ class _SelectStoriesScreenPageState extends State<SelectStoriesScreenPage>
       providers: [
         BlocProvider.value(value: categoriesViewModel),
         BlocProvider.value(value: storiesViewModel),
+        BlocProvider.value(value: saveStoryViewModel),
       ],
       child: Scaffold(
         body: Container(
@@ -1606,6 +1610,7 @@ class _SelectStoriesScreenPageState extends State<SelectStoriesScreenPage>
                     isRTL: isRTL,
                     selectedCategoryId: selectedCategoryId,
                     child: widget.child,
+                    childId: widget.child.idChildren??0 ,
                   ),
 
                 // Bottom Spacing

@@ -11,12 +11,14 @@ class StoriesSection extends StatelessWidget {
   final bool isRTL;
   final int? selectedCategoryId;
   final Children child;
+  final int childId ;
+
 
   const StoriesSection({
     super.key,
     required this.isRTL,
     required this.selectedCategoryId,
-    required this.child,
+    required this.child, required this.childId,
   });
 
   @override
@@ -63,7 +65,8 @@ class StoriesSection extends StatelessWidget {
                             onTap: () => _showStoryDetails(
                                 context,
                                 stories[index],
-                                isRTL
+                                isRTL,
+                                childId
                             ),
                           ),
                         ),
@@ -94,11 +97,13 @@ class StoriesSection extends StatelessWidget {
     );
   }
 
-  void _showStoryDetails(BuildContext context, story, bool isRTL) {
+  void _showStoryDetails(BuildContext context, story, bool isRTL,int childId) {
     StoryDetailsDialog.show(
       context: context,
       story: story,
       isRTL: isRTL,
+      childId: childId,
+
     );
   }
 }

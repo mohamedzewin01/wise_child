@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/core/di/di.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
+
 
 class StoryDetailsDialog {
   static void show({
     required BuildContext context,
     required StoriesCategory story,
     required bool isRTL,
+    required int childId,
+
   }) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => _StoryDetailsContent(
-        story: story,
-        isRTL: isRTL,
-      ),
+      builder: (context) =>
+          _StoryDetailsContent(story: story, isRTL: isRTL, childId: childId),
     );
   }
 }
@@ -26,10 +30,12 @@ class StoryDetailsDialog {
 class _StoryDetailsContent extends StatelessWidget {
   final StoriesCategory story;
   final bool isRTL;
+  final int childId;
 
   const _StoryDetailsContent({
     required this.story,
     required this.isRTL,
+    required this.childId,
   });
 
   @override
@@ -87,7 +93,7 @@ class _StoryDetailsContent extends StatelessWidget {
           ),
 
           // Action Buttons
-          _buildActionButtons(context),
+          _buildActionButtons(context, childId),
         ],
       ),
     );
@@ -142,7 +148,7 @@ class _StoryDetailsContent extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Image.network(
-          '${ApiConstants.urlImage}${story.imageCover}' ,
+          '${ApiConstants.urlImage}${story.imageCover}',
           fit: BoxFit.fill,
           errorBuilder: (context, error, stackTrace) {
             return _buildPlaceholderImage();
@@ -179,21 +185,14 @@ class _StoryDetailsContent extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: getBoldStyle(
-        color: ColorManager.primaryColor,
-        fontSize: 16,
-      ),
+      style: getBoldStyle(color: ColorManager.primaryColor, fontSize: 16),
     );
   }
 
   Widget _buildDescription() {
     return Text(
       story.storyDescription!,
-      style: TextStyle(
-        fontSize: 14,
-        color: Colors.grey.shade700,
-        height: 1.6,
-      ),
+      style: TextStyle(fontSize: 14, color: Colors.grey.shade700, height: 1.6),
       textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
     );
   }
@@ -232,10 +231,7 @@ class _StoryDetailsContent extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.orange.shade50,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.orange.shade200,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.orange.shade200, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,11 +239,7 @@ class _StoryDetailsContent extends StatelessWidget {
           Row(
             textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
             children: [
-              Icon(
-                Icons.psychology,
-                size: 20,
-                color: Colors.orange.shade700,
-              ),
+              Icon(Icons.psychology, size: 20, color: Colors.orange.shade700),
               const SizedBox(width: 8),
               Text(
                 'تساعد في حل:',
@@ -261,10 +253,7 @@ class _StoryDetailsContent extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             story.problem!.problemTitle ?? 'مشكلة غير محددة',
-            style: getBoldStyle(
-              color: Colors.orange.shade700,
-              fontSize: 16,
-            ),
+            style: getBoldStyle(color: Colors.orange.shade700, fontSize: 16),
             textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
           ),
           if (story.problem!.problemDescription != null) ...[
@@ -294,19 +283,12 @@ class _StoryDetailsContent extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: color,
-          ),
+          Icon(icon, size: 16, color: color),
           const SizedBox(width: 6),
           Text(
             label,
@@ -321,14 +303,12 @@ class _StoryDetailsContent extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(BuildContext context, int childId) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(16),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Row(
         children: [
@@ -351,37 +331,56 @@ class _StoryDetailsContent extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             flex: 2,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _startReadingStory(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorManager.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                elevation: 2,
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add_circle_sharp,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'اضافة القصة',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+            child: BlocProvider.value(
+              value: getIt.get<SaveStoryCubit>(),
+              child: BlocListener<SaveStoryCubit, SaveStoryState>(
+                listener: (context, state) {
+                  if (state is SaveStorySuccess) {
+                    Navigator.of(context).pop();
+                    _startReadingStory(context);
+                  }
+                  if (state is SaveStoryFailure) {}
+                  if (state is SaveStoryLoading) {}
+                },
+                child: ElevatedButton(
+                  onPressed: () {
+                    HapticFeedback.vibrate();
+                    final saveStoryCubit = context.read<SaveStoryCubit>();
+                    saveStoryCubit.saveStory(
+                      storyId: story.storyId!,
+                      childrenId: childId,
+                      problemId: story.problem!.problemId!,
+                    );
+                  },
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorManager.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 2,
                   ),
-                ],
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_circle_sharp,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'اضافة القصة',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -391,7 +390,7 @@ class _StoryDetailsContent extends StatelessWidget {
   }
 
   void _startReadingStory(BuildContext context) {
-/// TODO: Implement navigation to story reading screen
+    /// TODO: Implement navigation to story reading screen
     HapticFeedback.vibrate();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -437,9 +436,7 @@ class _StoryDetailsContent extends StatelessWidget {
         ),
         backgroundColor: ColorManager.primaryColor,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: const Duration(seconds: 4),
         action: SnackBarAction(
           label: 'موافق',

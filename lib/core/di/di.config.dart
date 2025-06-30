@@ -129,6 +129,8 @@ import '../../features/SelectStoriesScreen/domain/useCases/SelectStoriesScreen_u
     as _i93;
 import '../../features/SelectStoriesScreen/domain/useCases/SelectStoriesScreen_useCase_repo_impl.dart'
     as _i971;
+import '../../features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart'
+    as _i198;
 import '../../features/SelectStoriesScreen/presentation/bloc/SelectStoriesScreen_cubit.dart'
     as _i663;
 import '../../features/SelectStoriesScreen/presentation/bloc/stories_category_cubit.dart'
@@ -258,6 +260,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i44.StoriesCategoryCubit>(
       () =>
           _i44.StoriesCategoryCubit(gh<_i93.SelectStoriesScreenUseCaseRepo>()),
+    );
+    gh.factory<_i198.SaveStoryCubit>(
+      () => _i198.SaveStoryCubit(gh<_i93.SelectStoriesScreenUseCaseRepo>()),
     );
     gh.factory<_i1073.StoriesDatasourceRepo>(
       () => _i256.StoriesDatasourceRepoImpl(gh<_i680.ApiService>()),
