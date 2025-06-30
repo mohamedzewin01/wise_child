@@ -19,6 +19,10 @@ import 'package:wise_child/features/EditProfile/data/models/response/edit_profil
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
 import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_request.dart';
@@ -61,14 +65,13 @@ abstract class ApiService {
   Future<GetChildrenDto?> getChildrenByUser(
     @Body() GetChildrenRequest getChildrenRequest,
   );
+
   //
   // @POST(ApiConstants.newChild)
   // Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
 
   @POST(ApiConstants.addChild)
   Future<AddChildDto?> addChild(@Body() AddNewChildRequest addChildRequest);
-
-
 
   @MultiPart()
   @POST(ApiConstants.imageChild)
@@ -81,6 +84,7 @@ abstract class ApiService {
   Future<DeleteChildrenDto?> deleteChildren(
     @Body() DeleteChildrenRequest deleteChildrenRequest,
   );
+
   @POST(ApiConstants.getClipsStory)
   Future<StoryPlayDto?> getClipsStory(
     @Body() StoryPlayRequestModel storyPlayRequestModel,
@@ -93,14 +97,22 @@ abstract class ApiService {
 
   @POST(ApiConstants.getChildrenStories3)
   Future<ChildrenStoriesModelDto?> getChildrenStories(
-      @Body() GetChildrenStoriesRequest? getChildrenStoriesRequest
-      );
+    @Body() GetChildrenStoriesRequest? getChildrenStoriesRequest,
+  );
+
   @POST(ApiConstants.editProfile)
   Future<EditProfileDto?> editProfile(
-      @Body() EditProfileRequest? editProfileRequest
-      );
+    @Body() EditProfileRequest? editProfileRequest,
+  );
 
-
+  @POST(ApiConstants.getStoryCategories)
+  Future<GetCategoriesStoriesDto?> getCategoriesStories(
+    @Body() GetCategoriesStoriesRequest? getCategoriesStoriesRequest,
+  );
+  @POST(ApiConstants.storiesByCategory)
+  Future<StoriesByCategoryDto?> storiesByCategory(
+    @Body() StoriesByCategoryRequest? storiesByCategoryRequest,
+  );
 }
 
 //  @MultiPart()

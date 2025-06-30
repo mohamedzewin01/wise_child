@@ -56,6 +56,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/name_utils.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -165,12 +166,17 @@ class AvatarWidget extends StatelessWidget {
         child: Center(
           child: Text(
             NameUtils.extractNameInitials('$firstName $lastName'),
-            style: TextStyle(
-              fontSize: radius * 0.55,
-              fontWeight: FontWeight.bold,
+            style: getBoldStyle(
               color: textColor,
-              letterSpacing: 1,
-            ),
+              fontSize: radius * 0.85,
+            )
+
+            // TextStyle(
+            //   fontSize: radius * 0.99,
+            //   fontWeight: FontWeight.bold,
+            //   color: textColor,
+            //   // letterSpacing: 1,
+            // ),
           ),
         ),
       ),

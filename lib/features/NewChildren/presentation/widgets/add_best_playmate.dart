@@ -47,12 +47,7 @@ class _AddBestPlaymateState extends State<AddBestPlaymate> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 color: Colors.white,
-                // gradient: LinearGradient(
-                //   begin: Alignment.topLeft,
-                //   end: Alignment.bottomRight,
-                //   colors: [Color(0xFF667eea), Color(0xFF764ba2), Color(0xFF6B73FF)],
-                //   stops: [0.0, 0.5, 1.0],
-                // ),
+
               ),
               child: Form(
                 key: _formKey,
@@ -72,12 +67,7 @@ class _AddBestPlaymateState extends State<AddBestPlaymate> {
                       controller: _nameController,
                       hintText: AppLocalizations.of(context)!.name,
                       textInputType: TextInputType.name,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.enterName;
-                        }
-                        return null;
-                      },
+                      validator:CustomValidator.arabicNameValidator,
                     ),
                     const SizedBox(height: 16),
                     CustomTextForm(

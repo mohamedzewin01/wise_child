@@ -65,6 +65,20 @@ import '../../features/Children/domain/repositories/Children_repository.dart'
 import '../../features/Children/domain/useCases/Children_useCase_repo_impl.dart'
     as _i129;
 import '../../features/Children/presentation/bloc/Children_cubit.dart' as _i537;
+import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo.dart'
+    as _i1043;
+import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo_impl.dart'
+    as _i1014;
+import '../../features/EditChildren/data/repositories_impl/EditChildren_repo_impl.dart'
+    as _i72;
+import '../../features/EditChildren/domain/repositories/EditChildren_repository.dart'
+    as _i864;
+import '../../features/EditChildren/domain/useCases/EditChildren_useCase_repo.dart'
+    as _i699;
+import '../../features/EditChildren/domain/useCases/EditChildren_useCase_repo_impl.dart'
+    as _i433;
+import '../../features/EditChildren/presentation/bloc/EditChildren_cubit.dart'
+    as _i396;
 import '../../features/EditProfile/data/datasources/EditProfile_datasource_repo.dart'
     as _i719;
 import '../../features/EditProfile/data/datasources/EditProfile_datasource_repo_impl.dart'
@@ -103,6 +117,22 @@ import '../../features/NewChildren/domain/useCases/NewChildren_useCase_repo_impl
     as _i863;
 import '../../features/NewChildren/presentation/bloc/NewChildren_cubit.dart'
     as _i36;
+import '../../features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo.dart'
+    as _i574;
+import '../../features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo_impl.dart'
+    as _i166;
+import '../../features/SelectStoriesScreen/data/repositories_impl/SelectStoriesScreen_repo_impl.dart'
+    as _i1071;
+import '../../features/SelectStoriesScreen/domain/repositories/SelectStoriesScreen_repository.dart'
+    as _i880;
+import '../../features/SelectStoriesScreen/domain/useCases/SelectStoriesScreen_useCase_repo.dart'
+    as _i93;
+import '../../features/SelectStoriesScreen/domain/useCases/SelectStoriesScreen_useCase_repo_impl.dart'
+    as _i971;
+import '../../features/SelectStoriesScreen/presentation/bloc/SelectStoriesScreen_cubit.dart'
+    as _i663;
+import '../../features/SelectStoriesScreen/presentation/bloc/stories_category_cubit.dart'
+    as _i44;
 import '../../features/Settings/data/datasources/Settings_datasource_repo.dart'
     as _i826;
 import '../../features/Settings/data/datasources/Settings_datasource_repo_impl.dart'
@@ -171,6 +201,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i719.EditProfileDatasourceRepo>(
       () => _i385.EditProfileDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i574.SelectStoriesScreenDatasourceRepo>(
+      () => _i166.SelectStoriesScreenDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i880.SelectStoriesScreenRepository>(
+      () => _i1071.SelectStoriesScreenRepositoryImpl(
+        gh<_i574.SelectStoriesScreenDatasourceRepo>(),
+      ),
+    );
+    gh.factory<_i864.EditChildrenRepository>(
+      () => _i72.EditChildrenRepositoryImpl(),
+    );
+    gh.factory<_i1043.EditChildrenDatasourceRepo>(
+      () => _i1014.EditChildrenDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
       () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -180,6 +224,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i20.ChatBotAssistantRepository>(
       () => _i16.ChatBotAssistantRepositoryImpl(
         gh<_i196.ChatBotAssistantDatasourceRepo>(),
+      ),
+    );
+    gh.factory<_i93.SelectStoriesScreenUseCaseRepo>(
+      () => _i971.SelectStoriesScreenUseCase(
+        gh<_i880.SelectStoriesScreenRepository>(),
       ),
     );
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
@@ -200,6 +249,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i826.SettingsDatasourceRepo>(
       () => _i625.SettingsDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i663.SelectStoriesScreenCubit>(
+      () => _i663.SelectStoriesScreenCubit(
+        gh<_i93.SelectStoriesScreenUseCaseRepo>(),
+      ),
+    );
+    gh.factory<_i44.StoriesCategoryCubit>(
+      () =>
+          _i44.StoriesCategoryCubit(gh<_i93.SelectStoriesScreenUseCaseRepo>()),
     );
     gh.factory<_i1073.StoriesDatasourceRepo>(
       () => _i256.StoriesDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -236,6 +294,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i172.NewChildrenDatasourceRepo>(),
       ),
     );
+    gh.factory<_i699.EditChildrenUseCaseRepo>(
+      () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
+    );
     gh.factory<_i371.HomeCubit>(
       () => _i371.HomeCubit(gh<_i543.HomeUseCaseRepo>()),
     );
@@ -267,6 +328,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i380.StoriesPlayUseCaseRepo>(
       () => _i936.StoriesPlayUseCase(gh<_i933.StoriesPlayRepository>()),
+    );
+    gh.factory<_i396.EditChildrenCubit>(
+      () => _i396.EditChildrenCubit(gh<_i699.EditChildrenUseCaseRepo>()),
     );
     gh.factory<_i192.AuthCubit>(
       () => _i192.AuthCubit(gh<_i628.AuthUseCaseRepo>()),

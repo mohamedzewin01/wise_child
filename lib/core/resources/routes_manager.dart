@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wise_child/features/Auth/presentation/pages/Auth_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
+import 'package:wise_child/features/SelectStoriesScreen/presentation/pages/SelectStoriesScreen_page.dart';
 import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
 import 'package:wise_child/welcome_screen.dart';
 
@@ -12,6 +13,7 @@ class RoutesManager {
   static const String chatBotAssistantScreen = '/ChatBotAssistantScreen';
   static const String chatBotAddChildScreen = '/chatBotAddChildScreen';
   static const String newChildrenPage = '/addChildrenPage';
+  static const String selectStoriesScreenPage = '/SelectStoriesScreenPage';
 }
 
 class RouteGenerator {
@@ -27,6 +29,8 @@ class RouteGenerator {
         return FadeScaleAnimation(const LayoutScreen());
       case RoutesManager.newChildrenPage:
         return SlideFromBottomAnimation(const NewChildrenPage());
+        case RoutesManager.selectStoriesScreenPage:
+        return SlideFromBottomAnimation(const SelectStoriesScreenPage());
       default:
         return unDefinedRoute();
     }

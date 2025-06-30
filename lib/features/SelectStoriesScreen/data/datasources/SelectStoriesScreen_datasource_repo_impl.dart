@@ -1,0 +1,54 @@
+import 'package:wise_child/core/api/api_extentions.dart';
+import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
+
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
+
+import 'SelectStoriesScreen_datasource_repo.dart';
+import 'package:injectable/injectable.dart';
+import '../../../../core/api/api_manager/api_manager.dart';
+
+@Injectable(as: SelectStoriesScreenDatasourceRepo)
+class SelectStoriesScreenDatasourceRepoImpl
+    implements SelectStoriesScreenDatasourceRepo {
+  final ApiService apiService;
+
+  SelectStoriesScreenDatasourceRepoImpl(this.apiService);
+
+  @override
+  Future<Result<GetCategoriesStoriesEntity?>> getCategoriesStories() {
+    return executeApi(() async {
+      String? userId = CacheService.getData(key: CacheKeys.userId);
+      GetCategoriesStoriesRequest getCategoriesStoriesRequest =
+          GetCategoriesStoriesRequest(userId: userId);
+      var stories = await apiService.getCategoriesStories(
+        getCategoriesStoriesRequest,
+      );
+      return stories?.toEntity();
+    });
+  }
+
+  @override
+  Future<Result<StoriesByCategoryEntity?>> storiesByCategory({
+    int? categoryId,
+    int? idChildren,
+    int? page,
+  }) {
+    return executeApi(() async {
+      StoriesByCategoryRequest storiesByCategoryRequest =
+          StoriesByCategoryRequest(
+            userId: CacheService.getData(key: CacheKeys.userId),
+            limit: 10,
+            categoryId: categoryId,
+            page: page,
+            idChildren: idChildren,
+          );
+      var stories = await apiService.storiesByCategory(
+        storiesByCategoryRequest,
+      );
+      return stories?.toEntity();
+    });
+  }
+}

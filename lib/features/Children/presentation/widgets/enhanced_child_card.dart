@@ -1464,16 +1464,16 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
                 // Navigate to stories
               },
             ),
-            _buildMoreOption(
-              icon: Icons.analytics_outlined,
-              title: 'الإحصائيات',
-              subtitle: 'تتبع التقدم والأنشطة',
-              isRTL: isRTL,
-              onTap: () {
-                Navigator.pop(context);
-                // Navigate to analytics
-              },
-            ),
+            // _buildMoreOption(
+            //   icon: Icons.analytics_outlined,
+            //   title: 'الإحصائيات',
+            //   subtitle: 'تتبع التقدم والأنشطة',
+            //   isRTL: isRTL,
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     // Navigate to analytics
+            //   },
+            // ),
             const SizedBox(height: 20),
           ],
         ),

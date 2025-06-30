@@ -15,4 +15,22 @@ class CustomValidator {
 
     return null;
   }
+
+  static String? arabicNameValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'الرجاء إدخال الاسم';
+    }
+
+    // تحقق من الحروف العربية فقط بدون مسافات
+    final regex = RegExp(r'^[\u0600-\u06FF]+$');
+
+    if (!regex.hasMatch(value.trim())) {
+      return 'الاسم يجب أن يحتوي على حروف عربية فقط وبدون مسافات';
+    }
+
+    return null;
+  }
+
+
 }
+

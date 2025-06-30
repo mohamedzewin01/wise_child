@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/utils/custom_validator.dart';
 import 'package:wise_child/core/widgets/custom_app_bar_app.dart';
 import 'package:wise_child/core/widgets/custom_text_form.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
@@ -196,6 +197,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                     child: Form(
                       key: _formKey,
                       child: PageView(
+
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: _pageController,
                         onPageChanged: (index) {
                           FocusManager.instance.primaryFocus?.unfocus();
@@ -208,6 +211,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                           _buildFriendsStep(),
                           _buildBestPlaymateStep(),
                           _buildReviewStep(),
+
                         ],
                       ),
                     ),
@@ -216,6 +220,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
               ),
             ),
             _buildNavigationButtons(),
+            SizedBox(height: 25),
           ],
         ),
       ),
@@ -388,8 +393,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         controller: widget.viewModel.firstNameController,
                         hintText: 'الاسم الأول *',
                         prefixIcon: Icon(Icons.person),
-                        validator: (value) =>
-                            value!.isEmpty ? 'الرجاء إدخال الاسم الأول' : null,
+                        validator:CustomValidator.arabicNameValidator,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -398,8 +402,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
                         controller: widget.viewModel.lastNameController,
                         hintText: 'اسم العائلة *',
                         prefixIcon: Icon(Icons.person_outline),
-                        validator: (value) =>
-                            value!.isEmpty ? 'الرجاء إدخال اسم العائلة' : null,
+                        validator:CustomValidator.arabicNameValidator,
                       ),
                     ),
                   ],
@@ -788,7 +791,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
 
   Widget _buildNavigationButtons() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -799,134 +802,132 @@ class _ProfileFormScreenState extends State<ProfileFormScreen>
           ),
         ],
       ),
-      child: SafeArea(
-        child: Row(
-          children: [
-            if (_currentStep > 0)
-              Expanded(
-                child: Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(right: 8),
-                  child: OutlinedButton.icon(
-                    onPressed: _previousStep,
-                    icon: const Icon(Icons.arrow_back),
-                    label: const Text('السابق'),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Colors.grey.shade300),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            if (_currentStep > 0) SizedBox(width: 8),
-
+      child: Row(
+        children: [
+          if (_currentStep > 0)
             Expanded(
-              flex: _currentStep == 0 ? 2 : 1,
-              child: BlocListener<NewChildrenCubit, NewChildrenState>(
-                listener: (context, state) {
-                  if (state is NewChildrenSuccess) {
-                    Navigator.of(context, rootNavigator: true).pop();
-                    Navigator.pop(context, true);
-                  }
-                  if (state is NewChildrenLoading) {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => Center(
-                        child: Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CircularProgressIndicator(
-                                color: ColorManager.primaryColor,
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'جاري حفظ البيانات...',
-                                style: getMediumStyle(
-                                  color: Colors.grey.shade700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  margin: EdgeInsets.only(left: _currentStep > 0 ? 8 : 0),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      if (_currentStep == _totalSteps - 1) {
-                        // الصفحة الأخيرة - حفظ البيانات
-                        if (_formKey.currentState!.validate() &&
-                            widget.viewModel.bestPlaymates.isNotEmpty) {
-                          widget.viewModel.saveChild();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'يرجى التأكد من إضافة الصديق المفضل',
-                              ),
-                              backgroundColor: Colors.red.shade400,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          );
-                        }
-                      } else {
-                        // الانتقال للصفحة التالية
-                        if (_validateCurrentStep()) {
-                          _nextStep();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(_getStepErrorMessage()),
-                              backgroundColor: Colors.red.shade400,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    icon: Icon(
-                      _currentStep == _totalSteps - 1
-                          ? Icons.save
-                          : Icons.arrow_forward,
-                    ),
-                    label: Text(
-                      _currentStep == _totalSteps - 1
-                          ? 'حفظ البيانات'
-                          : 'التالي',
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorManager.primaryColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 2,
+              child: Container(
+                height: 50,
+                margin: const EdgeInsets.only(right: 8),
+                child: OutlinedButton.icon(
+                  onPressed: _previousStep,
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('السابق'),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.grey.shade300),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          if (_currentStep > 0) SizedBox(width: 8),
+
+          Expanded(
+            flex: _currentStep == 0 ? 2 : 1,
+            child: BlocListener<NewChildrenCubit, NewChildrenState>(
+              listener: (context, state) {
+                if (state is NewChildrenSuccess) {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  Navigator.pop(context, true);
+                }
+                if (state is NewChildrenLoading) {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(
+                              color: ColorManager.primaryColor,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'جاري حفظ البيانات...',
+                              style: getMediumStyle(
+                                color: Colors.grey.shade700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                height: 50,
+                margin: EdgeInsets.only(left: _currentStep > 0 ? 8 : 0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    if (_currentStep == _totalSteps - 1) {
+                      // الصفحة الأخيرة - حفظ البيانات
+                      if (_formKey.currentState!.validate() &&
+                          widget.viewModel.bestPlaymates.isNotEmpty) {
+                        widget.viewModel.saveChild();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'يرجى التأكد من إضافة الصديق المفضل',
+                            ),
+                            backgroundColor: Colors.red.shade400,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      // الانتقال للصفحة التالية
+                      if (_validateCurrentStep()) {
+                        _nextStep();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(_getStepErrorMessage()),
+                            backgroundColor: Colors.red.shade400,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  icon: Icon(
+                    _currentStep == _totalSteps - 1
+                        ? Icons.save
+                        : Icons.arrow_forward,
+                  ),
+                  label: Text(
+                    _currentStep == _totalSteps - 1
+                        ? 'حفظ البيانات'
+                        : 'التالي',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorManager.primaryColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

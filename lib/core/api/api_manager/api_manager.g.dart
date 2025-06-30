@@ -444,6 +444,72 @@ class _ApiService implements ApiService {
     return _value;
   }
 
+  @override
+  Future<GetCategoriesStoriesDto?> getCategoriesStories(
+    GetCategoriesStoriesRequest? getCategoriesStoriesRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(getCategoriesStoriesRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<GetCategoriesStoriesDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'stories/get_story_categories',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late GetCategoriesStoriesDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : GetCategoriesStoriesDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<StoriesByCategoryDto?> storiesByCategory(
+    StoriesByCategoryRequest? storiesByCategoryRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(storiesByCategoryRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<StoriesByCategoryDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'stories/stories_by_category.php',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late StoriesByCategoryDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : StoriesByCategoryDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
