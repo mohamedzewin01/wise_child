@@ -44,6 +44,7 @@ import 'package:wise_child/core/widgets/delete_confirmation_dialog.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/bloc/Children_cubit.dart';
 import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
+import 'package:wise_child/features/SelectStoriesScreen/presentation/pages/SelectStoriesScreen_page.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
 import '../../../../localization/locale_cubit.dart';
 
@@ -156,7 +157,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
       ),
 
       // Floating Action Buttons
-      floatingActionButton: _buildFloatingActions(),
+      floatingActionButton: _buildFloatingActions(child: widget.child),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -619,7 +620,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
     );
   }
 
-  Widget _buildFloatingActions() {
+  Widget _buildFloatingActions({required Children child}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -633,10 +634,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
         FloatingActionButton(
           heroTag: 'chat',
           onPressed: () {
-            // Navigate to chat with child
+           Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SelectStoriesScreenPage(child: child),
+              ),
+            );
           },
           backgroundColor: Colors.green,
-          child: const Icon(Icons.chat_rounded, color: Colors.white),
+          child: const Icon( Icons.gamepad_rounded, color: Colors.white),
         ),
       ],
     );

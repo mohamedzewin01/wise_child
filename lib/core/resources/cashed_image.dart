@@ -21,7 +21,7 @@ class CustomImage extends StatelessWidget {
     this.height,
     this.width,
     this.sizeIndicator,
-    this.boxFit,
+    this.boxFit, this.loadingBuilder,
   });
 
   final String url;
@@ -29,6 +29,7 @@ class CustomImage extends StatelessWidget {
   final double? width;
   final double? sizeIndicator;
   final BoxFit? boxFit;
+  final Widget? loadingBuilder;
 
   @override
   Widget build(BuildContext context) {
