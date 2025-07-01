@@ -1,12 +1,16 @@
 part of 'ChildDetailsPage_cubit.dart';
 
 @immutable
-sealed class ChildDetailsPageState {}
+sealed class ChildDetailsState {}
 
-final class ChildDetailsPageInitial extends ChildDetailsPageState {}
-final class ChildDetailsPageLoading extends ChildDetailsPageState {}
-final class ChildDetailsPageSuccess extends ChildDetailsPageState {}
-final class ChildDetailsPageFailure extends ChildDetailsPageState {
+final class ChildDetailsPageInitial extends ChildDetailsState {}
+final class ChildDetailsPageLoading extends ChildDetailsState {}
+final class ChildDetailsPageSuccess extends ChildDetailsState {
+  final ChildrenDetailsEntity childrenDetailsEntity;
+
+  ChildDetailsPageSuccess(this.childrenDetailsEntity);
+}
+final class ChildDetailsPageFailure extends ChildDetailsState {
   final Exception exception;
 
   ChildDetailsPageFailure(this.exception);

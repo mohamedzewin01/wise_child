@@ -10,6 +10,8 @@ import 'package:wise_child/features/Auth/data/models/response/users_model.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/request/get_filtered_questions_request.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/directions_dto.dart';
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
+import 'package:wise_child/features/ChildDetailsPage/data/models/request/children_details_request.dart';
+import 'package:wise_child/features/ChildDetailsPage/data/models/response/children_details_dto.dart';
 import 'package:wise_child/features/Children/data/models/request/delete_children_request.dart';
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/Children/data/models/response/delete_children_dto.dart';
@@ -119,6 +121,10 @@ abstract class ApiService {
   @POST(ApiConstants.saveChildStory)
   Future<SaveStoryDto?> saveChildStory(
     @Body() SaveStoryRequest? saveStoryRequest,
+  );
+  @POST(ApiConstants.childrenDetails)
+  Future<ChildrenDetailsDto?> childrenDetails(
+    @Body() ChildrenDetailsRequest? childrenDetailsRequest,
   );
 
 

@@ -341,7 +341,8 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
             setState(() {
               _isSaving = false;
             });
-            _showErrorMessage(context, state.exception.toString());
+            Navigator.of(context).pop();
+             _showErrorMessage(context, 'يمكنك اختيار قصة اخرى ');
           } else if (state is SaveStoryLoading) {
             setState(() {
               _isSaving = true;
@@ -515,7 +516,7 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'فشل في حفظ القصة',
+                    'القصة مضافة بالفعل',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

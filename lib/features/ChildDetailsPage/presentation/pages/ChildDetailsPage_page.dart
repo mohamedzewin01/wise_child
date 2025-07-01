@@ -41,20 +41,19 @@ import 'package:wise_child/core/functions/gender_to_text.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/widgets/delete_confirmation_dialog.dart';
+import 'package:wise_child/features/ChildDetailsPage/presentation/bloc/ChildDetailsPage_cubit.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/bloc/Children_cubit.dart';
 import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/pages/SelectStoriesScreen_page.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
+import '../../../../core/di/di.dart';
 import '../../../../localization/locale_cubit.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   final Children child;
 
-  const ChildDetailsPage({
-    super.key,
-    required this.child,
-  });
+  const ChildDetailsPage({super.key, required this.child});
 
   @override
   State<ChildDetailsPage> createState() => _ChildDetailsPageState();
@@ -67,10 +66,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
   late Animation<double> _heroAnimation;
   late Animation<double> _contentAnimation;
   late Animation<Offset> _slideAnimation;
+  late ChildDetailsCubit viewModel;
 
   @override
   void initState() {
     super.initState();
+    viewModel = getIt.get<ChildDetailsCubit>();
     _heroController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -79,7 +80,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-
     _heroAnimation = CurvedAnimation(
       parent: _heroController,
       curve: Curves.easeOutBack,
@@ -92,7 +92,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
       begin: const Offset(0, 0.3),
       end: Offset.zero,
     ).animate(_contentAnimation);
-
     _heroController.forward();
     Future.delayed(const Duration(milliseconds: 200), () {
       if (mounted) _contentController.forward();
@@ -114,51 +113,38 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
       languageCode,
     );
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      body: CustomScrollView(
-        slivers: [
-          // Custom App Bar with Hero Image
-          _buildSliverAppBar(),
+    return BlocProvider.value(
+      value: viewModel..getChildDetails(childId: widget.child.idChildren ?? 0),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        body: CustomScrollView(
+          slivers: [
+            // Custom App Bar with Hero Image
+            _buildSliverAppBar(),
 
-          // Content
-          SliverToBoxAdapter(
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: FadeTransition(
-                opacity: _contentAnimation,
-                child: Column(
-                  children: [
-                    // Main Info Card
-                    _buildMainInfoCard(ageString, languageCode),
-                    //
-                    // const SizedBox(height: 16),
-                    //
-                    // // Statistics Cards
-                    // _buildStatisticsSection(),
-                    //
-                    // const SizedBox(height: 16),
+            // Content
+            SliverToBoxAdapter(
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: FadeTransition(
+                  opacity: _contentAnimation,
+                  child: Column(
+                    children: [
+                      _buildMainInfoCard(ageString, languageCode),
 
-                    // // Activities Section
-                    // _buildActivitiesSection(),
-                    //
-                    // const SizedBox(height: 16),
-
-                    // Medical Info Section
-                    // _buildMedicalInfoSection(),
-
-                    const SizedBox(height: 100),
-                  ],
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
 
-      // Floating Action Buttons
-      floatingActionButton: _buildFloatingActions(child: widget.child),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        // Floating Action Buttons
+        floatingActionButton: _buildFloatingActions(child: widget.child),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
     );
   }
 
@@ -375,251 +361,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
     );
   }
 
-  Widget _buildStatisticsSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'الإحصائيات',
-            style: getBoldStyle(
-              color: Colors.black87,
-              fontSize: 20,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  icon: Icons.psychology_rounded,
-                  title: 'الأنشطة',
-                  value: '12',
-                  subtitle: 'نشاط مكتمل',
-                  color: Colors.purple,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  icon: Icons.trending_up_rounded,
-                  title: 'التقدم',
-                  value: '85%',
-                  subtitle: 'معدل الإنجاز',
-                  color: Colors.green,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required String title,
-    required String value,
-    required String subtitle,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActivitiesSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'الأنشطة الحديثة',
-                style: getBoldStyle(
-                  color: Colors.black87,
-                  fontSize: 20,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigate to activities page
-                },
-                child: const Text('عرض الكل'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 100,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        offset: const Offset(0, 2),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.gamepad_rounded,
-                        color: ColorManager.primaryColor,
-                        size: 32,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'نشاط ${index + 1}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMedicalInfoSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.medical_information_rounded,
-                color: Colors.red.shade400,
-                size: 24,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'المعلومات الطبية',
-                style: getBoldStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildMedicalItem('فصيلة الدم', 'O+'),
-          _buildMedicalItem('الحساسية', 'لا توجد'),
-          _buildMedicalItem('الأدوية', 'لا توجد'),
-          _buildMedicalItem('آخر فحص', '2024/01/15'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMedicalItem(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade600,
-            ),
-          ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildFloatingActions({required Children child}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -634,7 +375,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
         FloatingActionButton(
           heroTag: 'chat',
           onPressed: () {
-           Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => SelectStoriesScreenPage(child: child),
@@ -642,7 +383,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
             );
           },
           backgroundColor: Colors.green,
-          child: const Icon( Icons.gamepad_rounded, color: Colors.white),
+          child: const Icon(Icons.gamepad_rounded, color: Colors.white),
         ),
       ],
     );
@@ -652,6 +393,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
     // Navigate to edit child page
     // context.read<ChildrenCubit>().editChild(widget.child);
   }
+
   void _handleDeleteChild() {
     DeleteConfirmationDialog.show(
       context,
@@ -661,8 +403,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
           final cubit = context.read<ChildrenCubit>();
           await cubit.deleteChild(widget.child.idChildren!);
         } catch (e) {
-
-        return;
+          return;
         }
 
         if (mounted) {

@@ -190,15 +190,8 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
-    gh.factory<_i157.ChildDetailsPageRepository>(
-      () => _i525.ChildDetailsPageRepositoryImpl(),
-    );
     gh.factory<_i271.SettingsRepository>(() => _i583.SettingsRepositoryImpl());
     gh.factory<_i126.HomeRepository>(() => _i60.HomeRepositoryImpl());
-    gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
-      () =>
-          _i630.ChildDetailsPageUseCase(gh<_i157.ChildDetailsPageRepository>()),
-    );
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
     gh.factory<_i719.EditProfileDatasourceRepo>(
       () => _i385.EditProfileDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -236,9 +229,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
       () =>
           _i659.ChatBotAssistantUseCase(gh<_i20.ChatBotAssistantRepository>()),
-    );
-    gh.factory<_i508.ChildDetailsPageCubit>(
-      () => _i508.ChildDetailsPageCubit(gh<_i75.ChildDetailsPageUseCaseRepo>()),
     );
     gh.factory<_i650.SettingsUseCaseRepo>(
       () => _i502.SettingsUseCase(gh<_i271.SettingsRepository>()),
@@ -311,6 +301,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i159.DirectionsCubit>(
       () => _i159.DirectionsCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
     );
+    gh.factory<_i157.ChildDetailsPageRepository>(
+      () => _i525.ChildDetailsPageRepositoryImpl(
+        gh<_i354.ChildDetailsPageDatasourceRepo>(),
+      ),
+    );
     gh.factory<_i933.StoriesPlayRepository>(
       () => _i1050.StoriesPlayRepositoryImpl(
         gh<_i1037.StoriesPlayDatasourceRepo>(),
@@ -343,6 +338,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i212.ChildrenStoriesCubit>(
       () => _i212.ChildrenStoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
     );
+    gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
+      () =>
+          _i630.ChildDetailsPageUseCase(gh<_i157.ChildDetailsPageRepository>()),
+    );
     gh.factory<_i36.NewChildrenCubit>(
       () => _i36.NewChildrenCubit(gh<_i416.NewChildrenUseCaseRepo>()),
     );
@@ -357,6 +356,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i286.EditProfileCubit>(
       () => _i286.EditProfileCubit(gh<_i689.EditProfileUseCaseRepo>()),
+    );
+    gh.factory<_i508.ChildDetailsCubit>(
+      () => _i508.ChildDetailsCubit(gh<_i75.ChildDetailsPageUseCaseRepo>()),
     );
     gh.factory<_i879.StoriesCubit>(
       () => _i879.StoriesCubit(

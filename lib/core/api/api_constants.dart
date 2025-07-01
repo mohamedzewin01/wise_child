@@ -20,6 +20,7 @@ class ApiConstants {
   static const String getStoryCategories = "stories/get_story_categories";
   static const String storiesByCategory = "stories/stories_by_category.php";
   static const String saveChildStory = "stories/save_child_story";
+  static const String childrenDetails = "children/children_details";
 
 
 }
