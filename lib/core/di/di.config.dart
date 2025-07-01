@@ -40,18 +40,6 @@ import '../../features/ChatBotAssistant/presentation/bloc/ChatBotAssistant_cubit
     as _i582;
 import '../../features/ChatBotAssistant/presentation/bloc/directions_cubit/directions_cubit.dart'
     as _i159;
-import '../../features/Child/data/datasources/Child_datasource_repo.dart'
-    as _i58;
-import '../../features/Child/data/datasources/Child_datasource_repo_impl.dart'
-    as _i588;
-import '../../features/Child/data/repositories_impl/Child_repo_impl.dart'
-    as _i340;
-import '../../features/Child/domain/repositories/Child_repository.dart'
-    as _i878;
-import '../../features/Child/domain/useCases/Child_useCase_repo.dart' as _i962;
-import '../../features/Child/domain/useCases/Child_useCase_repo_impl.dart'
-    as _i608;
-import '../../features/Child/presentation/bloc/Child_cubit.dart' as _i199;
 import '../../features/ChildDetailsPage/data/datasources/ChildDetailsPage_datasource_repo.dart'
     as _i354;
 import '../../features/ChildDetailsPage/data/datasources/ChildDetailsPage_datasource_repo_impl.dart'
@@ -66,6 +54,20 @@ import '../../features/ChildDetailsPage/domain/useCases/ChildDetailsPage_useCase
     as _i630;
 import '../../features/ChildDetailsPage/presentation/bloc/ChildDetailsPage_cubit.dart'
     as _i508;
+import '../../features/ChildMode/data/datasources/ChildMode_datasource_repo.dart'
+    as _i919;
+import '../../features/ChildMode/data/datasources/ChildMode_datasource_repo_impl.dart'
+    as _i1014;
+import '../../features/ChildMode/data/repositories_impl/ChildMode_repo_impl.dart'
+    as _i733;
+import '../../features/ChildMode/domain/repositories/ChildMode_repository.dart'
+    as _i280;
+import '../../features/ChildMode/domain/useCases/ChildMode_useCase_repo.dart'
+    as _i601;
+import '../../features/ChildMode/domain/useCases/ChildMode_useCase_repo_impl.dart'
+    as _i868;
+import '../../features/ChildMode/presentation/bloc/ChildMode_cubit.dart'
+    as _i234;
 import '../../features/Children/data/datasources/Children_datasource_repo.dart'
     as _i424;
 import '../../features/Children/data/datasources/Children_datasource_repo_impl.dart'
@@ -206,9 +208,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
     gh.factory<_i271.SettingsRepository>(() => _i583.SettingsRepositoryImpl());
     gh.factory<_i126.HomeRepository>(() => _i60.HomeRepositoryImpl());
+    gh.factory<_i280.ChildModeRepository>(
+      () => _i733.ChildModeRepositoryImpl(),
+    );
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
     gh.factory<_i719.EditProfileDatasourceRepo>(
       () => _i385.EditProfileDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i919.ChildModeDatasourceRepo>(
+      () => _i1014.ChildModeDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
     gh.factory<_i574.SelectStoriesScreenDatasourceRepo>(
       () => _i166.SelectStoriesScreenDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -224,13 +232,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1043.EditChildrenDatasourceRepo>(
       () => _i1014.EditChildrenDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
-    gh.factory<_i58.ChildDatasourceRepo>(
-      () => _i588.ChildDatasourceRepoImpl(gh<_i680.ApiService>()),
-    );
     gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
       () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
-    gh.factory<_i878.ChildRepository>(() => _i340.ChildRepositoryImpl());
     gh.factory<_i543.HomeUseCaseRepo>(
       () => _i557.HomeUseCase(gh<_i126.HomeRepository>()),
     );
@@ -277,6 +281,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i93.SelectStoriesScreenUseCaseRepo>(),
       ),
     );
+    gh.factory<_i601.ChildModeUseCaseRepo>(
+      () => _i868.ChildModeUseCase(gh<_i280.ChildModeRepository>()),
+    );
     gh.factory<_i1073.StoriesDatasourceRepo>(
       () => _i256.StoriesDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -315,11 +322,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
     );
-    gh.factory<_i962.ChildUseCaseRepo>(
-      () => _i608.ChildUseCase(gh<_i878.ChildRepository>()),
-    );
     gh.factory<_i371.HomeCubit>(
       () => _i371.HomeCubit(gh<_i543.HomeUseCaseRepo>()),
+    );
+    gh.factory<_i234.ChildModeCubit>(
+      () => _i234.ChildModeCubit(gh<_i601.ChildModeUseCaseRepo>()),
     );
     gh.factory<_i416.NewChildrenUseCaseRepo>(
       () => _i863.NewChildrenUseCase(gh<_i781.NewChildrenRepository>()),
@@ -363,9 +370,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i212.ChildrenStoriesCubit>(
       () => _i212.ChildrenStoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
-    );
-    gh.factory<_i199.ChildCubit>(
-      () => _i199.ChildCubit(gh<_i962.ChildUseCaseRepo>()),
     );
     gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
       () =>
