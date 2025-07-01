@@ -40,6 +40,18 @@ import '../../features/ChatBotAssistant/presentation/bloc/ChatBotAssistant_cubit
     as _i582;
 import '../../features/ChatBotAssistant/presentation/bloc/directions_cubit/directions_cubit.dart'
     as _i159;
+import '../../features/Child/data/datasources/Child_datasource_repo.dart'
+    as _i58;
+import '../../features/Child/data/datasources/Child_datasource_repo_impl.dart'
+    as _i588;
+import '../../features/Child/data/repositories_impl/Child_repo_impl.dart'
+    as _i340;
+import '../../features/Child/domain/repositories/Child_repository.dart'
+    as _i878;
+import '../../features/Child/domain/useCases/Child_useCase_repo.dart' as _i962;
+import '../../features/Child/domain/useCases/Child_useCase_repo_impl.dart'
+    as _i608;
+import '../../features/Child/presentation/bloc/Child_cubit.dart' as _i199;
 import '../../features/ChildDetailsPage/data/datasources/ChildDetailsPage_datasource_repo.dart'
     as _i354;
 import '../../features/ChildDetailsPage/data/datasources/ChildDetailsPage_datasource_repo_impl.dart'
@@ -212,9 +224,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1043.EditChildrenDatasourceRepo>(
       () => _i1014.EditChildrenDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i58.ChildDatasourceRepo>(
+      () => _i588.ChildDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i196.ChatBotAssistantDatasourceRepo>(
       () => _i710.ChatBotAssistantDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i878.ChildRepository>(() => _i340.ChildRepositoryImpl());
     gh.factory<_i543.HomeUseCaseRepo>(
       () => _i557.HomeUseCase(gh<_i126.HomeRepository>()),
     );
@@ -299,6 +315,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
     );
+    gh.factory<_i962.ChildUseCaseRepo>(
+      () => _i608.ChildUseCase(gh<_i878.ChildRepository>()),
+    );
     gh.factory<_i371.HomeCubit>(
       () => _i371.HomeCubit(gh<_i543.HomeUseCaseRepo>()),
     );
@@ -344,6 +363,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i212.ChildrenStoriesCubit>(
       () => _i212.ChildrenStoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
+    );
+    gh.factory<_i199.ChildCubit>(
+      () => _i199.ChildCubit(gh<_i962.ChildUseCaseRepo>()),
     );
     gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
       () =>
