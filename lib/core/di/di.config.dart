@@ -68,6 +68,8 @@ import '../../features/ChildMode/domain/useCases/ChildMode_useCase_repo_impl.dar
     as _i868;
 import '../../features/ChildMode/presentation/bloc/ChildMode_cubit.dart'
     as _i234;
+import '../../features/ChildMode/presentation/widgets/ChildModeCubit.dart'
+    as _i247;
 import '../../features/Children/data/datasources/Children_datasource_repo.dart'
     as _i424;
 import '../../features/Children/data/datasources/Children_datasource_repo_impl.dart'
@@ -327,6 +329,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i234.ChildModeCubit>(
       () => _i234.ChildModeCubit(gh<_i601.ChildModeUseCaseRepo>()),
+    );
+    gh.factory<_i247.ChildModeCubit>(
+      () => _i247.ChildModeCubit(gh<_i601.ChildModeUseCaseRepo>()),
     );
     gh.factory<_i416.NewChildrenUseCaseRepo>(
       () => _i863.NewChildrenUseCase(gh<_i781.NewChildrenRepository>()),

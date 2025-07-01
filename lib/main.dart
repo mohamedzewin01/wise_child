@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wise_child/core/remote/firebase_config.dart';
+import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
 
 
 import 'core/di/di.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: RouteGenerator.getRoute,
             initialRoute: RoutesManager.welcomeScreen,
+            home: ChildModePage(),
           );
         },
       ),
