@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo.dart';
@@ -31,9 +33,19 @@ class SelectStoriesScreenRepositoryImpl
   }
 
   @override
-  Future<Result<SaveStoryEntity?>> saveChildrenStories(SaveStoryRequest saveStoryRequest) {
- return selectStoriesScreenDatasourceRepo.saveChildrenStories(saveStoryRequest);
+  Future<Result<SaveStoryEntity?>> saveChildrenStories(
+      SaveStoryRequest saveStoryRequest) {
+    return selectStoriesScreenDatasourceRepo.saveChildrenStories(
+        saveStoryRequest);
   }
 
-  // implementation
+  @override
+  Future<Result<AddKidsFavoriteImageEntity?>> addKidsFavoriteImage(
+      {File? image, int? idChildren, int? storyId}) {
+    return selectStoriesScreenDatasourceRepo.addKidsFavoriteImage(
+        image: image, idChildren: idChildren, storyId: storyId);
+
+  }
+
+// implementation
 }

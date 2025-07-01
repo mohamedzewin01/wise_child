@@ -6,6 +6,7 @@ import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/di/di.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/widgets/expandable_text.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
 
@@ -53,7 +54,7 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
+      height: MediaQuery.of(context).size.height * 0.90,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -139,10 +140,23 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
               textDirection: widget.isRTL ? TextDirection.rtl : TextDirection.ltr,
             ),
           ),
-          IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close),
-            color: Colors.grey.shade600,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close),
+              color: Colors.grey.shade600,
+            ),
           ),
         ],
       ),
@@ -202,14 +216,9 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
   }
 
   Widget _buildDescription() {
-    return Text(
-      widget.story.storyDescription!,
-      style: TextStyle(
-        fontSize: 14,
-        color: Colors.grey.shade700,
-        height: 1.6,
-      ),
-      textDirection: widget.isRTL ? TextDirection.rtl : TextDirection.ltr,
+    return ExpandableText(
+      description: widget.story.storyDescription!,
+      isRTL: widget.isRTL,
     );
   }
 
@@ -551,3 +560,7 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
     );
   }
 }
+
+
+
+

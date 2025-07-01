@@ -24,6 +24,7 @@ import 'package:wise_child/features/NewChildren/data/models/response/upload_imag
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/add_kids_favorite_image_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
@@ -84,6 +85,14 @@ abstract class ApiService {
     @Part(name: "id_children") String? idChildren,
   );
 
+  @MultiPart()
+  @POST(ApiConstants.addKidsFavoriteImage)
+  Future<AddKidsFavoriteImageRequest?> addKidsFavoriteImage(
+    @Part(name: "image") File? image,
+    @Part(name: "id_children") int? idChildren,
+    @Part(name: "story_id") int? storyId,
+  );
+
   @POST(ApiConstants.deleteChildren)
   Future<DeleteChildrenDto?> deleteChildren(
     @Body() DeleteChildrenRequest deleteChildrenRequest,
@@ -93,11 +102,6 @@ abstract class ApiService {
   Future<StoryPlayDto?> getClipsStory(
     @Body() StoryPlayRequestModel storyPlayRequestModel,
   );
-
-  // @POST(ApiConstants.getChildrenStories)
-  // Future<GetChildrenStoriesDto?> getChildrenStories(
-  //     @Part(name: "childrenId") String? idChildren
-  //     );
 
   @POST(ApiConstants.getChildrenStories3)
   Future<ChildrenStoriesModelDto?> getChildrenStories(
@@ -113,6 +117,7 @@ abstract class ApiService {
   Future<GetCategoriesStoriesDto?> getCategoriesStories(
     @Body() GetCategoriesStoriesRequest? getCategoriesStoriesRequest,
   );
+
   @POST(ApiConstants.storiesByCategory)
   Future<StoriesByCategoryDto?> storiesByCategory(
     @Body() StoriesByCategoryRequest? storiesByCategoryRequest,
@@ -122,12 +127,11 @@ abstract class ApiService {
   Future<SaveStoryDto?> saveChildStory(
     @Body() SaveStoryRequest? saveStoryRequest,
   );
+
   @POST(ApiConstants.childrenDetails)
   Future<ChildrenDetailsDto?> childrenDetails(
     @Body() ChildrenDetailsRequest? childrenDetailsRequest,
   );
-
-
 }
 
 //  @MultiPart()

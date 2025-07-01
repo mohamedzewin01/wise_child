@@ -34,7 +34,7 @@ class StoriesSection extends StatelessWidget {
 
           if (stories.isEmpty) {
             return  CommonStatesWidgets.empty(
-              icon: Icons.book_outlined,
+              icon: Icons.menu_book_rounded,
               title: 'لا توجد قصص متاحة',
               subtitle: 'لم يتم العثور على قصص في هذه الفئة حالياً',
             );

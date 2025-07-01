@@ -145,7 +145,7 @@ class Friends {
   @JsonKey(name: "friend_gender")
   final String? friendGender;
   @JsonKey(name: "friend_contact")
-  final dynamic? friendContact;
+  final int? friendContact;
 
   Friends({
     this.idFriend,
@@ -178,7 +178,7 @@ class Siblings {
   @JsonKey(name: "sibling_gender")
   final String? siblingGender;
   @JsonKey(name: "relationship")
-  final dynamic? relationship;
+  final int? relationship;
 
   Siblings({
     this.idSibling,

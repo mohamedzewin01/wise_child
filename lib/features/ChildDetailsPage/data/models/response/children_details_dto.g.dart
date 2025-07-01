@@ -96,7 +96,7 @@ Friends _$FriendsFromJson(Map<String, dynamic> json) => Friends(
   friendName: json['friend_name'] as String?,
   friendAge: (json['friend_age'] as num?)?.toInt(),
   friendGender: json['friend_gender'] as String?,
-  friendContact: json['friend_contact'],
+  friendContact: (json['friend_contact'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$FriendsToJson(Friends instance) => <String, dynamic>{
@@ -114,7 +114,7 @@ Siblings _$SiblingsFromJson(Map<String, dynamic> json) => Siblings(
   siblingName: json['sibling_name'] as String?,
   siblingAge: (json['sibling_age'] as num?)?.toInt(),
   siblingGender: json['sibling_gender'] as String?,
-  relationship: json['relationship'],
+  relationship: (json['relationship'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$SiblingsToJson(Siblings instance) => <String, dynamic>{

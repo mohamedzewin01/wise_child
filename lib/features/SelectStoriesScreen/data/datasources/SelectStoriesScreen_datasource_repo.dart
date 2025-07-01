@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
@@ -12,7 +14,13 @@ abstract class SelectStoriesScreenDatasourceRepo {
     int? page,
   });
 
+  Future<Result<SaveStoryEntity?>> saveChildrenStories(
+    SaveStoryRequest saveStoryRequest,
+  );
 
-  Future<Result<SaveStoryEntity?>> saveChildrenStories(SaveStoryRequest saveStoryRequest);
-
+  Future<Result<AddKidsFavoriteImageEntity?>> addKidsFavoriteImage({
+    File? image,
+    int? idChildren,
+    int? storyId,
+  });
 }

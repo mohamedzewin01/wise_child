@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
@@ -57,6 +59,14 @@ class SelectStoriesScreenDatasourceRepoImpl
   Future<Result<SaveStoryEntity?>> saveChildrenStories(SaveStoryRequest saveStoryRequest) {
    return executeApi(() async {
       var stories = await apiService.saveChildStory(saveStoryRequest);
+      return stories?.toEntity();
+    });
+  }
+
+  @override
+  Future<Result<AddKidsFavoriteImageEntity?>> addKidsFavoriteImage({File? image, int? idChildren, int? storyId}) {
+   return executeApi(() async {
+      var stories = await apiService.addKidsFavoriteImage(image, idChildren, storyId);
       return stories?.toEntity();
     });
   }

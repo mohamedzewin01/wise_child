@@ -2,7 +2,6 @@ import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
 
 class GetCategoriesStoriesEntity {
-
   final String? status;
 
   final String? message;
@@ -13,20 +12,16 @@ class GetCategoriesStoriesEntity {
 
   final List<Categories>? categories;
 
-  GetCategoriesStoriesEntity ({
+  GetCategoriesStoriesEntity({
     this.status,
     this.message,
     this.hasCategories,
     this.count,
     this.categories,
   });
-
-
 }
 
-
 class StoriesByCategoryEntity {
-
   final String? status;
 
   final String? message;
@@ -43,7 +38,7 @@ class StoriesByCategoryEntity {
 
   final List<StoriesCategory>? stories;
 
-  StoriesByCategoryEntity ({
+  StoriesByCategoryEntity({
     this.status,
     this.message,
     this.page,
@@ -53,21 +48,22 @@ class StoriesByCategoryEntity {
     this.count,
     this.stories,
   });
-
-
 }
 
-
 class SaveStoryEntity {
-
   final String? status;
 
   final String? message;
 
-  SaveStoryEntity ({
-    this.status,
-    this.message,
-  });
+  SaveStoryEntity({this.status, this.message});
+}
 
+class AddKidsFavoriteImageEntity {
+  final String? status;
 
+  final String? message;
+
+  final String? imageUrl;
+
+  AddKidsFavoriteImageEntity({this.status, this.message, this.imageUrl});
 }
