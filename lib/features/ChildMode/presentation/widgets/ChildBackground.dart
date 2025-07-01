@@ -19,10 +19,10 @@ class ChildBackground extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.blue.shade200,
-            Colors.purple.shade200,
-            Colors.pink.shade200,
-            Colors.orange.shade200,
+            Colors.blue.shade100,
+            Colors.purple.shade100,
+            Colors.pink.shade100,
+            Colors.orange.shade100,
           ],
           stops: const [0.0, 0.3, 0.7, 1.0],
         ),
@@ -78,14 +78,14 @@ class ChildBackground extends StatelessWidget {
     ];
 
     final colors = [
-      Colors.yellow.shade300,
-      Colors.pink.shade300,
-      Colors.blue.shade300,
-      Colors.green.shade300,
-      Colors.orange.shade300,
-      Colors.purple.shade300,
-      Colors.red.shade300,
-      Colors.cyan.shade300,
+      Colors.yellow.shade200,
+      Colors.pink.shade200,
+      Colors.blue.shade200,
+      Colors.green.shade200,
+      Colors.orange.shade200,
+      Colors.purple.shade200,
+      Colors.red.shade200,
+      Colors.cyan.shade200,
     ];
 
     final iconIndex = index % icons.length;
