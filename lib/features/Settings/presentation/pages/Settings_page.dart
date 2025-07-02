@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
@@ -375,8 +376,8 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
 
         _buildModernSettingsRow(
           icon: Icons.feedback_outlined,
-          title: 'إرسال ملاحظات',
-          subtitle: 'شاركنا رأيك لتحسين التطبيق',
+          title: 'إرسال ملاحظة، شكوى أو اقتراح',
+          subtitle: 'نرحب بكل ملاحظاتك واقتراحاتك ',
           trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           onTap: () {
             _showFeedbackDialog();
@@ -413,7 +414,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           title: 'تسجيل الخروج',
           subtitle: 'الخروج من الحساب الحالي',
           onTap: () {
-            _showLogoutDialog();
+            _showLogoutDialog(context);
           },
         ),
       ],
@@ -965,46 +966,300 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
 
   void _showFeedbackDialog() {
     final TextEditingController feedbackController = TextEditingController();
+    String selectedFeedbackType = 'اقتراح'; // القيمة الافتراضية
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('إرسال ملاحظات'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('شاركنا رأيك لتحسين التطبيق'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: feedbackController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'اكتب ملاحظاتك هنا...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 10,
+          title: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Color(0xFF6B46C1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                child: Icon(
+                  Icons.feedback_outlined,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+              SizedBox(width: 12),
+              Text(
+                'إرسال ملاحظات',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1F2937),
+                ),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'شاركنا رأيك لتحسين التطبيق',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF6B7280),
+                    height: 1.5,
+                  ),
+                ),
+                SizedBox(height: 20),
+
+                // قسم اختيار نوع الملاحظة
+                Text(
+                  'نوع الملاحظة:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                SizedBox(height: 12),
+
+                // التبويبات الأفقية
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF3F4F6),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildTabOption(
+                          'شكوى',
+                          Icons.report_problem_outlined,
+                          Color(0xFFEF4444),
+                          selectedFeedbackType == 'شكوى',
+                              () => setState(() => selectedFeedbackType = 'شكوى'),
+                        ),
+                      ),
+                      Expanded(
+                        child: _buildTabOption(
+                          'طلب قصة',
+                          Icons.auto_stories_outlined,
+                          Color(0xFF10B981),
+                          selectedFeedbackType == 'طلب قصة',
+                              () => setState(() => selectedFeedbackType = 'طلب قصة'),
+                        ),
+                      ),
+                      Expanded(
+                        child: _buildTabOption(
+                          'اقتراح',
+                          Icons.lightbulb_outline,
+                          Color(0xFFF59E0B),
+                          selectedFeedbackType == 'اقتراح',
+                              () => setState(() => selectedFeedbackType = 'اقتراح'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                // حقل النص
+                Text(
+                  'تفاصيل الملاحظة:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF374151),
+                  ),
+                ),
+                SizedBox(height: 12),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Color(0xFFD1D5DB)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: feedbackController,
+                    maxLines: 4,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF374151),
+                    ),
+                    decoration: InputDecoration(
+                      hintText: _getHintText(selectedFeedbackType),
+                      hintStyle: TextStyle(
+                        color: Color(0xFF9CA3AF),
+                        fontSize: 15,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(16),),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            // زر الإلغاء
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+                'إلغاء',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF6B7280),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+
+            // زر الإرسال
+            ElevatedButton(
+              onPressed: () {
+                if (feedbackController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('يرجى كتابة ملاحظاتك قبل الإرسال'),
+                      backgroundColor: Color(0xFFEF4444),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text('تم إرسال ${selectedFeedbackType.toLowerCase()} بنجاح، شكراً لك!'),
+                      ],
+                    ),
+                    backgroundColor: Color(0xFF10B981),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF6B46C1),
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 2,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.send, size: 18),
+                  SizedBox(width: 8),
+                  Text(
+                    'إرسال',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('إلغاء'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('تم إرسال ملاحظاتك، شكراً لك!')),
-              );
-            },
-            child: Text('إرسال'),
-          ),
-        ],
       ),
     );
+  }
+
+// دالة مساعدة لبناء تبويبات نوع الملاحظة
+  Widget _buildTabOption(
+      String title,
+      IconData icon,
+      Color color,
+      bool isSelected,
+      VoidCallback onTap,
+      ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: isSelected ? color : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: isSelected ? [
+            BoxShadow(
+              color: color.withOpacity(0.3),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ] : [],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Colors.white : Color(0xFF6B7280),
+              size: 18,
+            ),
+            SizedBox(height: 2),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected ? Colors.white : Color(0xFF6B7280),
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+// دالة للحصول على النص التوضيحي حسب نوع الملاحظة
+  String _getHintText(String feedbackType) {
+    switch (feedbackType) {
+      case 'شكوى':
+        return 'اكتب تفاصيل الشكوى أو المشكلة التي واجهتك...';
+      case 'طلب قصة':
+        return 'اكتب تفاصيل القصة التي تريد إضافتها للتطبيق...';
+      case 'اقتراح':
+        return 'اكتب اقتراحك لتحسين التطبيق...';
+      default:
+        return 'اكتب ملاحظاتك هنا...';
+    }
   }
 
   void _showAboutDialog() {
@@ -1047,9 +1302,21 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () {
-              Navigator.pop(context);
-              // Implement account deletion
+            onPressed: () async {
+              CacheService.clearItems();
+              await CacheService.setData(
+                key: CacheKeys.userActive,
+                value: false,
+              );
+
+              if (context.mounted) {
+                Navigator.of(context).pop(); // إغلاق الـ dialog
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesManager.welcomeScreen,
+                      (route) => false, // إزالة جميع الصفحات السابقة من الستاك
+                );
+              }
             },
             child: Text('حذف الحساب'),
           ),
@@ -1058,27 +1325,43 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 
-  void _showLogoutDialog() {
+  void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('تسجيل الخروج'),
-        content: Text('هل أنت متأكد من تسجيل الخروج؟'),
+        title: const Text('تسجيل الخروج'),
+        content: const Text('هل أنت متأكد من تسجيل الخروج؟'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('إلغاء'),
+            onPressed: () {
+              Navigator.of(context).pop(); // إغلاق النافذة فقط
+            },
+            child: const Text('إلغاء'),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // Implement logout
+            onPressed: () async {
+
+               CacheService.clearItems();
+              await CacheService.setData(
+                key: CacheKeys.userActive,
+                value: false,
+              );
+
+              if (context.mounted) {
+                Navigator.of(context).pop(); // إغلاق الـ dialog
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesManager.welcomeScreen,
+                      (route) => false, // إزالة جميع الصفحات السابقة من الستاك
+                );
+              }
             },
-            child: Text('تسجيل الخروج'),
+            child: const Text('تسجيل الخروج'),
           ),
         ],
       ),
     );
   }
+
 }

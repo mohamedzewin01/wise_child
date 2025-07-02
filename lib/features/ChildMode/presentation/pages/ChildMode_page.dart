@@ -228,10 +228,9 @@ class _ChildModePageState extends State<ChildModePage>
           // ترحيب بسيط بالطفل
           _buildWelcomeSection(),
 
-          const SizedBox(height: 20),
-
-          // شريط البحث الممتع
-          _buildFunSearchBar(),
+          const SizedBox(height: 5),
+          // // شريط البحث الممتع
+          // _buildFunSearchBar(),
         ],
       ),
     );

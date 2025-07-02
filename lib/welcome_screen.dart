@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
 
 import 'core/widgets/Privacy_Policy.dart';
@@ -29,7 +30,6 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-
                       CircleAvatar(
                         radius: 50,
                         backgroundColor: ColorManager.cardBackground,
@@ -73,13 +73,17 @@ class WelcomeScreen extends StatelessWidget {
                         FeatureRow(
                           circleBgColor: ColorManager.feature1Bg,
                           iconColor: ColorManager.feature1Icon,
-                          text: AppLocalizations.of(context)!.personalizedStories,
+                          text: AppLocalizations.of(
+                            context,
+                          )!.personalizedStories,
                         ),
                         const SizedBox(height: 18),
                         FeatureRow(
                           circleBgColor: ColorManager.feature2Bg,
                           iconColor: ColorManager.feature2IconColor,
-                          text: AppLocalizations.of(context)!.expertGuidedSolutions,
+                          text: AppLocalizations.of(
+                            context,
+                          )!.expertGuidedSolutions,
                         ),
                         const SizedBox(height: 18),
                         FeatureRow(
@@ -93,11 +97,10 @@ class WelcomeScreen extends StatelessWidget {
                   Column(
                     children: [
                       AnimatedArrowButton(
-                        onTap:  () {
-                          Navigator.pushNamed(context, RoutesManager.authPage);
+                        onTap: () {
+                          checkUserStatus(context);
                         },
                         title: AppLocalizations.of(context)!.getStarted,
-
                       ),
                       const SizedBox(height: 20),
                       PrivacyPolicy(),
@@ -107,16 +110,22 @@ class WelcomeScreen extends StatelessWidget {
                 ],
               ),
 
-              Positioned(
-                top: 0,
-                right: 0,
-                child:  ChangeLanguage(),
-              ),
+              Positioned(top: 0, right: 0, child: ChangeLanguage()),
             ],
           ),
         ),
       ),
     );
   }
-}
 
+  void checkUserStatus(BuildContext context) async {
+    final isActive =
+        await CacheService.getData(key: CacheKeys.userActive) ?? false;
+
+    if (isActive && context.mounted) {
+      Navigator.pushNamed(context, RoutesManager.layoutScreen);
+    } else {
+      if (context.mounted) Navigator.pushNamed(context, RoutesManager.authPage);
+    }
+  }
+}

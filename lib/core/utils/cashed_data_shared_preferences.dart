@@ -41,6 +41,7 @@ class CacheService {
   }
 }
 
+
 class CacheKeys {
   static const String defaultLanguage = 'defaultLanguage';
   static const String userId = 'userId';
@@ -54,6 +55,7 @@ class CacheKeys {
   static const String childModeActive = 'child_mode_active';
   static const String childModeSelectedChild = 'child_mode_selected_child';
   static const String childModePin = 'child_mode_pin';
+  static const String userActive = 'userActive';
 
 }
 
