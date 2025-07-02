@@ -28,6 +28,8 @@ import 'package:wise_child/features/SelectStoriesScreen/data/models/response/add
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
+import 'package:wise_child/features/Settings/data/models/request/get_user_details_request.dart';
+import 'package:wise_child/features/Settings/data/models/response/get_user_details_dto.dart';
 import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_request.dart';
@@ -132,6 +134,15 @@ abstract class ApiService {
   Future<ChildrenDetailsDto?> childrenDetails(
     @Body() ChildrenDetailsRequest? childrenDetailsRequest,
   );
+
+
+  @POST(ApiConstants.getUserDetails)
+  Future<GetUserDetailsDto?> getUserDetails(
+    @Body() GetUserDetailsRequest? getUserDetailsRequest,
+  );
+
+
+
 }
 
 //  @MultiPart()

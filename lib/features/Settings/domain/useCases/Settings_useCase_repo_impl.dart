@@ -1,3 +1,7 @@
+import 'package:wise_child/core/common/api_result.dart';
+
+import 'package:wise_child/features/Settings/domain/entities/user_entity.dart';
+
 import '../repositories/Settings_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../useCases/Settings_useCase_repo.dart';
@@ -8,7 +12,10 @@ class SettingsUseCase implements SettingsUseCaseRepo {
 
   SettingsUseCase(this.repository);
 
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  @override
+  Future<Result<GetUserDetailsEntity?>> getUserDetails() {
+ return repository.getUserDetails();
+  }
+
+
 }

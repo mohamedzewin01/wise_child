@@ -326,7 +326,6 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
             // Navigate to privacy settings
           },
         ),
-
       ],
     );
   }
@@ -653,6 +652,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           TextButton(
             onPressed: () {
               setState(() => _isChildModeActive = !isEnabled);
+              /// TODO: implement
               Navigator.pop(context);
             },
             child: Text('إلغاء'),

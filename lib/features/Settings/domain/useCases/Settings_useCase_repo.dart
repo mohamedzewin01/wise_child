@@ -1,5 +1,9 @@
+import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/Settings/domain/entities/user_entity.dart';
+
 abstract class SettingsUseCaseRepo {
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+
+
+
+  Future<Result<GetUserDetailsEntity?>> getUserDetails();
 }

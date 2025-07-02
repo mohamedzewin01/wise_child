@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +9,12 @@ import '../bloc/StoriesPlay_cubit.dart';
 import '../widgets/story_page_view.dart';
 
 class StoriesPlayPage extends StatefulWidget {
-  const StoriesPlayPage({super.key, required this.childId, required this.storyId});
-final int childId;
-final int storyId;
+  const StoriesPlayPage(
+      {super.key, required this.childId, required this.storyId});
+
+  final int childId;
+  final int storyId;
+
   @override
   State<StoriesPlayPage> createState() => _StoriesPlayPageState();
 }
@@ -31,7 +32,8 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: viewModel..getStories(childId: widget.childId ,storyId: widget.storyId)),
+        BlocProvider.value(value: viewModel
+          ..getStories(childId: widget.childId, storyId: widget.storyId)),
       ],
       child: Padding(
         padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
@@ -41,13 +43,16 @@ class _StoriesPlayPageState extends State<StoriesPlayPage> {
               return const Center(child: CircularProgressIndicator());
             }
             if (state is StoriesPlayFailure) {
-              return const Center(child: Text('حدث خطأ في تحميل القصة', style: TextStyle(color: Colors.red)));
+              return const Center(child: Text('حدث خطأ في تحميل القصة',
+                  style: TextStyle(color: Colors.red)));
             }
             if (state is StoriesPlaySuccess) {
-         String status = state.storyPlayEntity.status ?? '';
+              String status = state.storyPlayEntity.status ?? '';
 
               List<Clips> storyPages = state.storyPlayEntity.clips ?? [];
-              return status == 'processing' ?  Center(child: Text(state.storyPlayEntity.message ?? '')) : StoryScreen(storyPages: storyPages);
+              return status == 'processing'
+                  ? Center(child: Text(state.storyPlayEntity.message ?? ''))
+                  : StoryScreen(storyPages: storyPages);
             }
             return const Center(child: CircularProgressIndicator());
           },
@@ -103,7 +108,8 @@ class StoryState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [currentPage, status, totalPages, storyPages, duration, position];
+  List<Object?> get props =>
+      [currentPage, status, totalPages, storyPages, duration, position];
 }
 
 class StoryCubit extends Cubit<StoryState> {
@@ -125,7 +131,9 @@ class StoryCubit extends Cubit<StoryState> {
       final playlist = ConcatenatingAudioSource(
         useLazyPreparation: false, // تحميل مسبق لكل المقاطع لتفادي التقطيع
         children: state.storyPages
-            .map((clip) => AudioSource.uri(Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
+            .map((clip) =>
+            AudioSource.uri(
+                Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
             .toList(),
       );
 
@@ -146,7 +154,8 @@ class StoryCubit extends Cubit<StoryState> {
   void _initAudioPlayer() {
     // مراقبة حالة المشغل
     _audioPlayer.playerStateStream.listen((playerState) {
-      print('Player state changed: ${playerState.processingState}, playing: ${playerState.playing}');
+      print('Player state changed: ${playerState
+          .processingState}, playing: ${playerState.playing}');
 
       // التحقق من انتهاء القائمة
       if (playerState.processingState == ProcessingState.completed) {
@@ -156,12 +165,15 @@ class StoryCubit extends Cubit<StoryState> {
             status: PlaybackStatus.finished,
             currentPage: state.storyPages.length - 1
         ));
-      } else if (playerState.playing && playerState.processingState != ProcessingState.completed) {
+      } else if (playerState.playing &&
+          playerState.processingState != ProcessingState.completed) {
         if (state.status != PlaybackStatus.playing) {
           emit(state.copyWith(status: PlaybackStatus.playing));
         }
-      } else if (playerState.processingState == ProcessingState.ready && !playerState.playing) {
-        if (state.status != PlaybackStatus.paused && state.status != PlaybackStatus.finished) {
+      } else if (playerState.processingState == ProcessingState.ready &&
+          !playerState.playing) {
+        if (state.status != PlaybackStatus.paused &&
+            state.status != PlaybackStatus.finished) {
           emit(state.copyWith(status: PlaybackStatus.paused));
         }
       }
@@ -172,7 +184,8 @@ class StoryCubit extends Cubit<StoryState> {
       if (index != null && !isClosed) {
         print('Audio track changed to index: $index');
         // التأكد من أن الفهرس صحيح
-        if (index >= 0 && index < state.storyPages.length && index != state.currentPage) {
+        if (index >= 0 && index < state.storyPages.length &&
+            index != state.currentPage) {
           emit(state.copyWith(currentPage: index));
         }
       }
@@ -215,7 +228,6 @@ class StoryCubit extends Cubit<StoryState> {
       await _audioPlayer.play();
 
       emit(state.copyWith(status: PlaybackStatus.playing));
-
     } catch (e) {
       print('Error restarting story: $e');
       emit(state.copyWith(status: PlaybackStatus.paused));

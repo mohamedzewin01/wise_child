@@ -166,6 +166,8 @@ import '../../features/Settings/domain/useCases/Settings_useCase_repo.dart'
 import '../../features/Settings/domain/useCases/Settings_useCase_repo_impl.dart'
     as _i502;
 import '../../features/Settings/presentation/bloc/Settings_cubit.dart' as _i241;
+import '../../features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart'
+    as _i281;
 import '../../features/Stories/data/datasources/Stories_datasource_repo.dart'
     as _i1073;
 import '../../features/Stories/data/datasources/Stories_datasource_repo_impl.dart'
@@ -208,7 +210,6 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
-    gh.factory<_i271.SettingsRepository>(() => _i583.SettingsRepositoryImpl());
     gh.factory<_i126.HomeRepository>(() => _i60.HomeRepositoryImpl());
     gh.factory<_i280.ChildModeRepository>(
       () => _i733.ChildModeRepositoryImpl(),
@@ -253,9 +254,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
       () =>
           _i659.ChatBotAssistantUseCase(gh<_i20.ChatBotAssistantRepository>()),
-    );
-    gh.factory<_i650.SettingsUseCaseRepo>(
-      () => _i502.SettingsUseCase(gh<_i271.SettingsRepository>()),
     );
     gh.factory<_i354.AuthDatasourceRepo>(
       () => _i485.AuthDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -327,6 +325,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i371.HomeCubit>(
       () => _i371.HomeCubit(gh<_i543.HomeUseCaseRepo>()),
     );
+    gh.factory<_i271.SettingsRepository>(
+      () => _i583.SettingsRepositoryImpl(gh<_i826.SettingsDatasourceRepo>()),
+    );
     gh.factory<_i234.ChildModeCubit>(
       () => _i234.ChildModeCubit(gh<_i601.ChildModeUseCaseRepo>()),
     );
@@ -361,8 +362,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i891.StoriesUseCaseRepo>(
       () => _i809.StoriesUseCase(gh<_i55.StoriesRepository>()),
     );
-    gh.factory<_i241.SettingsCubit>(
-      () => _i241.SettingsCubit(gh<_i650.SettingsUseCaseRepo>()),
+    gh.factory<_i650.SettingsUseCaseRepo>(
+      () => _i502.SettingsUseCase(gh<_i271.SettingsRepository>()),
     );
     gh.factory<_i380.StoriesPlayUseCaseRepo>(
       () => _i936.StoriesPlayUseCase(gh<_i933.StoriesPlayRepository>()),
@@ -397,6 +398,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i508.ChildDetailsCubit>(
       () => _i508.ChildDetailsCubit(gh<_i75.ChildDetailsPageUseCaseRepo>()),
+    );
+    gh.factory<_i241.SettingsCubit>(
+      () => _i241.SettingsCubit(gh<_i650.SettingsUseCaseRepo>()),
+    );
+    gh.factory<_i281.UserDetailsCubit>(
+      () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
     gh.factory<_i879.StoriesCubit>(
       () => _i879.StoriesCubit(
