@@ -51,8 +51,9 @@ class CacheKeys {
   static const String userGender = 'userGender';
   static const String userAge = 'userAge';
   static const String userPhone = 'userPhone';
-
-
+  static const String childModeActive = 'child_mode_active';
+  static const String childModeSelectedChild = 'child_mode_selected_child';
+  static const String childModePin = 'child_mode_pin';
 
 }
 

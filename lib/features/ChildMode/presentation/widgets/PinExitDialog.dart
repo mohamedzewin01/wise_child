@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'dart:math' as math;
@@ -22,7 +23,7 @@ class _PinExitDialogState extends State<PinExitDialog>
   late Animation<double> _shakeAnimation;
 
   String _enteredPin = '';
-  final String _correctPin = '1234'; // يمكن جعله قابل للتخصيص
+  final String _correctPin = CacheService.getData(key: CacheKeys.childModePin);
   bool _isWrongPin = false;
   int _attemptsLeft = 3;
 
@@ -96,6 +97,7 @@ class _PinExitDialogState extends State<PinExitDialog>
       // PIN صحيح - الخروج من وضع الطفل
       HapticFeedback.heavyImpact();
       Navigator.of(context).pop(true);
+   ///  Navigator.pushNamed(context, RoutesManager.layoutScreen);
     } else {
       // PIN خاطئ
       _attemptsLeft--;
@@ -162,17 +164,19 @@ class _PinExitDialogState extends State<PinExitDialog>
               ),
               child: Padding(
                 padding: const EdgeInsets.all(25),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 30),
-                    _buildPinDisplay(),
-                    const SizedBox(height: 30),
-                    _buildNumberPad(),
-                    const SizedBox(height: 20),
-                    _buildActionButtons(),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildHeader(),
+                      const SizedBox(height: 30),
+                      _buildPinDisplay(),
+                      const SizedBox(height: 30),
+                      _buildNumberPad(),
+                      const SizedBox(height: 20),
+                      _buildActionButtons(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -344,7 +348,7 @@ class _PinExitDialogState extends State<PinExitDialog>
   }
 
   Widget _buildNumberPad() {
-    return Container(
+    return SizedBox(
       width: 250,
       child: GridView.builder(
         shrinkWrap: true,

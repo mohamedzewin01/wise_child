@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_child/core/resources/cashed_image.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/Stories_cubit.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
 import '../../../../core/di/di.dart';
 import '../widgets/ChildBackground.dart';
 
@@ -757,9 +760,16 @@ class _ChildModePageState extends State<ChildModePage>
   }
 }
 
+// تحديث ملف: lib/features/ChildMode/presentation/widgets/ChildStoryGrid.dart
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
+// import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+// import 'package:wise_child/core/resources/cashed_image.dart';
 
 class ChildStoryGrid extends StatelessWidget {
-  final List<dynamic> stories;
+  final List<StoriesModeData> stories;
 
   const ChildStoryGrid({
     super.key,
@@ -785,104 +795,223 @@ class ChildStoryGrid extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               HapticFeedback.lightImpact();
-              // التنقل إلى صفحة تشغيل القصة
-              // Navigator.push(context, ...);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: _getCardColors(index),
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+              // التنقل إلى صفحة تشغيل القصة مع تأثير انتقال جميل
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      StoriesPlayPage(
+                        childId: story.childrenId ?? 0,
+                        storyId: story.storyId ?? 0,
+                      ),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    // تأثير انتقال ثلاثي الأبعاد
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.0, 1.0),
+                        end: Offset.zero,
+                      ).animate(CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      )),
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 600),
                 ),
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: _getCardColors(index)[0].withOpacity(0.3),
-                    blurRadius: 15,
-                    offset: const Offset(0, 8),
+              );
+            },
+            child: Hero(
+              tag: 'story_${story.storyId}',
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: _getCardColors(index),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Column(
-                  children: [
-                    // صورة القصة
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.auto_stories_rounded,
-                            size: 50,
-                            color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _getCardColors(index)[0].withOpacity(0.3),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Stack(
+                    children: [
+                      // صورة القصة
+                      Positioned.fill(
+                        child: story.imageCover != null
+                            ? CustomImage(
+                          url: story.imageCover!,
+                          width: double.infinity,
+                          height: double.infinity,
+                        )
+                            : Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: _getCardColors(index),
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.auto_stories_rounded,
+                              size: 60,
+                              color: Colors.white.withOpacity(0.8),
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    // معلومات القصة
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              story.storyTitle ?? 'قصة ممتعة',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
+                      // تأثير التدرج في الأسفل
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 120,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.7),
+                                Colors.black.withOpacity(0.9),
+                              ],
                             ),
-
-                            const SizedBox(height: 8),
-
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.play_arrow_rounded,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    'شغّل',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      // محتوى النص والزر
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // عنوان القصة
+                              Text(
+                                story.storyTitle ?? 'قصة ممتعة',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black54,
+                                      blurRadius: 3,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              // الفئة العمرية
+                              if (story.ageGroup != null)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '${story.ageGroup} سنة',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+
+                              const SizedBox(height: 10),
+
+                              // زر التشغيل
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withOpacity(0.9),
+                                      Colors.white.withOpacity(0.7),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.play_arrow_rounded,
+                                      color: _getCardColors(index)[0],
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      'شغّل القصة',
+                                      style: TextStyle(
+                                        color: _getCardColors(index)[0],
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // زر المفضلة في الزاوية
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -894,14 +1023,14 @@ class ChildStoryGrid extends StatelessWidget {
 
   List<Color> _getCardColors(int index) {
     final colorSets = [
-      [Colors.pink.shade300, Colors.purple.shade300],
-      [Colors.blue.shade300, Colors.cyan.shade300],
-      [Colors.green.shade300, Colors.teal.shade300],
-      [Colors.orange.shade300, Colors.red.shade300],
-      [Colors.yellow.shade300, Colors.amber.shade300],
-      [Colors.indigo.shade300, Colors.blue.shade400],
-      [Colors.lime.shade300, Colors.green.shade400],
-      [Colors.deepPurple.shade300, Colors.purple.shade400],
+      [Colors.pink.shade400, Colors.purple.shade400],
+      [Colors.blue.shade400, Colors.cyan.shade400],
+      [Colors.green.shade400, Colors.teal.shade400],
+      [Colors.orange.shade400, Colors.red.shade400],
+      [Colors.yellow.shade400, Colors.amber.shade400],
+      [Colors.indigo.shade400, Colors.blue.shade500],
+      [Colors.lime.shade400, Colors.green.shade500],
+      [Colors.deepPurple.shade400, Colors.purple.shade500],
     ];
     return colorSets[index % colorSets.length];
   }

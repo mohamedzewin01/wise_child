@@ -646,7 +646,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'users/users/get_user_details',
+            'users/get_user_details',
             queryParameters: queryParameters,
             data: _data,
           )

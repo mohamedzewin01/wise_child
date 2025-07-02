@@ -22,7 +22,7 @@ class ApiConstants {
   static const String saveChildStory = "stories/save_child_story";
   static const String childrenDetails = "children/children_details";
   static const String addKidsFavoriteImage = "stories/add_kids_favorite_image";
-  static const String getUserDetails = "users/users/get_user_details";
+  static const String getUserDetails = "users/get_user_details";
 
 
 }

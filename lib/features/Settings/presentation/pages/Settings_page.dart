@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
+import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
 import 'package:wise_child/features/EditProfile/presentation/pages/EditProfile_page.dart';
+import 'package:wise_child/features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart';
 import 'package:wise_child/features/layout/presentation/cubit/layout_cubit.dart';
-
+import 'package:wise_child/features/Settings/presentation/widgets/child_mode_setup_widget.dart';
 import 'package:wise_child/localization/locale_cubit.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/Settings_cubit.dart';
@@ -25,8 +26,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    viewModel = getIt.get<SettingsCubit>();
     super.initState();
+    viewModel = getIt.get<SettingsCubit>();
   }
 
   @override
@@ -67,6 +68,9 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     _animationController.forward();
+
+    // تحميل إعدادات وضع الأطفال
+    _loadChildModeSettings();
   }
 
   @override
@@ -75,13 +79,35 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     super.dispose();
   }
 
+  // تحميل حالة وضع الأطفال من SharedPreferences
+  Future<void> _loadChildModeSettings() async {
+    try {
+      final isChildModeActive =
+          await CacheService.getData(key: 'child_mode_active') ?? false;
+
+      if (mounted) {
+        setState(() {
+          _isChildModeActive = isChildModeActive;
+        });
+      }
+    } catch (e) {
+      // في حالة الخطأ، اجعل الوضع غير نشط
+      if (mounted) {
+        setState(() {
+          _isChildModeActive = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String? userImage = CacheService.getData(key: CacheKeys.userPhoto);
-    String? userName =
-        '${CacheService.getData(key: CacheKeys.userFirstName)} ${CacheService.getData(key: CacheKeys.userLastName)}' ??
-        'مستخدم';
-    String? userEmail =
+    String userName =
+        '${CacheService.getData(key: CacheKeys.userFirstName) ?? ''} ${CacheService.getData(key: CacheKeys.userLastName) ?? ''}'
+            .trim();
+    if (userName.isEmpty) userName = 'مستخدم';
+    String userEmail =
         CacheService.getData(key: CacheKeys.userEmail) ?? 'user@example.com';
 
     return Scaffold(
@@ -90,7 +116,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
         physics: const BouncingScrollPhysics(),
         slivers: [
           // Enhanced App Bar with Profile
-          _buildSliverAppBar(userImage, userName, userEmail!),
+          _buildSliverAppBar(userImage, userName, userEmail),
 
           // Settings Content
           SliverToBoxAdapter(
@@ -279,7 +305,6 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
               ? 'نشط - واجهة مبسطة للأطفال'
               : 'غير نشط - واجهة عادية',
           trailing: _buildAnimatedSwitch(_isChildModeActive, (value) {
-            setState(() => _isChildModeActive = value);
             _showChildModeDialog(value);
           }),
         ),
@@ -628,46 +653,113 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 
+  // ===== دوال وضع الأطفال =====
+
   void _showChildModeDialog(bool isEnabled) {
+    if (isEnabled) {
+      // إذا كان المستخدم يريد تفعيل وضع الأطفال
+      _showChildModeSetupDialog();
+    } else {
+      // إذا كان المستخدم يريد إيقاف وضع الأطفال
+      _showDisableChildModeDialog();
+    }
+  }
+
+  void _showChildModeSetupDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        contentPadding: EdgeInsets.zero,
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                ColorManager.primaryColor.withOpacity(0.1),
+                Colors.white,
+              ],
+            ),
+          ),
+          child: ChildModeSetupWidget(
+            onCancel: () {
+              setState(() => _isChildModeActive = false);
+              Navigator.pop(context);
+            },
+            onComplete: (selectedChildId, pin) {
+              Navigator.pop(context);
+              _completeChildModeSetup(selectedChildId, pin);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDisableChildModeDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(
-              isEnabled ? Icons.child_care : Icons.person,
-              color: isEnabled ? Colors.green : Colors.orange,
-            ),
+            Icon(Icons.person, color: Colors.orange),
             const SizedBox(width: 8),
-            Text(isEnabled ? 'تفعيل وضع الأطفال' : 'إيقاف وضع الأطفال'),
+            Text('إيقاف وضع الأطفال'),
           ],
         ),
-        content: Text(
-          isEnabled
-              ? 'سيتم تغيير واجهة التطبيق لتصبح أكثر بساطة ومناسبة للأطفال مع ألوان زاهية وأيقونات كبيرة.'
-              : 'سيتم العودة للواجهة العادية للتطبيق.',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('سيتم العودة للواجهة العادية للتطبيق.'),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.orange.shade200),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    color: Colors.orange.shade600,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'سيتم الاحتفاظ بالرقم السري المحفوظ',
+                      style: TextStyle(
+                        color: Colors.orange.shade700,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
             onPressed: () {
-              setState(() => _isChildModeActive = !isEnabled);
-              /// TODO: implement
+              setState(() => _isChildModeActive = true);
               Navigator.pop(context);
             },
             child: Text('إلغاء'),
           ),
           ElevatedButton(
-            onPressed: () {
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+            onPressed: () async {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    isEnabled ? 'تم تفعيل وضع الأطفال' : 'تم إيقاف وضع الأطفال',
-                  ),
-                  backgroundColor: isEnabled ? Colors.green : Colors.orange,
-                ),
-              );
+              await _disableChildMode();
             },
             child: Text('تأكيد'),
           ),
@@ -675,6 +767,162 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
       ),
     );
   }
+
+  Future<void> _completeChildModeSetup(int childId, String pin) async {
+    try {
+      // حفظ بيانات وضع الطفل في SharedPreferences
+      await CacheService.setData(key: CacheKeys.childModePin, value: pin);
+      await CacheService.setData(
+        key: CacheKeys.childModeSelectedChild,
+        value: childId,
+      );
+      await CacheService.setData(key: CacheKeys.childModeActive, value: true);
+      setState(() => _isChildModeActive = true);
+
+      if (mounted) {
+        // عرض رسالة نجاح
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(child: Text('تم تفعيل وضع الأطفال بنجاح')),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // الانتظار قليلاً ثم الانتقال إلى صفحة وضع الأطفال
+        await Future.delayed(const Duration(milliseconds: 1500));
+
+        if (mounted) {
+          // الحصول على اسم الطفل من UserDetailsCubit
+          await _navigateToChildMode(childId);
+        }
+      }
+    } catch (e) {
+      setState(() => _isChildModeActive = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(child: Text('حدث خطأ في حفظ الإعدادات')),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  // أضف هذه الدالة الجديدة لجلب اسم الطفل والانتقال
+  Future<void> _navigateToChildMode(int childId) async {
+    String? childName;
+
+    try {
+      // جلب بيانات المستخدم للحصول على اسم الطفل
+      final userDetailsCubit = getIt.get<UserDetailsCubit>();
+      await userDetailsCubit.getUserDetails();
+
+      final state = userDetailsCubit.state;
+      if (state is UserDetailsSuccess) {
+        final children = state.getUserDetailsEntity?.user?.children ?? [];
+        final selectedChild = children.firstWhere(
+          (child) => child.idChildren == childId,
+        );
+        childName = selectedChild.firstName;
+      }
+    } catch (e) {
+      print('Error getting child name: $e');
+    }
+
+    if (mounted) {
+      // الانتقال إلى صفحة وضع الأطفال مع تأثير انتقال ممتع
+      Navigator.of(context).pushReplacement(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              ChildModePage(selectedChildId: childId, childName: childName),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            // تأثير انتقال ممتع للأطفال
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.elasticOut;
+
+            var tween = Tween(
+              begin: begin,
+              end: end,
+            ).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.elasticOut),
+                ),
+                child: child,
+              ),
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 1200),
+        ),
+      );
+    }
+  }
+
+  Future<void> _disableChildMode() async {
+    try {
+      // إيقاف وضع الأطفال
+      await CacheService.setData(key: 'child_mode_active', value: false);
+
+      setState(() => _isChildModeActive = false);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Text('تم إيقاف وضع الأطفال'),
+              ],
+            ),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() => _isChildModeActive = true);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('حدث خطأ في إيقاف وضع الأطفال'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  // ===== باقي الدوال =====
 
   void _showBackupDialog() {
     showDialog(
@@ -834,5 +1082,3 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 }
-
-///
