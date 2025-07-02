@@ -197,7 +197,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                 child: Opacity(
                   opacity: 0.1,
                   child: Image.asset(
-                    Assets.appbarbackgroundJpg,
+                    Assets.logoPng,
                     fit: BoxFit.cover,
                   ),
                 ),

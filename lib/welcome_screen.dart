@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
@@ -33,7 +34,8 @@ class WelcomeScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 50,
                         backgroundColor: ColorManager.cardBackground,
-                        child: const Text("🧸", style: TextStyle(fontSize: 48)),
+                        backgroundImage: AssetImage(Assets.logoPng),
+                        // child: const Text("🧸", style: TextStyle(fontSize: 48)),
                       ),
                       const SizedBox(height: 20),
                       Text(

@@ -139,10 +139,11 @@ class _LoginPageState extends State<LoginPage> {
                         CircleAvatar(
                           radius: 50,
                           backgroundColor: ColorManager.cardBackground,
-                          child: const Text(
-                            "🧸",
-                            style: TextStyle(fontSize: 48),
-                          ),
+                          backgroundImage:  AssetImage(Assets.logoPng),
+                          // child: const Text(
+                          //   "🧸",
+                          //   style: TextStyle(fontSize: 48),
+                          // ),
                         ),
                         Text(
                           AppLocalizations.of(context)!.loginToContinue,
