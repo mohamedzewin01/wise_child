@@ -11,8 +11,8 @@ class StoryDetailsRepositoryImpl implements StoryDetailsRepository {
   StoryDetailsRepositoryImpl(this.datasource);
 
   @override
-  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId) {
-  return datasource.storyDetails(storyId);
+  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId,int childId) {
+  return datasource.storyDetails(storyId,childId);
   }
   // implementation
 }

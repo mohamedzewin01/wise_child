@@ -37,6 +37,9 @@ StoryDetails _$StoryDetailsFromJson(Map<String, dynamic> json) => StoryDetails(
   problem: json['problem'] == null
       ? null
       : Problem.fromJson(json['problem'] as Map<String, dynamic>),
+  favoriteImage: json['favorite_image'] == null
+      ? null
+      : FavoriteImage.fromJson(json['favorite_image'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$StoryDetailsToJson(StoryDetails instance) =>
@@ -51,6 +54,7 @@ Map<String, dynamic> _$StoryDetailsToJson(StoryDetails instance) =>
       'created_at': instance.createdAt,
       'category': instance.category,
       'problem': instance.problem,
+      'favorite_image': instance.favoriteImage,
     };
 
 Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
@@ -82,3 +86,17 @@ Map<String, dynamic> _$ProblemToJson(Problem instance) => <String, dynamic>{
   'problem_category_id': instance.problemCategoryId,
   'created_at': instance.createdAt,
 };
+
+FavoriteImage _$FavoriteImageFromJson(Map<String, dynamic> json) =>
+    FavoriteImage(
+      idFavoriteImage: (json['id_favorite_image'] as num?)?.toInt(),
+      imageUrl: json['image_url'] as String?,
+      createdAt: json['created_at'] as String?,
+    );
+
+Map<String, dynamic> _$FavoriteImageToJson(FavoriteImage instance) =>
+    <String, dynamic>{
+      'id_favorite_image': instance.idFavoriteImage,
+      'image_url': instance.imageUrl,
+      'created_at': instance.createdAt,
+    };

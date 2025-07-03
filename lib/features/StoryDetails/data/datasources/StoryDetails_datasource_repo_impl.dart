@@ -15,11 +15,11 @@ class StoryDetailsDatasourceRepoImpl implements StoryDetailsDatasourceRepo {
   StoryDetailsDatasourceRepoImpl(this.apiService);
 
   @override
-  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId) {
+  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId,int childId) {
     return executeApi(()async {
       String? userId =CacheService.getData(key: CacheKeys.userId);
-      StoryDetailsRequest storyDetailsRequest = StoryDetailsRequest(storyId: storyId,userId:userId );
-      final response = await apiService.storyDetails(storyDetailsRequest);
+      StoryDetailsRequest storyDetailsRequest = StoryDetailsRequest(storyId: storyId,userId:userId ,idChildren: childId);
+      final response = await apiService.storyChildrenDetails(storyDetailsRequest);
       return response?.toEntity();
     },);
   }

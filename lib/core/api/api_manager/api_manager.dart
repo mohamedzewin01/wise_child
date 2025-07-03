@@ -143,8 +143,8 @@ abstract class ApiService {
     @Body() GetUserDetailsRequest? getUserDetailsRequest,
   );
 
-  @POST(ApiConstants.storyDetails)
-  Future<StoryDetailsDto?> storyDetails(
+  @POST(ApiConstants.storyChildrenDetails)
+  Future<StoryDetailsDto?> storyChildrenDetails(
     @Body() StoryDetailsRequest? storyDetailsRequest,
   );
 

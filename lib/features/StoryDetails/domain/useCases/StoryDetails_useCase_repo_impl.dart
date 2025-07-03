@@ -13,8 +13,8 @@ class StoryDetailsUseCase implements StoryDetailsUseCaseRepo {
   StoryDetailsUseCase(this.repository);
 
   @override
-  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId) {
-return repository.storyDetails(storyId);
+  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId,int childId) {
+return repository.storyDetails(storyId,childId);
   }
 
 

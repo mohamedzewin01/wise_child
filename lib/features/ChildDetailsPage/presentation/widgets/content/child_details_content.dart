@@ -72,7 +72,7 @@ class ChildDetailsContent extends StatelessWidget {
 
         // Stories Section
         if (childDetails?.stories?.isNotEmpty == true)
-          StoriesSection(stories: childDetails!.stories!),
+          StoriesSection(stories: childDetails!.stories!,childId:child.idChildren??0 ,),
 
         const SizedBox(height: 16),
 

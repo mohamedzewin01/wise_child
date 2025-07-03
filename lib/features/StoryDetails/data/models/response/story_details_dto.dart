@@ -25,6 +25,7 @@ class StoryDetailsDto {
   Map<String, dynamic> toJson() {
     return _$StoryDetailsDtoToJson(this);
   }
+
   StoryDetailsEntity toEntity() {
     return StoryDetailsEntity(
       status: status,
@@ -57,6 +58,10 @@ class StoryDetails {
   @JsonKey(name: "problem")
   final Problem? problem;
 
+  // الجديد: حقل الصورة المفضلة
+  @JsonKey(name: "favorite_image")
+  final FavoriteImage? favoriteImage;
+
   StoryDetails ({
     this.storyId,
     this.storyTitle,
@@ -68,6 +73,7 @@ class StoryDetails {
     this.createdAt,
     this.category,
     this.problem,
+    this.favoriteImage,
   });
 
   factory StoryDetails.fromJson(Map<String, dynamic> json) {
@@ -137,3 +143,26 @@ class Problem {
 }
 
 
+@JsonSerializable()
+class FavoriteImage {
+  @JsonKey(name: "id_favorite_image")
+  final int? idFavoriteImage;
+  @JsonKey(name: "image_url")
+  final String? imageUrl;
+  @JsonKey(name: "created_at")
+  final String? createdAt;
+
+  FavoriteImage({
+    this.idFavoriteImage,
+    this.imageUrl,
+    this.createdAt,
+  });
+
+  factory FavoriteImage.fromJson(Map<String, dynamic> json) {
+    return _$FavoriteImageFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$FavoriteImageToJson(this);
+  }
+}

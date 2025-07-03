@@ -3,5 +3,5 @@ import 'package:wise_child/features/StoryDetails/domain/entities/story_details_e
 
 abstract class StoryDetailsUseCaseRepo {
 
-  Future<Result<StoryDetailsEntity?>>storyDetails(int storyId);
+  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId,int childId);
 }

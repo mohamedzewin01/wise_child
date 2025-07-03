@@ -2,5 +2,5 @@ import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/StoryDetails/domain/entities/story_details_entities.dart';
 
 abstract class StoryDetailsRepository {
-  Future<Result<StoryDetailsEntity?>>storyDetails(int storyId);
+  Future<Result<StoryDetailsEntity?>> storyDetails(int storyId,int childId);
 }

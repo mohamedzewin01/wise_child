@@ -6,10 +6,11 @@ import 'package:wise_child/features/ChildDetailsPage/presentation/widgets/compon
 
 class StoriesSection extends StatelessWidget {
   final List stories;
+  final int childId;
 
   const StoriesSection({
     super.key,
-    required this.stories,
+    required this.stories, required this.childId,
   });
 
   @override
@@ -70,7 +71,7 @@ class StoriesSection extends StatelessWidget {
   List<Widget> _buildStoriesList() {
     return stories
         .take(3)
-        .map((story) => StoryItemWidget(story: story))
+        .map((story) => StoryItemWidget(story: story,childId:childId ,))
         .toList();
   }
 

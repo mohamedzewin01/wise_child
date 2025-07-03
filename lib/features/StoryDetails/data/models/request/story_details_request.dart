@@ -6,12 +6,17 @@ part 'story_details_request.g.dart';
 class StoryDetailsRequest {
   @JsonKey(name: "user_id")
   final String? userId;
+
   @JsonKey(name: "story_id")
   final int? storyId;
 
-  StoryDetailsRequest ({
+  @JsonKey(name: "id_children")
+  final int? idChildren;
+
+  StoryDetailsRequest({
     this.userId,
     this.storyId,
+    this.idChildren,
   });
 
   factory StoryDetailsRequest.fromJson(Map<String, dynamic> json) {
@@ -22,5 +27,3 @@ class StoryDetailsRequest {
     return _$StoryDetailsRequestToJson(this);
   }
 }
-
-

@@ -16,9 +16,9 @@ class StoryDetailsCubit extends Cubit<StoryDetailsState> {
 
   static StoryDetailsCubit get(context) => BlocProvider.of(context);
 
-  Future<void> getStoryDetails(int storyId) async {
+  Future<void> getStoryDetails(int storyId,int childId) async {
     emit(StoryDetailsLoading());
-    final result = await _storyDetailsUseCaseRepo.storyDetails(storyId);
+    final result = await _storyDetailsUseCaseRepo.storyDetails(storyId,childId);
     switch (result) {
       case Success<StoryDetailsEntity?>():
         {

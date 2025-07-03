@@ -666,7 +666,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<StoryDetailsDto?> storyDetails(
+  Future<StoryDetailsDto?> storyChildrenDetails(
     StoryDetailsRequest? storyDetailsRequest,
   ) async {
     final _extra = <String, dynamic>{};
@@ -679,7 +679,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'stories/story_details',
+            'children/story_children_details',
             queryParameters: queryParameters,
             data: _data,
           )
