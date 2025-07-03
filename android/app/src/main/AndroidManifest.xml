@@ -17,7 +17,7 @@
 
 
     <application
-        android:label="wise_child"
+        android:label="أبطالنا"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

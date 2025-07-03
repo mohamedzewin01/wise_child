@@ -11,14 +11,14 @@ class PrivacyPolicy extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         style: TextStyle(
-          color: Colors.grey[600],
+          color: Colors.grey[100],
           fontSize: 12,
           height: 1.5,
         ),
         children: <TextSpan>[
           TextSpan(
             text:
-            '${AppLocalizations.of(context)!.byContinuingYouAgreeToOur}\n',
+            '${AppLocalizations.of(context)!.byContinuingYouAgreeToOur} ',
           ),
           TextSpan(
             text: AppLocalizations.of(context)!.termsOfService,

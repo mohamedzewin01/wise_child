@@ -54,7 +54,7 @@ dependencies:
   cloud_firestore: any
   http:
   share_plus:
-  auto_size_text: any
+  auto_size_text: ^3.0.0
   flutter_html: any
   url_launcher: any
   flutter_typeahead: any

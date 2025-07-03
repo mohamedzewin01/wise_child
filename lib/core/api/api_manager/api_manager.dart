@@ -34,6 +34,8 @@ import 'package:wise_child/features/Stories/data/models/request/get_children_sto
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_request.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
+import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
+import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
 
 part 'api_manager.g.dart';
 
@@ -139,6 +141,11 @@ abstract class ApiService {
   @POST(ApiConstants.getUserDetails)
   Future<GetUserDetailsDto?> getUserDetails(
     @Body() GetUserDetailsRequest? getUserDetailsRequest,
+  );
+
+  @POST(ApiConstants.storyDetails)
+  Future<StoryDetailsDto?> storyDetails(
+    @Body() StoryDetailsRequest? storyDetailsRequest,
   );
 
 

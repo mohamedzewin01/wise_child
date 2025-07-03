@@ -126,7 +126,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'loading';
 
   @override
-  String get appSubtitle => 'Help your child grow through interactive\nstories';
+  String get appSubtitle => 'Help your child grow through interactive stories';
 
   @override
   String get audioNarration => 'Audio narration that engages and educates';

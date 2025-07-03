@@ -335,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @appSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Help your child grow through interactive\nstories'**
+  /// **'Help your child grow through interactive stories'**
   String get appSubtitle;
 
   /// No description provided for @audioNarration.

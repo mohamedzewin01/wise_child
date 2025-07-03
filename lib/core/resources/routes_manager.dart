@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:wise_child/features/Auth/presentation/pages/Auth_page.dart';
+
+import 'package:wise_child/features/Auth/presentation/pages/login_page.dart';
+import 'package:wise_child/features/Auth/presentation/pages/register_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
-import 'package:wise_child/features/SelectStoriesScreen/presentation/pages/SelectStoriesScreen_page.dart';
+
+import 'package:wise_child/features/Welcome/presentation/pages/Welcome_page.dart';
 import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
-import 'package:wise_child/welcome_screen.dart';
 
 class RoutesManager {
   static const String welcomeScreen = '/';
-  static const String authPage = '/AuthPage';
+  static const String loginPage = '/login';
+  static const String registerPage = '/register';
   static const String layoutScreen = '/LayoutScreen';
   static const String chatBotAssistantScreen = '/ChatBotAssistantScreen';
   static const String chatBotAddChildScreen = '/chatBotAddChildScreen';
@@ -23,8 +26,10 @@ class RouteGenerator {
         return FadeScaleAnimation(const WelcomeScreen());
       case RoutesManager.chatBotAssistantScreen:
         return SlideFromBottomAnimation(const ChatBotAssistantPage());
-      case RoutesManager.authPage:
-        return NavigateAnimation(const AuthPage());
+      case RoutesManager.loginPage:
+        return NavigateAnimation(const LoginPage());
+      case RoutesManager.registerPage:
+        return NavigateAnimation(const RegisterPage());
       case RoutesManager.layoutScreen:
         return FadeScaleAnimation(const LayoutScreen());
       case RoutesManager.newChildrenPage:

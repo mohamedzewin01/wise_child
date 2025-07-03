@@ -126,7 +126,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loading => 'جاري التحميل';
 
   @override
-  String get appSubtitle => 'ساعد طفلك في النمو من خلال القصص \nالتفاعلية';
+  String get appSubtitle => 'ساعد طفلك في النمو من خلال القصص التفاعلية';
 
   @override
   String get audioNarration => 'السرد الصوتي الذي يجذب ويثقف';

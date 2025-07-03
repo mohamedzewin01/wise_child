@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 
@@ -9,13 +10,14 @@ class CustomAppBarApp extends StatefulWidget {
     super.key,
     required this.title,
     required this.subtitle,
-    this.backFunction, this.colorContainerStack,
+    this.backFunction,
+    this.colorContainerStack,
   });
 
   final String title;
   final String subtitle;
   final void Function()? backFunction;
-  final  Color? colorContainerStack;
+  final Color? colorContainerStack;
 
   @override
   State<CustomAppBarApp> createState() => _CustomAppBarAppState();
@@ -73,7 +75,8 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
               // زر الرجوع
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: ColorManager.primaryColor.withOpacity(0.1),
+                  image: DecorationImage(image: AssetImage(Assets.logoRemovebgPng),fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -86,7 +89,7 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: ColorManager.primaryColor,
+                    color: Colors.transparent,
                   ),
                   onPressed: () {
                     if (widget.backFunction != null) {
@@ -116,7 +119,10 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
                       const SizedBox(height: 4),
                       Text(
                         widget.subtitle,
-                        style: getRegularStyle(color: Colors.grey[600], fontSize: 12),
+                        style: getRegularStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -139,13 +145,13 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
             ],
           ),
         ),
-         Positioned(
+        Positioned(
           bottom: 0,
           left: 0,
           right: 0,
           child: Container(
             decoration: BoxDecoration(
-              color:widget.colorContainerStack??Colors.white,
+              color: widget.colorContainerStack ?? Colors.white,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(50),
                 topRight: Radius.circular(50),
@@ -153,20 +159,12 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
             ),
             width: double.infinity,
             height: 10,
-
           ),
         ),
       ],
     );
   }
 }
-
-
-
-
-
-
-
 
 class CustomSliverAppBarApp extends StatefulWidget {
   const CustomSliverAppBarApp({
@@ -255,9 +253,11 @@ class _CustomSliverAppBarAppState extends State<CustomSliverAppBarApp>
     return LayoutBuilder(
       builder: (context, constraints) {
         // حساب نسبة الانكماش
-        final double shrinkPercentage = constraints.maxHeight <= kToolbarHeight + 20
+        final double shrinkPercentage =
+            constraints.maxHeight <= kToolbarHeight + 20
             ? 1.0
-            : (widget.expandedHeight - constraints.maxHeight) / (widget.expandedHeight - kToolbarHeight);
+            : (widget.expandedHeight - constraints.maxHeight) /
+                  (widget.expandedHeight - kToolbarHeight);
 
         return AnimatedBuilder(
           animation: _fadeController,
@@ -269,9 +269,15 @@ class _CustomSliverAppBarAppState extends State<CustomSliverAppBarApp>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        ColorManager.primaryColor.withOpacity(0.6 * (1 - shrinkPercentage * 0.3)),
-                        ColorManager.primaryColor.withOpacity(0.3 * (1 - shrinkPercentage * 0.5)),
-                        ColorManager.primaryColor.withOpacity(0.1 * (1 - shrinkPercentage * 0.7)),
+                        ColorManager.primaryColor.withOpacity(
+                          0.6 * (1 - shrinkPercentage * 0.3),
+                        ),
+                        ColorManager.primaryColor.withOpacity(
+                          0.3 * (1 - shrinkPercentage * 0.5),
+                        ),
+                        ColorManager.primaryColor.withOpacity(
+                          0.1 * (1 - shrinkPercentage * 0.7),
+                        ),
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -307,10 +313,7 @@ class _CustomSliverAppBarAppState extends State<CustomSliverAppBarApp>
     return FadeTransition(
       opacity: _fadeController,
       child: ScaleTransition(
-        scale: Tween<double>(
-          begin: 0.9,
-          end: 1.0,
-        ).animate(_scaleController),
+        scale: Tween<double>(begin: 0.9, end: 1.0).animate(_scaleController),
         child: Row(
           children: [
             // زر الرجوع
@@ -319,9 +322,7 @@ class _CustomSliverAppBarAppState extends State<CustomSliverAppBarApp>
             const SizedBox(width: 16),
 
             // النصوص
-            Expanded(
-              child: _buildTitleSection(shrinkPercentage),
-            ),
+            Expanded(child: _buildTitleSection(shrinkPercentage)),
 
             // الأيقونة الجانبية
             _buildTrailingIcon(shrinkPercentage),
@@ -425,10 +426,14 @@ class _CustomSliverAppBarAppState extends State<CustomSliverAppBarApp>
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withOpacity(0.1 * (1 - value * 0.5)),
+                color: ColorManager.primaryColor.withOpacity(
+                  0.1 * (1 - value * 0.5),
+                ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: ColorManager.primaryColor.withOpacity(0.2 * (1 - value * 0.3)),
+                  color: ColorManager.primaryColor.withOpacity(
+                    0.2 * (1 - value * 0.3),
+                  ),
                   width: 1,
                 ),
               ),
@@ -547,9 +552,10 @@ class _AdvancedSliverAppBarState extends State<AdvancedSliverAppBar>
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.forward();
   }
 
@@ -589,12 +595,12 @@ class _AdvancedSliverAppBarState extends State<AdvancedSliverAppBar>
                   ),
                   child: widget.backgroundImage != null
                       ? Opacity(
-                    opacity: 0.3,
-                    child: Image.asset(
-                      widget.backgroundImage!,
-                      fit: BoxFit.cover,
-                    ),
-                  )
+                          opacity: 0.3,
+                          child: Image.asset(
+                            widget.backgroundImage!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
                       : null,
                 ),
 
@@ -625,8 +631,9 @@ class _AdvancedSliverAppBarState extends State<AdvancedSliverAppBar>
                               Icons.arrow_back_ios_rounded,
                               color: ColorManager.primaryColor,
                             ),
-                            onPressed: widget.onBackPressed ??
-                                    () => LayoutCubit.get(context).changeIndex(0),
+                            onPressed:
+                                widget.onBackPressed ??
+                                () => LayoutCubit.get(context).changeIndex(0),
                           ),
                         ),
 

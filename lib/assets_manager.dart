@@ -11,6 +11,7 @@ class Assets {
   static const String googleSvg = 'assets/images/Google.svg';
   static const String homeSvg = 'assets/images/home.svg';
   static const String logoPng = 'assets/images/logo.png';
+  static const String logoRemovebgPng = 'assets/images/logo_removebg.png';
   static const String serachSvg = 'assets/images/serach.svg';
   static const String settingSvg = 'assets/images/setting.svg';
   static const String storiesSvg = 'assets/images/stories.svg';

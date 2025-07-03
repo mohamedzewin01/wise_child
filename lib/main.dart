@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         builder: (context, locale) {
           return MaterialApp(
             locale: locale,
+
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
