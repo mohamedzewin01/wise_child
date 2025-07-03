@@ -49,6 +49,7 @@ import 'package:wise_child/features/StoryDetails/data/models/response/story_deta
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/add_kids_favorite_image_cubit.dart';
 import 'package:wise_child/features/StoryDetails/presentation/widgets/story_details_content.dart';
+import 'package:wise_child/features/StoryDetails/presentation/widgets/story_title_section.dart';
 
 class StoryDetailsPage extends StatefulWidget {
   final int storyId;
