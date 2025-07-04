@@ -877,6 +877,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm your password'**
   String get confirmYourPassword;
+
+  /// No description provided for @enterEmailToResetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address to reset your password'**
+  String get enterEmailToResetPassword;
+
+  /// No description provided for @sendResetEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get sendResetEmail;
+
+  /// No description provided for @sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get sending;
+
+  /// No description provided for @resetPasswordInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'A password reset link will be sent to your email address'**
+  String get resetPasswordInfo;
+
+  /// No description provided for @rememberPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember your password?'**
+  String get rememberPassword;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// No description provided for @emailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Sent!'**
+  String get emailSent;
+
+  /// No description provided for @checkEmailForResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email and follow the link to reset your password'**
+  String get checkEmailForResetLink;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
 }
 
 class _AppLocalizationsDelegate

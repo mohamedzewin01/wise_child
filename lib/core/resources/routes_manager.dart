@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:wise_child/features/Auth/presentation/pages/login_page.dart';
-import 'package:wise_child/features/Auth/presentation/pages/register_page.dart';
+
+
+import 'package:wise_child/features/Auth/singin_singup/presentation/pages/login_page.dart';
+import 'package:wise_child/features/Auth/singin_singup/presentation/pages/register_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
 
 import 'package:wise_child/features/Welcome/presentation/pages/Welcome_page.dart';
 import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
+
+import '../../features/Auth/ForgotPassword/presentation/pages/forgot_password_page.dart';
 
 class RoutesManager {
   static const String welcomeScreen = '/';
@@ -17,6 +21,7 @@ class RoutesManager {
   static const String chatBotAddChildScreen = '/chatBotAddChildScreen';
   static const String newChildrenPage = '/addChildrenPage';
   static const String selectStoriesScreenPage = '/SelectStoriesScreenPage';
+  static const String forgotPasswordScreen = '/forgot-password';
 }
 
 class RouteGenerator {
@@ -24,6 +29,11 @@ class RouteGenerator {
     switch (settings.name) {
       case RoutesManager.welcomeScreen:
         return FadeScaleAnimation(const WelcomeScreen());
+      case RoutesManager.forgotPasswordScreen:
+        return MaterialPageRoute(
+          builder: (_) => const ForgotPasswordPage(),
+          settings: settings,
+        );
       case RoutesManager.chatBotAssistantScreen:
         return SlideFromBottomAnimation(const ChatBotAssistantPage());
       case RoutesManager.loginPage:

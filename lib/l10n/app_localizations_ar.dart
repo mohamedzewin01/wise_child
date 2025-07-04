@@ -401,4 +401,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirmYourPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get enterEmailToResetPassword =>
+      'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور';
+
+  @override
+  String get sendResetEmail => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get sending => 'جاري الإرسال...';
+
+  @override
+  String get resetPasswordInfo =>
+      'سيتم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+
+  @override
+  String get rememberPassword => 'تذكرت كلمة المرور؟';
+
+  @override
+  String get backToLogin => 'العودة للدخول';
+
+  @override
+  String get emailSent => 'تم إرسال البريد الإلكتروني!';
+
+  @override
+  String get checkEmailForResetLink =>
+      'تحقق من بريدك الإلكتروني واتبع الرابط لإعادة تعيين كلمة المرور';
+
+  @override
+  String get send => 'إرسال';
+
+  @override
+  String get ok => 'موافق';
 }

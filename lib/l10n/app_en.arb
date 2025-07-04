@@ -129,5 +129,15 @@
   "phoneNumber": "Phone number",
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
-  "confirmYourPassword": "Confirm your password"
+  "confirmYourPassword": "Confirm your password",
+  "enterEmailToResetPassword": "Enter your email address to reset your password",
+  "sendResetEmail": "Send Reset Link",
+  "sending": "Sending...",
+  "resetPasswordInfo": "A password reset link will be sent to your email address",
+  "rememberPassword": "Remember your password?",
+  "backToLogin": "Back to Login",
+  "emailSent": "Email Sent!",
+  "checkEmailForResetLink": "Check your email and follow the link to reset your password",
+  "send": "Send",
+  "ok": "OK"
 }

@@ -129,5 +129,17 @@
   "newPassword": "كلمة المرور الجديدة",
   "confirmPassword": "تأكيد كلمة المرور",
   "confirmYourPassword": "تأكيد كلمة المرور",
-  "add_one_friend_only": "يمكنك إضافة صديق واحد فقط"
+  "add_one_friend_only": "يمكنك إضافة صديق واحد فقط",
+
+  "enterEmailToResetPassword": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+  "sendResetEmail": "إرسال رابط إعادة التعيين",
+  "sending": "جاري الإرسال...",
+  "resetPasswordInfo": "سيتم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+  "rememberPassword": "تذكرت كلمة المرور؟",
+  "backToLogin": "العودة للدخول",
+  "emailSent": "تم إرسال البريد الإلكتروني!",
+  "checkEmailForResetLink": "تحقق من بريدك الإلكتروني واتبع الرابط لإعادة تعيين كلمة المرور",
+
+  "send": "إرسال",
+  "ok": "موافق"
 }
