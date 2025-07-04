@@ -23,6 +23,14 @@ class KidsFavoriteImageCubit extends Cubit<AddKidsFavoriteImageState> {
   File? image;
   int? idChildren;
   int? storyId;
+void setImage(File image,idChildren,storyId){
+    this.image = image;
+    this.idChildren = idChildren;
+    this.storyId = storyId;
+  }
+
+
+
 
   Future<void> addKidsFavoriteImage() async {
     emit(AddKidsFavoriteImageLoading());

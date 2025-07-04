@@ -1,269 +1,3 @@
-// import 'package:equatable/equatable.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:just_audio/just_audio.dart';
-// import 'package:wise_child/core/api/api_constants.dart';
-// import '../../../../core/di/di.dart';
-// import '../../data/models/response/story_play_dto.dart';
-// import '../bloc/StoriesPlay_cubit.dart';
-// import '../widgets/story_page_view.dart';
-//
-// class StoriesPlayPage extends StatefulWidget {
-//   const StoriesPlayPage(
-//       {super.key, required this.childId, required this.storyId});
-//
-//   final int childId;
-//   final int storyId;
-//
-//   @override
-//   State<StoriesPlayPage> createState() => _StoriesPlayPageState();
-// }
-//
-// class _StoriesPlayPageState extends State<StoriesPlayPage> {
-//   late StoriesPlayCubit viewModel;
-//
-//   @override
-//   void initState() {
-//     viewModel = getIt.get<StoriesPlayCubit>();
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiBlocProvider(
-//       providers: [
-//         BlocProvider.value(value: viewModel
-//           ..getStories(childId: widget.childId, storyId: widget.storyId)),
-//       ],
-//       child: Padding(
-//         padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-//         child: BlocBuilder<StoriesPlayCubit, StoriesPlayState>(
-//           builder: (context, state) {
-//             if (state is StoriesPlayLoading) {
-//               return const Center(child: CircularProgressIndicator());
-//             }
-//             if (state is StoriesPlayFailure) {
-//               return const Center(child: Text('حدث خطأ في تحميل القصة',
-//                   style: TextStyle(color: Colors.red)));
-//             }
-//             if (state is StoriesPlaySuccess) {
-//               String status = state.storyPlayEntity.status ?? '';
-//
-//               List<Clips> storyPages = state.storyPlayEntity.clips ?? [];
-//               return status == 'processing'
-//                   ? Center(child: Text(state.storyPlayEntity.message ?? ''))
-//                   : StoryScreen(storyPages: storyPages);
-//             }
-//             return const Center(child: CircularProgressIndicator());
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// enum PlaybackStatus { playing, paused, finished, loading }
-//
-// class StoryState extends Equatable {
-//   final int currentPage;
-//   final int totalPages;
-//   final PlaybackStatus status;
-//   final List<Clips> storyPages;
-//   final Duration? duration;
-//   final Duration? position;
-//
-//   const StoryState({
-//     required this.currentPage,
-//     required this.totalPages,
-//     required this.status,
-//     required this.storyPages,
-//     this.duration,
-//     this.position,
-//   });
-//
-//   // Initial state factory
-//   factory StoryState.initial(List<Clips> pages) {
-//     return StoryState(
-//       currentPage: 0,
-//       totalPages: pages.length,
-//       status: PlaybackStatus.paused,
-//       storyPages: pages,
-//     );
-//   }
-//
-//   StoryState copyWith({
-//     int? currentPage,
-//     PlaybackStatus? status,
-//     Duration? duration,
-//     Duration? position,
-//   }) {
-//     return StoryState(
-//       currentPage: currentPage ?? this.currentPage,
-//       totalPages: totalPages,
-//       status: status ?? this.status,
-//       storyPages: storyPages,
-//       duration: duration ?? this.duration,
-//       position: position ?? this.position,
-//     );
-//   }
-//
-//   @override
-//   List<Object?> get props =>
-//       [currentPage, status, totalPages, storyPages, duration, position];
-// }
-//
-// class StoryCubit extends Cubit<StoryState> {
-//   final AudioPlayer _audioPlayer = AudioPlayer();
-//
-//   StoryCubit(List<Clips> storyPages, {bool autoPlay = true})
-//       : super(StoryState.initial(storyPages)) {
-//     _initAudioPlayer();
-//
-//     if (autoPlay) {
-//       _setPlaylistAndPlay();
-//     }
-//   }
-//
-//   Future<void> _setPlaylistAndPlay() async {
-//     try {
-//       emit(state.copyWith(status: PlaybackStatus.loading));
-//
-//       final playlist = ConcatenatingAudioSource(
-//         useLazyPreparation: false, // تحميل مسبق لكل المقاطع لتفادي التقطيع
-//         children: state.storyPages
-//             .map((clip) =>
-//             AudioSource.uri(
-//                 Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
-//             .toList(),
-//       );
-//
-//       await _audioPlayer.setAudioSource(playlist, preload: true);
-//
-//       // إعداد التشغيل لعدم التكرار
-//       await _audioPlayer.setLoopMode(LoopMode.off);
-//
-//       await _audioPlayer.play();
-//
-//       emit(state.copyWith(status: PlaybackStatus.playing, currentPage: 0));
-//     } catch (e) {
-//       print('Error setting playlist: $e');
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     }
-//   }
-//
-//   void _initAudioPlayer() {
-//     // مراقبة حالة المشغل
-//     _audioPlayer.playerStateStream.listen((playerState) {
-//       print('Player state changed: ${playerState
-//           .processingState}, playing: ${playerState.playing}');
-//
-//       // التحقق من انتهاء القائمة
-//       if (playerState.processingState == ProcessingState.completed) {
-//         print('Playlist completed');
-//         // التأكد من أننا انتهينا فعلاً من كل المقاطع
-//         emit(state.copyWith(
-//             status: PlaybackStatus.finished,
-//             currentPage: state.storyPages.length - 1
-//         ));
-//       } else if (playerState.playing &&
-//           playerState.processingState != ProcessingState.completed) {
-//         if (state.status != PlaybackStatus.playing) {
-//           emit(state.copyWith(status: PlaybackStatus.playing));
-//         }
-//       } else if (playerState.processingState == ProcessingState.ready &&
-//           !playerState.playing) {
-//         if (state.status != PlaybackStatus.paused &&
-//             state.status != PlaybackStatus.finished) {
-//           emit(state.copyWith(status: PlaybackStatus.paused));
-//         }
-//       }
-//     });
-//
-//     // مراقبة التغيير في المقطع الحالي
-//     _audioPlayer.currentIndexStream.listen((index) {
-//       if (index != null && !isClosed) {
-//         print('Audio track changed to index: $index');
-//         // التأكد من أن الفهرس صحيح
-//         if (index >= 0 && index < state.storyPages.length &&
-//             index != state.currentPage) {
-//           emit(state.copyWith(currentPage: index));
-//         }
-//       }
-//     });
-//
-//     // مراقبة الموضع
-//     _audioPlayer.positionStream.listen((position) {
-//       if (!isClosed) {
-//         emit(state.copyWith(position: position));
-//       }
-//     });
-//
-//     // مراقبة المدة
-//     _audioPlayer.durationStream.listen((duration) {
-//       if (duration != null && !isClosed) {
-//         emit(state.copyWith(duration: duration));
-//       }
-//     });
-//   }
-//
-//   // إضافة دالة لإعادة تشغيل القصة من البداية
-//   Future<void> restartStory() async {
-//     try {
-//       print('Restarting story from beginning');
-//
-//       // إيقاف التشغيل أولاً
-//       await _audioPlayer.stop();
-//
-//       // الذهاب إلى المقطع الأول
-//       await _audioPlayer.seek(Duration.zero, index: 0);
-//
-//       // تحديث الحالة
-//       emit(state.copyWith(
-//           currentPage: 0,
-//           status: PlaybackStatus.paused,
-//           position: Duration.zero
-//       ));
-//
-//       // بدء التشغيل
-//       await _audioPlayer.play();
-//
-//       emit(state.copyWith(status: PlaybackStatus.playing));
-//     } catch (e) {
-//       print('Error restarting story: $e');
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     }
-//   }
-//
-//   void pageChanged(int page) async {
-//     if (!isClosed && page >= 0 && page < state.storyPages.length) {
-//       print('Manually changing to page: $page');
-//       await _audioPlayer.seek(Duration.zero, index: page);
-//       emit(state.copyWith(currentPage: page, position: Duration.zero));
-//     }
-//   }
-//
-//   void togglePlayPause() {
-//     if (_audioPlayer.playing) {
-//       _audioPlayer.pause();
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     } else {
-//       _audioPlayer.play();
-//       emit(state.copyWith(status: PlaybackStatus.playing));
-//     }
-//   }
-//
-//   void seekTo(Duration position) {
-//     _audioPlayer.seek(position);
-//   }
-//
-//   @override
-//   Future<void> close() async {
-//     await _audioPlayer.dispose();
-//     return super.close();
-//   }
-// }
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -275,7 +9,7 @@ import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_scree
 import '../../../../core/di/di.dart';
 import '../../data/models/response/story_play_dto.dart';
 import '../bloc/StoriesPlay_cubit.dart';
-import '../widgets/story_page_view.dart';
+import 'dart:async';
 
 class StoriesPlayPage extends StatefulWidget {
   const StoriesPlayPage({
@@ -772,7 +506,7 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
   }
 }
 
-// باقي الـ Enums والـ Classes كما هي...
+
 enum PlaybackStatus { playing, paused, finished, loading }
 
 class StoryState extends Equatable {
@@ -834,235 +568,17 @@ class StoryState extends Equatable {
   ];
 }
 
-// class StoryCubit extends Cubit<StoryState> {
-//   final AudioPlayer _audioPlayer = AudioPlayer();
-//   bool _isCompleted = false; // متغير لتتبع حالة الانتهاء
-//
-//   StoryCubit(List<Clips> storyPages, {bool autoPlay = true})
-//       : super(StoryState.initial(storyPages)) {
-//     _initAudioPlayer();
-//
-//     if (autoPlay) {
-//       _setPlaylistAndPlay();
-//     }
-//   }
-//
-//   Future<void> _setPlaylistAndPlay() async {
-//     try {
-//       emit(state.copyWith(status: PlaybackStatus.loading));
-//
-//       final playlist = ConcatenatingAudioSource(
-//         useLazyPreparation: false,
-//         children: state.storyPages
-//             .map((clip) => AudioSource.uri(
-//             Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
-//             .toList(),
-//       );
-//
-//       await _audioPlayer.setAudioSource(playlist, preload: true);
-//       await _audioPlayer.setLoopMode(LoopMode.off);
-//
-//       // تأخير قصير قبل بدء التشغيل للسماح بالانتقال السلس
-//       await Future.delayed(const Duration(milliseconds: 500));
-//
-//       await _audioPlayer.play();
-//
-//       emit(state.copyWith(
-//         status: PlaybackStatus.playing,
-//         currentPage: 0,
-//         isFirstPlay: false,
-//       ));
-//     } catch (e) {
-//       print('Error setting playlist: $e');
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     }
-//   }
-//
-//   void _initAudioPlayer() {
-//     // مراقبة حالة المشغل
-//     _audioPlayer.playerStateStream.listen((playerState) {
-//       print('Player state: ${playerState.processingState}, playing: ${playerState.playing}');
-//
-//       // التحقق من انتهاء القائمة
-//       if (playerState.processingState == ProcessingState.completed && !_isCompleted) {
-//         print('Playlist completed - stopping all playback');
-//         _isCompleted = true;
-//
-//         // إيقاف المشغل تماماً
-//         _audioPlayer.stop();
-//
-//         emit(state.copyWith(
-//           status: PlaybackStatus.finished,
-//           currentPage: state.storyPages.length - 1,
-//         ));
-//       } else if (playerState.playing &&
-//           playerState.processingState != ProcessingState.completed &&
-//           !_isCompleted) {
-//         if (state.status != PlaybackStatus.playing) {
-//           emit(state.copyWith(status: PlaybackStatus.playing));
-//         }
-//       } else if (playerState.processingState == ProcessingState.ready &&
-//           !playerState.playing &&
-//           !_isCompleted) {
-//         if (state.status != PlaybackStatus.paused &&
-//             state.status != PlaybackStatus.finished) {
-//           emit(state.copyWith(status: PlaybackStatus.paused));
-//         }
-//       }
-//     });
-//
-//     // مراقبة التغيير في المقطع الحالي
-//     _audioPlayer.currentIndexStream.listen((index) {
-//       if (index != null && !isClosed && !_isCompleted) {
-//         print('Audio track changed to index: $index');
-//
-//         // التأكد من صحة الفهرس
-//         if (index >= 0 && index < state.storyPages.length) {
-//           // إذا وصلنا للمقطع الأخير، نراقب بعناية
-//           if (index == state.storyPages.length - 1) {
-//             print('Reached last track');
-//           }
-//
-//           if (index != state.currentPage) {
-//             emit(state.copyWith(currentPage: index));
-//           }
-//         }
-//       }
-//     });
-//
-//     // مراقبة الموضع
-//     _audioPlayer.positionStream.listen((position) {
-//       if (!isClosed && !_isCompleted) {
-//         emit(state.copyWith(position: position));
-//       }
-//     });
-//
-//     // مراقبة المدة
-//     _audioPlayer.durationStream.listen((duration) {
-//       if (duration != null && !isClosed && !_isCompleted) {
-//         emit(state.copyWith(duration: duration));
-//       }
-//     });
-//
-//     // مراقبة إضافية لانتهاء المقطع الأخير
-//     _audioPlayer.sequenceStateStream.listen((sequenceState) {
-//       if (sequenceState != null && !_isCompleted) {
-//         final currentIndex = sequenceState.currentIndex;
-//         final isLastTrack = currentIndex == state.storyPages.length - 1;
-//
-//         // إذا كنا في المقطع الأخير، نراقب انتهاءه
-//         if (isLastTrack) {
-//           _audioPlayer.positionStream.listen((position) {
-//             if (position != null &&
-//                 _audioPlayer.duration != null &&
-//                 !_isCompleted) {
-//
-//               // إذا اقتربنا من نهاية المقطع الأخير (آخر ثانية)
-//               final remaining = _audioPlayer.duration! - position;
-//               if (remaining.inMilliseconds <= 1000) {
-//                 print('Approaching end of last track');
-//
-//                 // تأخير بسيط ثم إنهاء القصة
-//                 Future.delayed(remaining + const Duration(milliseconds: 500), () {
-//                   if (!_isCompleted && !isClosed) {
-//                     print('Force completing story');
-//                     _isCompleted = true;
-//                     _audioPlayer.stop();
-//                     emit(state.copyWith(
-//                       status: PlaybackStatus.finished,
-//                       currentPage: state.storyPages.length - 1,
-//                     ));
-//                   }
-//                 });
-//               }
-//             }
-//           });
-//         }
-//       }
-//     });
-//   }
-//
-//   Future<void> restartStory() async {
-//     try {
-//       print('Restarting story from beginning');
-//
-//       // إعادة تعيين حالة الانتهاء
-//       _isCompleted = false;
-//
-//       // إيقاف التشغيل أولاً
-//       await _audioPlayer.stop();
-//
-//       // الذهاب إلى المقطع الأول
-//       await _audioPlayer.seek(Duration.zero, index: 0);
-//
-//       // تحديث الحالة
-//       emit(state.copyWith(
-//         currentPage: 0,
-//         status: PlaybackStatus.paused,
-//         position: Duration.zero,
-//       ));
-//
-//       // بدء التشغيل
-//       await _audioPlayer.play();
-//
-//       emit(state.copyWith(status: PlaybackStatus.playing));
-//     } catch (e) {
-//       print('Error restarting story: $e');
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     }
-//   }
-//
-//   void pageChanged(int page) async {
-//     if (!isClosed &&
-//         page >= 0 &&
-//         page < state.storyPages.length &&
-//         !_isCompleted) {
-//       print('Manually changing to page: $page');
-//
-//       await _audioPlayer.seek(Duration.zero, index: page);
-//       emit(state.copyWith(currentPage: page, position: Duration.zero));
-//     }
-//   }
-//
-//   void togglePlayPause() {
-//     if (_isCompleted) {
-//       // إذا انتهت القصة، ابدأ من جديد
-//       restartStory();
-//       return;
-//     }
-//
-//     if (_audioPlayer.playing) {
-//       _audioPlayer.pause();
-//       emit(state.copyWith(status: PlaybackStatus.paused));
-//     } else {
-//       _audioPlayer.play();
-//       emit(state.copyWith(status: PlaybackStatus.playing));
-//     }
-//   }
-//
-//   void seekTo(Duration position) {
-//     if (!_isCompleted) {
-//       _audioPlayer.seek(position);
-//     }
-//   }
-//
-//   @override
-//   Future<void> close() async {
-//     _isCompleted = true; // منع أي عمليات أخرى
-//     await _audioPlayer.dispose();
-//     return super.close();
-//   }
-// }
 class StoryCubit extends Cubit<StoryState> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  late final int _totalTracks; // عدد المقاطع الإجمالي
-  bool _hasFinished = false; // لمنع التكرار
+  bool _hasCompleted = false; // متغير واحد لتتبع الانتهاء
+  StreamSubscription? _playerStateSubscription;
+  StreamSubscription? _currentIndexSubscription;
+  StreamSubscription? _positionSubscription;
+  StreamSubscription? _durationSubscription;
 
   StoryCubit(List<Clips> storyPages, {bool autoPlay = true})
       : super(StoryState.initial(storyPages)) {
-    _totalTracks = storyPages.length;
     _initAudioPlayer();
-
     if (autoPlay) {
       _setPlaylistAndPlay();
     }
@@ -1098,115 +614,106 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   void _initAudioPlayer() {
-    // مراقبة التغيير في المقطع الحالي
-    _audioPlayer.currentIndexStream.listen((index) {
-      if (index != null && !isClosed && !_hasFinished) {
-        print('Current track: $index of $_totalTracks');
+    // إلغاء كل المستمعين السابقين
+    _cancelAllSubscriptions();
 
-        if (index >= 0 && index < _totalTracks) {
-          // تحديث الصفحة الحالية
-          if (index != state.currentPage) {
-            emit(state.copyWith(currentPage: index));
-          }
+    // مستمع واحد لحالة المشغل
+    _playerStateSubscription = _audioPlayer.playerStateStream.listen((playerState) {
+      if (_hasCompleted || isClosed) return;
 
-          // إذا وصلنا للمقطع الأخير
-          if (index == _totalTracks - 1) {
-            print('Reached last track - monitoring for completion');
-            _monitorLastTrack();
-          }
-        }
-      }
-    });
+      print('Player state: ${playerState.processingState}, playing: ${playerState.playing}');
 
-    // مراقبة حالة التشغيل العامة
-    _audioPlayer.playerStateStream.listen((playerState) {
-      if (!_hasFinished && !isClosed) {
-        if (playerState.processingState == ProcessingState.completed) {
-          _finishStory();
-        } else if (playerState.playing) {
-          if (state.status != PlaybackStatus.playing) {
-            emit(state.copyWith(status: PlaybackStatus.playing));
-          }
-        } else if (!playerState.playing &&
-            playerState.processingState == ProcessingState.ready) {
-          if (state.status != PlaybackStatus.paused &&
-              state.status != PlaybackStatus.finished) {
-            emit(state.copyWith(status: PlaybackStatus.paused));
-          }
-        }
-      }
-    });
-
-    // مراقبة الموضع
-    _audioPlayer.positionStream.listen((position) {
-      if (!isClosed && !_hasFinished) {
-        emit(state.copyWith(position: position));
-      }
-    });
-
-    // مراقبة المدة
-    _audioPlayer.durationStream.listen((duration) {
-      if (duration != null && !isClosed && !_hasFinished) {
-        emit(state.copyWith(duration: duration));
-      }
-    });
-  }
-
-  void _monitorLastTrack() {
-    // مراقبة خاصة للمقطع الأخير
-    _audioPlayer.positionStream.listen((position) {
-      if (position != null && !_hasFinished && !isClosed) {
-        _audioPlayer.durationStream.listen((duration) {
-          if (duration != null && !_hasFinished) {
-            // إذا اقتربنا من النهاية (آخر ثانية)
-            final remaining = duration - position;
-            if (remaining.inMilliseconds <= 1000 &&
-                state.currentPage == _totalTracks - 1) {
-              print('Last track finishing - preparing to complete story');
-
-              // انتظار انتهاء المقطع ثم إنهاء القصة
-              Future.delayed(remaining + const Duration(milliseconds: 300), () {
-                if (!_hasFinished && !isClosed) {
-                  _finishStory();
-                }
-              });
+      switch (playerState.processingState) {
+        case ProcessingState.completed:
+          _completeStory();
+          break;
+        case ProcessingState.ready:
+          if (playerState.playing) {
+            if (state.status != PlaybackStatus.playing) {
+              emit(state.copyWith(status: PlaybackStatus.playing));
+            }
+          } else {
+            if (state.status != PlaybackStatus.paused && state.status != PlaybackStatus.finished) {
+              emit(state.copyWith(status: PlaybackStatus.paused));
             }
           }
-        });
+          break;
+        default:
+          break;
       }
+    });
+
+    // مستمع لتغيير المقطع الحالي
+    _currentIndexSubscription = _audioPlayer.currentIndexStream.listen((index) {
+      if (_hasCompleted || isClosed || index == null) return;
+
+      print('Current track: $index');
+
+      if (index >= 0 && index < state.storyPages.length && index != state.currentPage) {
+        emit(state.copyWith(currentPage: index));
+      }
+    });
+
+    // مستمع للموضع
+    _positionSubscription = _audioPlayer.positionStream.listen((position) {
+      if (_hasCompleted || isClosed) return;
+      emit(state.copyWith(position: position));
+    });
+
+    // مستمع للمدة
+    _durationSubscription = _audioPlayer.durationStream.listen((duration) {
+      if (_hasCompleted || isClosed || duration == null) return;
+      emit(state.copyWith(duration: duration));
     });
   }
 
-  void _finishStory() {
-    if (!_hasFinished && !isClosed) {
-      print('🎉 Story finished! Showing completion dialog');
-      _hasFinished = true;
+  void _completeStory() {
+    if (_hasCompleted || isClosed) return;
 
-      emit(state.copyWith(
-        status: PlaybackStatus.finished,
-        currentPage: _totalTracks - 1,
-      ));
-    }
+    print('🎉 Story completed!');
+    _hasCompleted = true;
+
+    // إيقاف المشغل
+    _audioPlayer.stop();
+
+    // تحديث الحالة
+    emit(state.copyWith(
+      status: PlaybackStatus.finished,
+      currentPage: state.storyPages.length - 1,
+    ));
+  }
+
+  void _cancelAllSubscriptions() {
+    _playerStateSubscription?.cancel();
+    _currentIndexSubscription?.cancel();
+    // _positionSubscriptions?.cancel();
+    _durationSubscription?.cancel();
   }
 
   Future<void> restartStory() async {
     try {
-      print('🔄 Restarting story from beginning');
+      print('🔄 Restarting story');
 
-      // إعادة تعيين كل شيء
-      _hasFinished = false;
+      // إعادة تعيين الحالة
+      _hasCompleted = false;
 
+      // إيقاف المشغل
       await _audioPlayer.stop();
+
+      // العودة للبداية
       await _audioPlayer.seek(Duration.zero, index: 0);
 
+      // تحديث الحالة
       emit(state.copyWith(
         currentPage: 0,
         status: PlaybackStatus.paused,
         position: Duration.zero,
       ));
 
+      // بدء التشغيل
       await _audioPlayer.play();
       emit(state.copyWith(status: PlaybackStatus.playing));
+
     } catch (e) {
       print('Error restarting story: $e');
       emit(state.copyWith(status: PlaybackStatus.paused));
@@ -1214,7 +721,9 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   void pageChanged(int page) async {
-    if (!isClosed && page >= 0 && page < _totalTracks && !_hasFinished) {
+    if (_hasCompleted || isClosed) return;
+
+    if (page >= 0 && page < state.storyPages.length) {
       print('📖 Manual page change to: $page');
       await _audioPlayer.seek(Duration.zero, index: page);
       emit(state.copyWith(currentPage: page, position: Duration.zero));
@@ -1222,8 +731,7 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   void togglePlayPause() {
-    if (_hasFinished) {
-      // إذا انتهت القصة، ابدأ من جديد
+    if (_hasCompleted) {
       restartStory();
       return;
     }
@@ -1238,14 +746,14 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   void seekTo(Duration position) {
-    if (!_hasFinished) {
-      _audioPlayer.seek(position);
-    }
+    if (_hasCompleted) return;
+    _audioPlayer.seek(position);
   }
 
   @override
   Future<void> close() async {
-    _hasFinished = true;
+    _hasCompleted = true;
+    _cancelAllSubscriptions();
     await _audioPlayer.dispose();
     return super.close();
   }

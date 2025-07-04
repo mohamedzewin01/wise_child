@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/widgets/floating_play_button.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/add_kids_favorite_image_cubit.dart';
@@ -120,62 +121,71 @@ class _StoryDetailsContentState extends State<StoryDetailsContent>
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: _buildBlocListeners(),
-      child: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(context),
-          SliverToBoxAdapter(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StoryTitleSection(
-                        story: widget.story,
-                        isRTL: widget.isRTL,
+      child: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              _buildSliverAppBar(context),
+              SliverToBoxAdapter(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          StoryTitleSection(
+                            story: widget.story,
+                            isRTL: widget.isRTL,
+                          ),
+                          const SizedBox(height: 20),
+
+                          if (widget.childId != null) ...[
+                            _buildImprovedFavoriteImageSection(),
+                            const SizedBox(height: 24),
+                          ],
+
+                          StoryInfoSection(story: widget.story),
+                          const SizedBox(height: 24),
+
+                          if (widget.story.storyDescription != null) ...[
+                            StoryDescriptionSection(
+                              story: widget.story,
+                              isRTL: widget.isRTL,
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+
+                          if (widget.story.problem != null) ...[
+                            ProblemSection(
+                              problem: widget.story.problem!,
+                              isRTL: widget.isRTL,
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+
+                          if (widget.story.category != null) ...[
+                            CategorySection(
+                              category: widget.story.category!,
+                              isRTL: widget.isRTL,
+                            ),
+                            const SizedBox(height: 100), // Extra space for FAB
+                          ],
+                        ],
                       ),
-                      const SizedBox(height: 20),
-
-                      if (widget.childId != null) ...[
-                        _buildImprovedFavoriteImageSection(),
-                        const SizedBox(height: 24),
-                      ],
-
-                      StoryInfoSection(story: widget.story),
-                      const SizedBox(height: 24),
-
-                      if (widget.story.storyDescription != null) ...[
-                        StoryDescriptionSection(
-                          story: widget.story,
-                          isRTL: widget.isRTL,
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-
-                      if (widget.story.problem != null) ...[
-                        ProblemSection(
-                          problem: widget.story.problem!,
-                          isRTL: widget.isRTL,
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-
-                      if (widget.story.category != null) ...[
-                        CategorySection(
-                          category: widget.story.category!,
-                          isRTL: widget.isRTL,
-                        ),
-                        const SizedBox(height: 100), // Extra space for FAB
-                      ],
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
+          Positioned(
+              bottom: 0,
+              right: -5,
+
+              child: StoryFloatingPlayButton(childId: widget.childId??0, storyId: widget.story.storyId??0)),
         ],
       ),
     );
@@ -849,13 +859,14 @@ class _StoryDetailsContentState extends State<StoryDetailsContent>
         onPressed: () => Navigator.of(context).pop(),
       ),
       actions: [
-        _AppBarButton(
-          icon: Icons.share,
-          onPressed: () {
-            HapticFeedback.lightImpact();
-            // Share functionality
-          },
-        ),
+
+        // _AppBarButton(
+        //   icon: Icons.share,
+        //   onPressed: () {
+        //     HapticFeedback.lightImpact();
+        //     // Share functionality
+        //   },
+        // ),
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: _StoryImageWidget(story: widget.story),

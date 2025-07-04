@@ -10,8 +10,9 @@ import 'package:wise_child/features/StoryDetails/presentation/widgets/story_snac
 class StoryImageManager {
   final BuildContext context;
   final ImagePicker _picker = ImagePicker();
+  final KidsFavoriteImageCubit kidsFavoriteImageCubit;
 
-  StoryImageManager(this.context);
+  StoryImageManager(this.context, this.kidsFavoriteImageCubit);
 
   Future<File?> pickImage() async {
     try {
@@ -28,7 +29,9 @@ class StoryImageManager {
       }
       return null;
     } catch (e) {
-      StorySnackbarUtils.showError(context, 'حدث خطأ أثناء اختيار الصورة');
+      if (context.mounted) {
+        StorySnackbarUtils.showError(context, 'حدث خطأ أثناء اختيار الصورة');
+      }
       return null;
     }
   }
@@ -39,44 +42,52 @@ class StoryImageManager {
     required int storyId,
   }) async {
     try {
-      final addImageCubit = context.read<KidsFavoriteImageCubit>();
-      addImageCubit.image = image;
-      addImageCubit.idChildren = childId;
-      addImageCubit.storyId = storyId;
 
-      await addImageCubit.addKidsFavoriteImage();
-
-      StorySnackbarUtils.showSuccess(context, message: 'تم رفع الصورة بنجاح');
+      kidsFavoriteImageCubit.setImage(image, childId, storyId);
+      await kidsFavoriteImageCubit.addKidsFavoriteImage();
+      if (context.mounted) {
+        StorySnackbarUtils.showSuccess(context, message: 'تم رفع الصورة بنجاح');
+      }
       return true;
     } catch (e) {
-      StorySnackbarUtils.showError(context, 'حدث خطأ أثناء رفع الصورة');
+      if (context.mounted) {
+        StorySnackbarUtils.showError(context, 'حدث خطأ أثناء رفع الصورة');
+      }
+
       return false;
     }
   }
 
+  // تصحيح دالة حذف الصورة
   Future<bool> deleteImage({
     required StoryDetails story,
     required int childId,
   }) async {
-
     try {
-
+      // التحقق من وجود الصورة المفضلة
       if (story.favoriteImage?.idFavoriteImage == null) {
         StorySnackbarUtils.showWarning(context, 'لا توجد صورة مفضلة لحذفها');
         return false;
       }
 
-      await KidsFavoriteImageCubit.get(context).deleteKidsFavoriteImage(
-        storyId: story.storyId ?? 0,
+      // التحقق من وجود storyId
+      if (story.storyId == null) {
+        StorySnackbarUtils.showError(context, 'معرف القصة غير موجود');
+        return false;
+      }
+
+      await kidsFavoriteImageCubit.deleteKidsFavoriteImage(
+        storyId: story.storyId!,
         idChildren: childId,
       );
+
       if (context.mounted) {
         StorySnackbarUtils.showSuccess(context, message: 'تم حذف الصورة بنجاح');
       }
 
       return true;
     } catch (e, stack) {
-      print("ERROR: $e");
+      print("ERROR in deleteImage: $e");
       print("STACKTRACE: $stack");
 
       if (context.mounted) {
@@ -93,7 +104,7 @@ class StoryImageManager {
     required VoidCallback onConfirm,
   }) async {
     // التأكد من وجود صورة للحذف
-    if (story.favoriteImage == null) {
+    if (story.favoriteImage?.idFavoriteImage == null) {
       StorySnackbarUtils.showWarning(context, 'لا توجد صورة مفضلة لحذفها');
       return;
     }

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/cashed_image.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+import 'package:wise_child/features/StoryDetails/presentation/pages/StoryDetails_page.dart';
+
+import '../bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 
 class SideStoryCard extends StatefulWidget {
   final StoriesModeData story;
   final int index;
+
 
   const SideStoryCard({
     super.key,
@@ -42,6 +47,7 @@ class _SideStoryCardState extends State<SideStoryCard>
   @override
   Widget build(BuildContext context) {
     final gradientColors = _getGradientColors(widget.index);
+    final childId=context.read<ChildrenStoriesCubit>().idChildren;
 
     return MouseRegion(
       onEnter: (_) {
@@ -53,7 +59,7 @@ class _SideStoryCardState extends State<SideStoryCard>
         _hoverController.reverse();
       },
       child: GestureDetector(
-        onTap: () => _navigateToStory(context),
+        onTap: () => _navigateToStory(context,storyId: widget.story.storyId??0,childId: childId),
         child: AnimatedBuilder(
           animation: _hoverController,
           builder: (context, child) {
@@ -89,7 +95,7 @@ class _SideStoryCardState extends State<SideStoryCard>
                     _buildGradientOverlay(),
 
                     // المحتوى
-                    _buildContent(),
+                    _buildContent(storyId: widget.story.storyId??0,childId: childId),
 
                     // زر التشغيل العائم
                     _buildFloatingPlayButton(),
@@ -112,32 +118,14 @@ class _SideStoryCardState extends State<SideStoryCard>
     );
   }
 
-  void _navigateToStory(BuildContext context) {
+  void _navigateToStory(BuildContext context, {required int childId,required int storyId}) {
     HapticFeedback.mediumImpact();
+
     Navigator.push(
       context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            StoriesPlayPage(
-              childId: widget.story.childrenId ?? 0,
-              storyId: widget.story.storyId ?? 0,
-            ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutCubic,
-            )),
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 400),
+      MaterialPageRoute(
+        builder: (context) =>
+            StoryDetailsPage(storyId: storyId, childId: childId),
       ),
     );
   }
@@ -201,7 +189,7 @@ class _SideStoryCardState extends State<SideStoryCard>
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent({required int childId,required int storyId}) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -251,14 +239,14 @@ class _SideStoryCardState extends State<SideStoryCard>
             const SizedBox(height: 12),
 
             // زر التشغيل
-            _buildPlayButton(),
+            _buildDetailsButton(storyId: storyId,childId: childId),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPlayButton() {
+  Widget _buildDetailsButton({required int childId,required int storyId}) {
     return Container(
       width: double.infinity,
       height: 36,
@@ -282,18 +270,18 @@ class _SideStoryCardState extends State<SideStoryCard>
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: () => _navigateToStory(context),
+          onTap: () => _navigateToStory(context,storyId: storyId,childId: childId),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.play_arrow_rounded,
+                Icons.details,
                 color: Colors.white,
                 size: 18,
               ),
               const SizedBox(width: 6),
               Text(
-                'تشغيل',
+           "تفاصيل القصة",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -311,48 +299,78 @@ class _SideStoryCardState extends State<SideStoryCard>
     return Positioned(
       top: 12,
       right: 12,
-      child: AnimatedBuilder(
-        animation: _hoverController,
-        builder: (context, child) {
-          final scale = 1.0 + (_hoverController.value * 0.2);
-          return Transform.scale(
-            scale: scale,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Colors.white.withOpacity(0.95),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
-                    blurRadius: 12 + (_hoverController.value * 8),
-                    offset: Offset(0, 4 + (_hoverController.value * 2)),
-                    spreadRadius: _hoverController.value,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  StoriesPlayPage(
+                    childId: widget.story.childrenId ?? 0,
+                    storyId: widget.story.storyId ?? 0,
                   ),
-                  if (_isHovered)
-                    BoxShadow(
-                      color: ColorManager.primaryColor.withOpacity(0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 6),
-                      spreadRadius: 2,
-                    ),
-                ],
-              ),
-              child: Icon(
-                Icons.play_arrow_rounded,
-                color: ColorManager.primaryColor,
-                size: 22,
-              ),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeInOutCubic,
+                  )),
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  ),
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 400),
             ),
           );
         },
+        child: AnimatedBuilder(
+          animation: _hoverController,
+          builder: (context, child) {
+            final scale = 1.0 + (_hoverController.value * 0.2);
+            return Transform.scale(
+              scale: scale,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      Colors.white.withOpacity(0.95),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 12 + (_hoverController.value * 8),
+                      offset: Offset(0, 4 + (_hoverController.value * 2)),
+                      spreadRadius: _hoverController.value,
+                    ),
+                    if (_isHovered)
+                      BoxShadow(
+                        color: ColorManager.primaryColor.withOpacity(0.3),
+                        blurRadius: 15,
+                        offset: const Offset(0, 6),
+                        spreadRadius: 2,
+                      ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: ColorManager.primaryColor,
+                  size: 22,
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

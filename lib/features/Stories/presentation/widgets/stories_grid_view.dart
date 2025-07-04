@@ -44,6 +44,7 @@ class StoriesGridView extends StatelessWidget {
                       child: SideStoryCard(
                         story: story,
                         index: index,
+
                       ),
                     ),
                   );

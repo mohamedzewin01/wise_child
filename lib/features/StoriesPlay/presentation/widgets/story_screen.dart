@@ -6,6 +6,7 @@ import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_controls.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_page_view.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 
 class EnhancedStoryScreen extends StatefulWidget {
   final List<Clips> storyPages;
@@ -28,6 +29,7 @@ class _EnhancedStoryScreenState extends State<EnhancedStoryScreen>
 
   int _lastCurrentPage = 0;
   bool _isPageViewReady = false;
+  bool _hasShownDialog = false; // لضمان عدم إظهار الـ dialog أكثر من مرة
 
   @override
   void initState() {
@@ -82,6 +84,202 @@ class _EnhancedStoryScreenState extends State<EnhancedStoryScreen>
     }
   }
 
+  void _showFinishDialog() {
+    if (_hasShownDialog) return;
+    _hasShownDialog = true;
+
+    HapticFeedback.heavyImpact();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.green.shade400,
+                  Colors.green.shade600,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withOpacity(0.5),
+                  blurRadius: 30,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // أيقونة النجاح مع أنيميشن
+                TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 800),
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withOpacity(0.5),
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.check_circle,
+                          color: Colors.green.shade600,
+                          size: 50,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+                // رسالة التهنئة
+                Text(
+                  'أحسنت! 🎉',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(
+                  'لقد انتهيت من القصة بنجاح!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 30),
+
+                // أزرار الإجراءات
+                Column(
+                  children: [
+                    // زر الإعادة
+                    SizedBox(
+                      width: double.infinity,
+                      child: _buildDialogButton(
+                        icon: Icons.replay_rounded,
+                        label: 'إعادة تشغيل',
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          _restartStory();
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    // زر العودة
+                    SizedBox(
+                      width: double.infinity,
+                      child: _buildDialogButton(
+                        icon: Icons.home_rounded,
+                        label: 'العودة',
+                        onPressed: () {
+                          Navigator.of(context).pop(); // إغلاق الـ dialog
+                          Navigator.of(context).pop(); // العودة للصفحة السابقة
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDialogButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return ElevatedButton(
+      onPressed: () {
+        HapticFeedback.lightImpact();
+        onPressed();
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.green.shade600,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        elevation: 5,
+        shadowColor: Colors.black.withOpacity(0.3),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 22),
+          const SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _restartStory() async {
+    setState(() => _hasShownDialog = false);
+    _lastCurrentPage = 0;
+
+    if (_pageController.hasClients) {
+      await _pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+
+    if (mounted) {
+      _storyCubit.restartStory();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<StoryCubit>(
@@ -97,8 +295,19 @@ class _EnhancedStoryScreenState extends State<EnhancedStoryScreen>
                 scale: 0.95 + (_entranceAnimation.value * 0.05),
                 child: BlocConsumer<StoryCubit, StoryState>(
                   listener: (context, state) {
+                    // تحديث الصفحة عند تغيير المقطع
                     if (state.currentPage != _lastCurrentPage && _isPageViewReady) {
                       _scrollToPage(state.currentPage);
+                    }
+
+                    // إظهار الـ dialog عند الانتهاء
+                    if (state.status == PlaybackStatus.finished && !_hasShownDialog) {
+                      // تأخير بسيط لضمان انتهاء الأنيميشن
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        if (mounted) {
+                          _showFinishDialog();
+                        }
+                      });
                     }
                   },
                   builder: (context, state) {
@@ -137,9 +346,36 @@ class _EnhancedStoryScreenState extends State<EnhancedStoryScreen>
                         // زر العودة المحسن
                         _buildBackButton(context),
 
-                        // شاشة انتهاء القصة
-                        if (state.status == PlaybackStatus.finished)
-                          _buildFinishedOverlay(context, state),
+                        // مؤشر التحميل أثناء التهيئة
+                        if (!_isPageViewReady)
+                          Center(
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      ColorManager.primaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    'جاري التحضير...',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                       ],
                     );
                   },
@@ -177,153 +413,6 @@ class _EnhancedStoryScreenState extends State<EnhancedStoryScreen>
             Navigator.of(context).pop();
           },
         ),
-      ),
-    );
-  }
-
-  Widget _buildFinishedOverlay(BuildContext context, StoryState state) {
-    return Container(
-      color: Colors.black.withOpacity(0.8),
-      child: Center(
-        child: TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 800),
-          tween: Tween(begin: 0.0, end: 1.0),
-          builder: (context, value, child) {
-            return Transform.scale(
-              scale: 0.8 + (value * 0.2),
-              child: Opacity(
-                opacity: value,
-                child: Container(
-                  margin: const EdgeInsets.all(20),
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.green.shade400,
-                        Colors.green.shade600,
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.green.withOpacity(0.5),
-                        blurRadius: 30,
-                        spreadRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // أيقونة النجاح
-                      Container(
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.check_circle,
-                          color: Colors.green.shade600,
-                          size: 50,
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // رسالة الإنجاز
-                      const Text(
-                        'أحسنت! 🎉',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      const Text(
-                        'لقد انتهيت من القصة بنجاح!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      // أزرار الإجراءات
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildActionButton(
-                            icon: Icons.replay_rounded,
-                            label: 'إعادة',
-                            onPressed: () async {
-                              _lastCurrentPage = 0;
-                              if (_pageController.hasClients) {
-                                await _pageController.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                              }
-                              if (context.mounted) {
-                                context.read<StoryCubit>().restartStory();
-                              }
-                            },
-                          ),
-                          _buildActionButton(
-                            icon: Icons.home_rounded,
-                            label: 'العودة',
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton(
-      onPressed: () {
-        HapticFeedback.lightImpact();
-        onPressed();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.green.shade600,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        elevation: 5,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 20),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }
