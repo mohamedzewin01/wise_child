@@ -7,6 +7,7 @@ import 'package:wise_child/features/Stories/data/models/response/children_storie
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/Stories_cubit.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
 import '../../../../core/di/di.dart';
 import '../widgets/ChildBackground.dart';
 

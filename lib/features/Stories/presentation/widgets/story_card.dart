@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/cashed_image.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
 
 class StoryCard extends StatelessWidget {
   final String title;

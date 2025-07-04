@@ -5,6 +5,7 @@ import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/cashed_image.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
 import 'package:wise_child/features/StoryDetails/presentation/pages/StoryDetails_page.dart';
 
 import '../bloc/ChildrenStoriesCubit/children_stories_cubit.dart';

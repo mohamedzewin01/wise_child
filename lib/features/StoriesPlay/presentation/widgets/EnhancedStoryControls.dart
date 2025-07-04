@@ -1,10 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
+import '../pages/StoriesPlay_page.dart';
+import 'dart:math' as math;
 
 class EnhancedStoryControls extends StatefulWidget {
   const EnhancedStoryControls({super.key});
@@ -87,7 +87,7 @@ class _EnhancedStoryControlsState extends State<EnhancedStoryControls>
             // منع انتشار الحدث للأعلى (لمنع إخفاء الأدوات)
           },
           child: Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 15), // تقليل المسافة السفلية
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
