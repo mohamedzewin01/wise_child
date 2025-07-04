@@ -21,13 +21,15 @@ import 'package:wise_child/features/EditProfile/data/models/response/edit_profil
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/request/get_categories_stories_request.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/add_kids_favorite_image_request.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/categories_stories_request/get_categories_stories_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/kids_favorite_image_request/delete_kid_fav_image_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request/save_story_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/stories_by_category_request/stories_by_category_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/kids_favorite_image_dto/add_kids_favorite_image_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/categories_stories_dto/get_categories_stories_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/kids_favorite_image_dto/delete_kid_fav_image_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto/save_story_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto/stories_by_category_dto.dart';
 import 'package:wise_child/features/Settings/data/models/request/get_user_details_request.dart';
 import 'package:wise_child/features/Settings/data/models/response/get_user_details_dto.dart';
 import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
@@ -36,6 +38,7 @@ import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_r
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
 import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
+
 
 part 'api_manager.g.dart';
 
@@ -95,6 +98,11 @@ abstract class ApiService {
     @Part(name: "image") File? image,
     @Part(name: "id_children") int? idChildren,
     @Part(name: "story_id") int? storyId,
+  );
+
+@POST(ApiConstants.deleteKidsFavoriteImage)
+  Future<DeleteKidFavImageDto?> deleteKidsFavoriteImage(
+    @Body() DeleteKidFavImageRequest? deleteKidFavImage,
   );
 
   @POST(ApiConstants.deleteChildren)

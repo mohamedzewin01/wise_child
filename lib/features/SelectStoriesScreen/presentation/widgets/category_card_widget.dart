@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/get_categories_stories_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/categories_stories_dto/get_categories_stories_dto.dart';
 
 class CategoryCardWidget extends StatelessWidget {
   final Categories category;

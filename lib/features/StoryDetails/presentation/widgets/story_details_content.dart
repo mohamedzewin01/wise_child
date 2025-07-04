@@ -825,7 +825,7 @@ class _StoryDetailsContentState extends State<StoryDetailsContent>
           }
         },
       ),
-      BlocListener<AddKidsFavoriteImageCubit, AddKidsFavoriteImageState>(
+      BlocListener<KidsFavoriteImageCubit, AddKidsFavoriteImageState>(
         listener: (context, state) {
           if (state is AddKidsFavoriteImageSuccess) {
             Navigator.of(context).pop();
@@ -865,7 +865,7 @@ class _StoryDetailsContentState extends State<StoryDetailsContent>
 
   void _uploadFavoriteImage(BuildContext context) {
     if (widget.selectedImage != null && widget.childId != null) {
-      final addImageCubit = context.read<AddKidsFavoriteImageCubit>();
+      final addImageCubit = context.read<KidsFavoriteImageCubit>();
       addImageCubit.image = widget.selectedImage;
       addImageCubit.idChildren = widget.childId!;
       addImageCubit.storyId = widget.story.storyId;

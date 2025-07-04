@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto/stories_by_category_dto.dart';
 
 class StoryCardWidget extends StatelessWidget {
   final StoriesCategory story;

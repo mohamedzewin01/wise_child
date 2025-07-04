@@ -26,7 +26,7 @@ class StoryInfoSection extends StatelessWidget {
                   InfoCard(
                     icon: Icons.child_care,
                     title: 'الفئة العمرية',
-                    value: story.ageGroup!,
+                    stringValue: story.ageGroup??'',
                     color: ColorManager.primaryColor,
                     delay: 0,
                   ),
@@ -34,7 +34,7 @@ class StoryInfoSection extends StatelessWidget {
                   InfoCard(
                     icon: Icons.person,
                     title: 'الجنس',
-                    value: story.gender!,
+                    stringValue: story.gender??'',
                     color: Colors.green.shade600,
                     delay: 100,
                   ),
@@ -42,7 +42,7 @@ class StoryInfoSection extends StatelessWidget {
                   InfoCard(
                     icon: Icons.check_circle,
                     title: 'الحالة',
-                    value: 'نشطة',
+                    stringValue: 'نشطة',
                     color: Colors.blue.shade600,
                     delay: 200,
                   ),

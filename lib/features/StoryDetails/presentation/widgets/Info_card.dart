@@ -4,14 +4,14 @@ import 'package:wise_child/core/resources/style_manager.dart';
 class InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String value;
+  final String stringValue;
   final Color color;
   final int delay;
 
   const InfoCard({super.key,
     required this.icon,
     required this.title,
-    required this.value,
+    required this.stringValue,
     required this.color,
     required this.delay,
   });
@@ -62,7 +62,7 @@ class InfoCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '$value',
+                    stringValue,
                     style: getBoldStyle(
                       color: color,
                       fontSize: 16,

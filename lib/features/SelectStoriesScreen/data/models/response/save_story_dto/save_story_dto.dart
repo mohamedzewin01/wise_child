@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
-
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/_add_kids_fav_image_entity.dart';
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/save_story_entity.dart';
 part 'save_story_dto.g.dart';
 
 @JsonSerializable()

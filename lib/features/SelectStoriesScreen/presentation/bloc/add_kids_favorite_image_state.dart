@@ -15,3 +15,14 @@ final class AddKidsFavoriteImageFailure extends AddKidsFavoriteImageState {
 
   AddKidsFavoriteImageFailure(this.exception);
 }
+final class DeleteKidsFavoriteImageLoading extends AddKidsFavoriteImageState {}
+final class DeleteKidsFavoriteImageSuccess extends AddKidsFavoriteImageState {
+  final DeleteKidFavImageEntity? deleteKidFavImageEntity;
+
+  DeleteKidsFavoriteImageSuccess(this.deleteKidFavImageEntity);
+}
+final class DeleteKidsFavoriteImageFailure extends AddKidsFavoriteImageState {
+  final Exception exception;
+
+  DeleteKidsFavoriteImageFailure(this.exception);
+}

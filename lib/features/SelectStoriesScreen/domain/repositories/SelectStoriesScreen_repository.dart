@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:wise_child/core/common/api_result.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request/save_story_request.dart';
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/delete_kid_fav_image_entity.dart';
 import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
-
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/stories_by_category_entity.dart';
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/_add_kids_fav_image_entity.dart';
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/save_story_entity.dart';
 abstract class SelectStoriesScreenRepository {
   Future<Result<GetCategoriesStoriesEntity?>> getCategoriesStories();
   Future<Result<StoriesByCategoryEntity?>> storiesByCategory(
@@ -15,4 +18,8 @@ abstract class SelectStoriesScreenRepository {
     int? idChildren,
     int? storyId,
   });
+  Future<Result<DeleteKidFavImageEntity?>> deleteKidsFavImage(
+      int? storyId,
+      int? idChildren,
+      );
 }

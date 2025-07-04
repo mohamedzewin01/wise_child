@@ -852,7 +852,7 @@ import 'package:wise_child/core/di/di.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/widgets/expandable_text.dart';
-import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto/stories_by_category_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/save_story_cubit.dart';
 import 'package:wise_child/features/SelectStoriesScreen/presentation/bloc/add_kids_favorite_image_cubit.dart';
 
@@ -870,7 +870,7 @@ class StoryDetailsDialog {
       builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider.value(value: getIt.get<SaveStoryCubit>()),
-          BlocProvider.value(value: getIt.get<AddKidsFavoriteImageCubit>()),
+          BlocProvider.value(value: getIt.get<KidsFavoriteImageCubit>()),
         ],
         child: _StoryDetailsContent(
           story: story,
@@ -1422,7 +1422,7 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
               }
             },
           ),
-          BlocListener<AddKidsFavoriteImageCubit, AddKidsFavoriteImageState>(
+          BlocListener<KidsFavoriteImageCubit, AddKidsFavoriteImageState>(
             listener: (context, state) {
               if (state is AddKidsFavoriteImageSuccess) {
                 setState(() {
@@ -1566,7 +1566,7 @@ class _StoryDetailsContentState extends State<_StoryDetailsContent> {
 
   void _uploadFavoriteImage() {
     if (_selectedImage != null) {
-      final addImageCubit = context.read<AddKidsFavoriteImageCubit>();
+      final addImageCubit = context.read<KidsFavoriteImageCubit>();
       addImageCubit.image = _selectedImage;
       addImageCubit.idChildren = widget.childId;
       addImageCubit.storyId = widget.story.storyId;

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wise_child/features/SelectStoriesScreen/domain/entities/select_stories_entity.dart';
-
+import 'package:wise_child/features/SelectStoriesScreen/domain/entities/stories_by_category_entity.dart';
 part 'stories_by_category_dto.g.dart';
 
 @JsonSerializable()

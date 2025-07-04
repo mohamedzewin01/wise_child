@@ -329,8 +329,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i826.SettingsDatasourceRepo>(
       () => _i625.SettingsDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
-    gh.factory<_i724.AddKidsFavoriteImageCubit>(
-      () => _i724.AddKidsFavoriteImageCubit(
+    gh.factory<_i724.KidsFavoriteImageCubit>(
+      () => _i724.KidsFavoriteImageCubit(
         gh<_i93.SelectStoriesScreenUseCaseRepo>(),
       ),
     );
