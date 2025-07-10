@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/features/Analysis/data/models/request/add_view_story_request.dart';
+import 'package:wise_child/features/Analysis/data/models/response/add_view_story_dto.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/request/get_user_email_request.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/request/user_model_response.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/response/users_model.dart';
@@ -19,6 +21,7 @@ import 'package:wise_child/features/Children/data/models/response/delete_childre
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/EditProfile/data/models/request/edit_profile_request.dart';
 import 'package:wise_child/features/EditProfile/data/models/response/edit_profile_dto.dart';
+import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
@@ -39,7 +42,6 @@ import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_r
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
 import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
-
 
 part 'api_manager.g.dart';
 
@@ -101,7 +103,7 @@ abstract class ApiService {
     @Part(name: "story_id") int? storyId,
   );
 
-@POST(ApiConstants.deleteKidsFavoriteImage)
+  @POST(ApiConstants.deleteKidsFavoriteImage)
   Future<DeleteKidFavImageDto?> deleteKidsFavoriteImage(
     @Body() DeleteKidFavImageRequest? deleteKidFavImage,
   );
@@ -146,7 +148,6 @@ abstract class ApiService {
     @Body() ChildrenDetailsRequest? childrenDetailsRequest,
   );
 
-
   @POST(ApiConstants.getUserDetails)
   Future<GetUserDetailsDto?> getUserDetails(
     @Body() GetUserDetailsRequest? getUserDetailsRequest,
@@ -157,8 +158,13 @@ abstract class ApiService {
     @Body() StoryDetailsRequest? storyDetailsRequest,
   );
 
+  @POST(ApiConstants.storiesView)
+  Future<AddViewStoryDto?> addStoryView(
+    @Body() AddViewStoryRequest? addViewStoryRequest,
+  );
 
-
+  @POST(ApiConstants.getHomeData)
+  Future<GetHomeRequest?> getHomeData();
 }
 
 //  @MultiPart()

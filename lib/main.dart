@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wise_child/core/remote/firebase_config.dart';
+import 'package:wise_child/features/Analysis/presentation/bloc/Analysis_cubit.dart';
 import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
 
 
@@ -21,7 +22,7 @@ Future<void> main() async {
   await FirebaseConfig.initializeFirebase();
   await CacheService.cacheInitialization();
   configureDependencies();
-  // Bloc.observer = MyBlocObserver();
+  Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => LocaleCubit()),
         BlocProvider(create: (_) => LayoutCubit()),
+        BlocProvider(create: (_) =>getIt.get<AnalysisCubit>()),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {

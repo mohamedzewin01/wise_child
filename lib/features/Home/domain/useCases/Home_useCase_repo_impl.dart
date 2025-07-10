@@ -1,3 +1,7 @@
+import 'package:wise_child/core/common/api_result.dart';
+
+import 'package:wise_child/features/Home/domain/entities/home_entity.dart';
+
 import '../repositories/Home_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../useCases/Home_useCase_repo.dart';
@@ -8,7 +12,10 @@ class HomeUseCase implements HomeUseCaseRepo {
 
   HomeUseCase(this.repository);
 
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  @override
+  Future<Result<GetHomeEntity?>> getHomeData() {
+ return repository.getHomeData();
+  }
+
+
 }

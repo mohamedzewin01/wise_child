@@ -25,6 +25,12 @@ class ApiConstants {
   static const String deleteKidsFavoriteImage = "stories/delete_kid_fav_image";
   static const String getUserDetails = "users/get_user_details";
   static const String storyChildrenDetails = "children/story_children_details";
+  ///-
+  static const String storiesView = "stories/add_to_story_queue.php";
+  ///-
+  static const String getHomeData = "home/get_home_data";
+
+
 
 
 }

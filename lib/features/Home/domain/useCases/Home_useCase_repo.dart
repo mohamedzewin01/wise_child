@@ -1,5 +1,6 @@
+import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/Home/domain/entities/home_entity.dart';
+
 abstract class HomeUseCaseRepo {
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  Future<Result<GetHomeEntity?>>getHomeData();
 }

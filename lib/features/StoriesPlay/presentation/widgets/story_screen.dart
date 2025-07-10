@@ -2,9 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/features/Analysis/presentation/bloc/Analysis_cubit.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/enhanced_story_screen.dart';
 import '../../../../core/di/di.dart';
 import '../../data/models/response/story_play_dto.dart';
@@ -35,19 +37,16 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
   void initState() {
     super.initState();
     viewModel = getIt.get<StoriesPlayCubit>();
+    context.read<AnalysisCubit>().addStoryView(widget.storyId, widget.childId);
 
     _loadingController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     );
 
-    _loadingAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _loadingController,
-      curve: Curves.easeInOut,
-    ));
+    _loadingAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _loadingController, curve: Curves.easeInOut),
+    );
 
     _loadingController.repeat();
   }
@@ -89,7 +88,9 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
               List<Clips> storyPages = state.storyPlayEntity.clips ?? [];
 
               if (status == 'processing') {
-                return _buildProcessingScreen(state.storyPlayEntity.message ?? '');
+                return _buildProcessingScreen(
+                  state.storyPlayEntity.message ?? '',
+                );
               }
 
               if (storyPages.isEmpty) {
@@ -220,7 +221,10 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
               onPressed: () => Navigator.of(context).pop(),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white.withOpacity(0.2),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -259,11 +263,7 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.error_outline_rounded,
-                size: 80,
-                color: Colors.white,
-              ),
+              Icon(Icons.error_outline_rounded, size: 80, color: Colors.white),
 
               const SizedBox(height: 30),
 
@@ -412,7 +412,10 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
                 onPressed: () => Navigator.of(context).pop(),
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.white.withOpacity(0.2),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -497,10 +500,7 @@ class _StoriesPlayPageState extends State<StoriesPlayPage>
                 ),
                 child: Text(
                   'العودة',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
             ],
@@ -582,7 +582,7 @@ class StoryCubit extends Cubit<StoryState> {
   StreamSubscription? _durationSubscription;
 
   StoryCubit(List<Clips> storyPages, {bool autoPlay = true})
-      : super(StoryState.initial(storyPages)) {
+    : super(StoryState.initial(storyPages)) {
     _initAudioPlayer();
     if (autoPlay) {
       _setPlaylistAndPlay();
@@ -596,8 +596,11 @@ class StoryCubit extends Cubit<StoryState> {
       final playlist = ConcatenatingAudioSource(
         useLazyPreparation: false,
         children: state.storyPages
-            .map((clip) => AudioSource.uri(
-            Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}')))
+            .map(
+              (clip) => AudioSource.uri(
+                Uri.parse('${ApiConstants.urlAudio}${clip.audioUrl}'),
+              ),
+            )
             .toList(),
       );
 
@@ -607,11 +610,13 @@ class StoryCubit extends Cubit<StoryState> {
       await Future.delayed(const Duration(milliseconds: 500));
       await _audioPlayer.play();
 
-      emit(state.copyWith(
-        status: PlaybackStatus.playing,
-        currentPage: 0,
-        isFirstPlay: false,
-      ));
+      emit(
+        state.copyWith(
+          status: PlaybackStatus.playing,
+          currentPage: 0,
+          isFirstPlay: false,
+        ),
+      );
     } catch (e) {
       print('Error setting playlist: $e');
       emit(state.copyWith(status: PlaybackStatus.paused));
@@ -621,7 +626,9 @@ class StoryCubit extends Cubit<StoryState> {
   void _initAudioPlayer() {
     _cancelAllSubscriptions();
 
-    _playerStateSubscription = _audioPlayer.playerStateStream.listen((playerState) {
+    _playerStateSubscription = _audioPlayer.playerStateStream.listen((
+      playerState,
+    ) {
       if (_hasCompleted || isClosed) return;
 
       switch (playerState.processingState) {
@@ -634,7 +641,8 @@ class StoryCubit extends Cubit<StoryState> {
               emit(state.copyWith(status: PlaybackStatus.playing));
             }
           } else {
-            if (state.status != PlaybackStatus.paused && state.status != PlaybackStatus.finished) {
+            if (state.status != PlaybackStatus.paused &&
+                state.status != PlaybackStatus.finished) {
               emit(state.copyWith(status: PlaybackStatus.paused));
             }
           }
@@ -647,7 +655,9 @@ class StoryCubit extends Cubit<StoryState> {
     _currentIndexSubscription = _audioPlayer.currentIndexStream.listen((index) {
       if (_hasCompleted || isClosed || index == null) return;
 
-      if (index >= 0 && index < state.storyPages.length && index != state.currentPage) {
+      if (index >= 0 &&
+          index < state.storyPages.length &&
+          index != state.currentPage) {
         emit(state.copyWith(currentPage: index));
       }
     });
@@ -669,10 +679,12 @@ class StoryCubit extends Cubit<StoryState> {
     _hasCompleted = true;
     _audioPlayer.stop();
 
-    emit(state.copyWith(
-      status: PlaybackStatus.finished,
-      currentPage: state.storyPages.length - 1,
-    ));
+    emit(
+      state.copyWith(
+        status: PlaybackStatus.finished,
+        currentPage: state.storyPages.length - 1,
+      ),
+    );
   }
 
   void _cancelAllSubscriptions() {
@@ -688,11 +700,13 @@ class StoryCubit extends Cubit<StoryState> {
       await _audioPlayer.stop();
       await _audioPlayer.seek(Duration.zero, index: 0);
 
-      emit(state.copyWith(
-        currentPage: 0,
-        status: PlaybackStatus.paused,
-        position: Duration.zero,
-      ));
+      emit(
+        state.copyWith(
+          currentPage: 0,
+          status: PlaybackStatus.paused,
+          position: Duration.zero,
+        ),
+      );
 
       await _audioPlayer.play();
       emit(state.copyWith(status: PlaybackStatus.playing));
