@@ -146,7 +146,7 @@ import '../../features/Home/domain/repositories/Home_repository.dart' as _i126;
 import '../../features/Home/domain/useCases/Home_useCase_repo.dart' as _i543;
 import '../../features/Home/domain/useCases/Home_useCase_repo_impl.dart'
     as _i557;
-import '../../features/Home/presentation/bloc/Home_cubit.dart' as _i371;
+import '../../features/Home/presentation/bloc/get_home_cubit.dart' as _i366;
 import '../../features/NewChildren/data/datasources/NewChildren_datasource_repo.dart'
     as _i172;
 import '../../features/NewChildren/data/datasources/NewChildren_datasource_repo_impl.dart'
@@ -535,8 +535,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i281.UserDetailsCubit>(
       () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
-    gh.factory<_i371.HomeCubit>(
-      () => _i371.HomeCubit(gh<_i543.HomeUseCaseRepo>()),
+    gh.factory<_i366.GetHomeCubit>(
+      () => _i366.GetHomeCubit(gh<_i543.HomeUseCaseRepo>()),
     );
     gh.factory<_i879.StoriesCubit>(
       () => _i879.StoriesCubit(
