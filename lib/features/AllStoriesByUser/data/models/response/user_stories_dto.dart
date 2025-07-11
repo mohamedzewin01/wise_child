@@ -96,6 +96,8 @@ class Stories {
   final String? bestFriendGender;
   @JsonKey(name: "child_name")
   final String? childName;
+  @JsonKey(name: "child_id")
+  final String? childId;
 
   Stories ({
     this.storyId,
@@ -110,6 +112,7 @@ class Stories {
     this.categoryName,
     this.bestFriendGender,
     this.childName,
+    this.childId
   });
 
   factory Stories.fromJson(Map<String, dynamic> json) {

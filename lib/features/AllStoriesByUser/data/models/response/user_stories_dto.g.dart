@@ -60,6 +60,7 @@ Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
   categoryName: json['category_name'] as String?,
   bestFriendGender: json['best_friend_gender'] as String?,
   childName: json['child_name'] as String?,
+  childId: json['child_id'] as String?,
 );
 
 Map<String, dynamic> _$StoriesToJson(Stories instance) => <String, dynamic>{
@@ -75,4 +76,5 @@ Map<String, dynamic> _$StoriesToJson(Stories instance) => <String, dynamic>{
   'category_name': instance.categoryName,
   'best_friend_gender': instance.bestFriendGender,
   'child_name': instance.childName,
+  'child_id': instance.childId,
 };
