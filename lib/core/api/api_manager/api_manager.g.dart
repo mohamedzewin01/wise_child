@@ -765,6 +765,39 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<UserStoriesDto?> getUserStories(
+    GetUserStoriesRequest? getUserStoriesRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(getUserStoriesRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<UserStoriesDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'home/get_user_stories.php',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late UserStoriesDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : UserStoriesDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<GetHomeRequest?> getHomeData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -599,6 +599,7 @@ class _ChildrenPageState extends State<ChildrenPage>
                   slivers: [
                     // App Bar
                     // _buildSliverAppBar(),
+
                     SliverToBoxAdapter(
                       child: CustomAppBarApp(
                         subtitle: '',

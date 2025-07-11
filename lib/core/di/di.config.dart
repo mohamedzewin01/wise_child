@@ -13,6 +13,20 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/AllStoriesByUser/data/datasources/AllStoriesByUser_datasource_repo.dart'
+    as _i521;
+import '../../features/AllStoriesByUser/data/datasources/AllStoriesByUser_datasource_repo_impl.dart'
+    as _i980;
+import '../../features/AllStoriesByUser/data/repositories_impl/AllStoriesByUser_repo_impl.dart'
+    as _i440;
+import '../../features/AllStoriesByUser/domain/repositories/AllStoriesByUser_repository.dart'
+    as _i751;
+import '../../features/AllStoriesByUser/domain/useCases/AllStoriesByUser_useCase_repo.dart'
+    as _i295;
+import '../../features/AllStoriesByUser/domain/useCases/AllStoriesByUser_useCase_repo_impl.dart'
+    as _i86;
+import '../../features/AllStoriesByUser/presentation/bloc/AllStoriesByUser_cubit.dart'
+    as _i736;
 import '../../features/Analysis/data/datasources/Analysis_datasource_repo.dart'
     as _i704;
 import '../../features/Analysis/data/datasources/Analysis_datasource_repo_impl.dart'
@@ -358,6 +372,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i879.AuthDatasourceRepo>(
       () => _i686.AuthDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i521.AllStoriesByUserDatasourceRepo>(
+      () => _i980.AllStoriesByUserDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i826.SettingsDatasourceRepo>(
       () => _i625.SettingsDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -405,6 +422,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i827.HomeDatasourceRepo>(
       () => _i97.HomeDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i751.AllStoriesByUserRepository>(
+      () => _i440.AllStoriesByUserRepositoryImpl(
+        gh<_i521.AllStoriesByUserDatasourceRepo>(),
+      ),
+    );
     gh.factory<_i354.ChildDetailsPageDatasourceRepo>(
       () => _i421.ChildDetailsPageDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -421,6 +443,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i500.StoryDetailsUseCaseRepo>(
       () => _i378.StoryDetailsUseCase(gh<_i86.StoryDetailsRepository>()),
+    );
+    gh.factory<_i295.AllStoriesByUserUseCaseRepo>(
+      () =>
+          _i86.AllStoriesByUserUseCase(gh<_i751.AllStoriesByUserRepository>()),
     );
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
@@ -501,6 +527,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
       () =>
           _i630.ChildDetailsPageUseCase(gh<_i157.ChildDetailsPageRepository>()),
+    );
+    gh.factory<_i736.AllStoriesByUserCubit>(
+      () =>
+          _i736.AllStoriesByUserCubit(gh<_i295.AllStoriesByUserUseCaseRepo>()),
     );
     gh.factory<_i251.AnalysisUseCaseRepo>(
       () => _i348.AnalysisUseCase(gh<_i355.AnalysisRepository>()),

@@ -12,15 +12,16 @@ class HomeWelcomeHeader extends StatelessWidget {
     final userPhoto = CacheService.getData(key: CacheKeys.userPhoto);
 
     return Container(
-      margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 0),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            colorScheme.primary.withOpacity(0.1),
-            colorScheme.secondary.withOpacity(0.1),
+            colorScheme.primary.withOpacity(0.5),
+            colorScheme.primary.withOpacity(0.4),
+            colorScheme.secondary.withOpacity(0.5),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
@@ -54,7 +55,7 @@ class HomeWelcomeHeader extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'مرحباً، $firstName! 👋',
@@ -65,7 +66,7 @@ class HomeWelcomeHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'تابع إحصائيات القصص والأنشطة',
+                  'اهلا بعودتك ',
                   style: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurface.withOpacity(0.7),
                   ),

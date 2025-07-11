@@ -29,6 +29,7 @@ class ApiConstants {
   static const String storiesView = "stories/add_to_story_queue.php";
   ///-
   static const String getHomeData = "home/get_home_data";
+  static const String getUserStories = "home/get_user_stories.php";
 
 
 

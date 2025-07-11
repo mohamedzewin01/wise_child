@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/features/AllStoriesByUser/data/models/request/get_user_stories_request.dart';
+import 'package:wise_child/features/AllStoriesByUser/data/models/response/user_stories_dto.dart';
 import 'package:wise_child/features/Analysis/data/models/request/add_view_story_request.dart';
 import 'package:wise_child/features/Analysis/data/models/response/add_view_story_dto.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/request/get_user_email_request.dart';
@@ -161,6 +163,10 @@ abstract class ApiService {
   @POST(ApiConstants.storiesView)
   Future<AddViewStoryDto?> addStoryView(
     @Body() AddViewStoryRequest? addViewStoryRequest,
+  );
+  @POST(ApiConstants.getUserStories)
+  Future<UserStoriesDto?> getUserStories(
+    @Body() GetUserStoriesRequest? getUserStoriesRequest,
   );
 
   @POST(ApiConstants.getHomeData)
