@@ -50,14 +50,15 @@ class StoryCardWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Story Title
                       Text(
                         story.storyTitle ?? 'قصة بدون عنوان',
+                        textDirection:TextDirection.rtl ,
                         style: getBoldStyle(
                           color: ColorManager.primaryColor,
-                          fontSize: 14,
+                          fontSize: 11,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -70,8 +71,9 @@ class StoryCardWidget extends StatelessWidget {
                         Expanded(
                           child: Text(
                             story.storyDescription!,
+                            textDirection:TextDirection.rtl ,
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 10,
                               color: Colors.grey.shade600,
                             ),
                             maxLines: 2,
@@ -174,7 +176,7 @@ class StoryCardWidget extends StatelessWidget {
           ),
         if (story.problem != null)
           _buildStoryTag(
-            text: 'حل المشاكل',
+            text: story.problem?.problemTitle??'',
             color: Colors.orange.shade600,
           ),
       ],
@@ -190,10 +192,13 @@ class StoryCardWidget extends StatelessWidget {
       ),
       child: Text(
         text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 9,
           color: color,
           fontWeight: FontWeight.w600,
+
         ),
       ),
     );

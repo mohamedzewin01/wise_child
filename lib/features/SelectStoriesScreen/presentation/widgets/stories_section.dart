@@ -45,9 +45,10 @@ class StoriesSection extends StatelessWidget {
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.75,
+                // childAspectRatio: 0.70,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
+                mainAxisExtent: 230,
               ),
               delegate: SliverChildBuilderDelegate(
                     (context, index) {
