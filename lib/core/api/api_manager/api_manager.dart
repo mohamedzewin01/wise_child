@@ -29,6 +29,10 @@ import 'package:wise_child/features/NewChildren/data/models/response/add_child_d
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
 import 'package:wise_child/features/Reports/data/models/request/reports_request.dart';
 import 'package:wise_child/features/Reports/data/models/response/reports_dto.dart';
+import 'package:wise_child/features/Reviews/data/models/request/add_child_review_request.dart';
+import 'package:wise_child/features/Reviews/data/models/request/get_child_review_request.dart';
+import 'package:wise_child/features/Reviews/data/models/response/add_child_review_dto.dart';
+import 'package:wise_child/features/Reviews/data/models/response/get_children_review_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/categories_stories_request/get_categories_stories_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/kids_favorite_image_request/delete_kid_fav_image_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request/save_story_request.dart';
@@ -193,6 +197,25 @@ abstract class ApiService {
   Future<ReportsDto?> childrenViewsReport(
     @Body() ReportsRequest? reportsRequest,
   );
+
+  @POST(ApiConstants.addChildReview)
+  Future<AddChildReviewDto?> addChildReview(
+    @Body() AddChildReviewRequest? reportsRequest,
+  );
+
+
+  @POST(ApiConstants.getChildReview)
+  Future<GetChildrenReviewDto?> getChildReview(
+    @Body() GetChildReviewRequest? getChildReviewRequest,
+  );
+
+
+
+
+
+
+
+
 }
 
 //  @MultiPart()

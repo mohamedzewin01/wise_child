@@ -25,6 +25,7 @@ ReportData _$ReportDataFromJson(Map<String, dynamic> json) => ReportData(
   childId: (json['child_id'] as num?)?.toInt(),
   firstName: json['first_name'] as String?,
   lastName: json['last_name'] as String?,
+  imageUrlChild: json['imageUrl'] as String?,
   gender: json['gender'] as String?,
   dateOfBirth: json['date_of_birth'] as String?,
   stories: (json['stories'] as List<dynamic>?)
@@ -38,6 +39,7 @@ Map<String, dynamic> _$ReportDataToJson(ReportData instance) =>
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'gender': instance.gender,
+      'imageUrl': instance.imageUrlChild,
       'date_of_birth': instance.dateOfBirth,
       'stories': instance.stories,
     };
@@ -45,6 +47,7 @@ Map<String, dynamic> _$ReportDataToJson(ReportData instance) =>
 Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
   storyId: (json['story_id'] as num?)?.toInt(),
   storyTitle: json['story_title'] as String?,
+  imageCover: json['image_cover'] as String?,
   storyCreatedAt: json['story_created_at'] as String?,
   totalViews: (json['total_views'] as num?)?.toInt(),
   lastViewed: json['last_viewed'] as String?,
@@ -53,6 +56,7 @@ Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
 Map<String, dynamic> _$StoriesToJson(Stories instance) => <String, dynamic>{
   'story_id': instance.storyId,
   'story_title': instance.storyTitle,
+  'image_cover': instance.imageCover,
   'story_created_at': instance.storyCreatedAt,
   'total_views': instance.totalViews,
   'last_viewed': instance.lastViewed,

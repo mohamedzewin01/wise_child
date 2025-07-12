@@ -35,7 +35,8 @@ class ApiConstants {
   static const String addStoryRequests = "story_requests/add_story_requests";
   ///-
   static const String childrenViewsReport = "reports/children_views_report";
-  ///-
+  static const String addChildReview = "review/add_child_review.php";
+  static const String getChildReview = "review/get_child_review.php";
 
 
 

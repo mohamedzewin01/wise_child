@@ -145,10 +145,6 @@ class HomeQuickActions extends StatelessWidget {
   }
 
   void _navigateToReports(BuildContext context) {
-    // Navigate to reports page
-    // Navigator.pushNamed(context, '/reports');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('الانتقال إلى صفحة التقارير')),
-    );
+    Navigator.pushNamed(context, RoutesManager.reportsPage);
   }
 }

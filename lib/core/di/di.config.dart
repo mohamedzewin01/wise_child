@@ -202,6 +202,19 @@ import '../../features/Reports/domain/useCases/Reports_useCase_repo.dart'
 import '../../features/Reports/domain/useCases/Reports_useCase_repo_impl.dart'
     as _i773;
 import '../../features/Reports/presentation/bloc/Reports_cubit.dart' as _i39;
+import '../../features/Reviews/data/datasources/Reviews_datasource_repo.dart'
+    as _i469;
+import '../../features/Reviews/data/datasources/Reviews_datasource_repo_impl.dart'
+    as _i575;
+import '../../features/Reviews/data/repositories_impl/Reviews_repo_impl.dart'
+    as _i96;
+import '../../features/Reviews/domain/repositories/Reviews_repository.dart'
+    as _i64;
+import '../../features/Reviews/domain/useCases/Reviews_useCase_repo.dart'
+    as _i15;
+import '../../features/Reviews/domain/useCases/Reviews_useCase_repo_impl.dart'
+    as _i350;
+import '../../features/Reviews/presentation/bloc/Reviews_cubit.dart' as _i625;
 import '../../features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo.dart'
     as _i574;
 import '../../features/SelectStoriesScreen/data/datasources/SelectStoriesScreen_datasource_repo_impl.dart'
@@ -410,6 +423,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i439.ForgotPasswordUseCase>(
       () => _i439.ForgotPasswordUseCase(gh<_i413.ForgotPasswordRepository>()),
     );
+    gh.factory<_i469.ReviewsDatasourceRepo>(
+      () => _i575.ReviewsDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i879.AuthDatasourceRepo>(
       () => _i686.AuthDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -516,6 +532,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i247.ChildModeCubit>(
       () => _i247.ChildModeCubit(gh<_i601.ChildModeUseCaseRepo>()),
     );
+    gh.factory<_i64.ReviewsRepository>(
+      () => _i96.ReviewsRepositoryImpl(gh<_i469.ReviewsDatasourceRepo>()),
+    );
     gh.factory<_i416.NewChildrenUseCaseRepo>(
       () => _i863.NewChildrenUseCase(gh<_i781.NewChildrenRepository>()),
     );
@@ -591,6 +610,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i830.StoriesPlayCubit>(
       () => _i830.StoriesPlayCubit(gh<_i380.StoriesPlayUseCaseRepo>()),
     );
+    gh.factory<_i15.ReviewsUseCaseRepo>(
+      () => _i350.ReviewsUseCase(gh<_i64.ReviewsRepository>()),
+    );
     gh.factory<_i543.HomeUseCaseRepo>(
       () => _i557.HomeUseCase(gh<_i126.HomeRepository>()),
     );
@@ -617,6 +639,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i281.UserDetailsCubit>(
       () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
+    );
+    gh.factory<_i625.ReviewsCubit>(
+      () => _i625.ReviewsCubit(gh<_i15.ReviewsUseCaseRepo>()),
     );
     gh.factory<_i366.GetHomeCubit>(
       () => _i366.GetHomeCubit(gh<_i543.HomeUseCaseRepo>()),

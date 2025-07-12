@@ -44,6 +44,8 @@ class ReportData {
   final String? lastName;
   @JsonKey(name: "gender")
   final String? gender;
+  @JsonKey(name: "imageUrl")
+  final String? imageUrlChild;
   @JsonKey(name: "date_of_birth")
   final String? dateOfBirth;
   @JsonKey(name: "stories")
@@ -53,6 +55,7 @@ class ReportData {
     this.childId,
     this.firstName,
     this.lastName,
+    this.imageUrlChild,
     this.gender,
     this.dateOfBirth,
     this.stories,
@@ -73,6 +76,8 @@ class Stories {
   final int? storyId;
   @JsonKey(name: "story_title")
   final String? storyTitle;
+  @JsonKey(name: "image_cover")
+  final String? imageCover;
   @JsonKey(name: "story_created_at")
   final String? storyCreatedAt;
   @JsonKey(name: "total_views")
@@ -83,6 +88,7 @@ class Stories {
   Stories ({
     this.storyId,
     this.storyTitle,
+    this.imageCover,
     this.storyCreatedAt,
     this.totalViews,
     this.lastViewed,
