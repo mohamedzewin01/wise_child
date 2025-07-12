@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
-import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
+import 'package:wise_child/core/widgets/avatar_image.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/ChildrenStoriesCubit/children_stories_cubit.dart';
 import 'package:wise_child/features/Stories/presentation/bloc/Stories_cubit.dart';
 import 'dart:math' as math;

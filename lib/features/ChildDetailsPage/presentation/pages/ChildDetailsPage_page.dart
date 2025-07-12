@@ -595,7 +595,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SelectStoriesScreenPage(child: widget.child),
+          builder: (context) => SelectStoriesScreenPage(
+          child: widget.child),
         ),
       );
     });

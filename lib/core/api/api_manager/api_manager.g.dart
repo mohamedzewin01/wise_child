@@ -826,6 +826,72 @@ class _ApiService implements ApiService {
     return _value;
   }
 
+  @override
+  Future<GetChildrenUserDto?> getChildrenUser(
+    GetChildrenUserRequest? getChildrenUserRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(getChildrenUserRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<GetChildrenUserDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'home/get_children_user',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late GetChildrenUserDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : GetChildrenUserDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AddStoryRequestsDto?> addStoryRequests(
+    AddStoryRequestsModel? addStoryRequestsModel,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(addStoryRequestsModel?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<AddStoryRequestsDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'story_requests/add_story_requests',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late AddStoryRequestsDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : AddStoryRequestsDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

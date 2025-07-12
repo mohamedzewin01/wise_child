@@ -208,7 +208,7 @@ import 'package:wise_child/core/widgets/delete_confirmation_dialog.dart';
 import 'package:wise_child/features/ChildDetailsPage/presentation/pages/ChildDetailsPage_page.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/bloc/Children_cubit.dart';
-import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
+import 'package:wise_child/core/widgets/avatar_image.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
 
 import '../../../../core/di/di.dart';

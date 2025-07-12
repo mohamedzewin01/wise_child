@@ -29,9 +29,10 @@ ChildrenStoriesData _$ChildrenStoriesDataFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String?,
       age: (json['age'] as num?)?.toInt(),
       playmateGender: json['playmate_gender'] as String?,
+      bestFriendName: json['playmate_name'] as String?,
       imageUrl: json['image_url'] as String?,
       stories: (json['stories'] as List<dynamic>?)
-          ?.map((e) => Stories.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => StoriesHome.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -44,10 +45,11 @@ Map<String, dynamic> _$ChildrenStoriesDataToJson(
   'age': instance.age,
   'playmate_gender': instance.playmateGender,
   'image_url': instance.imageUrl,
+  'playmate_name': instance.bestFriendName,
   'stories': instance.stories,
 };
 
-Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
+StoriesHome _$StoriesHomeFromJson(Map<String, dynamic> json) => StoriesHome(
   storyId: (json['story_id'] as num?)?.toInt(),
   storyTitle: json['story_title'] as String?,
   imageCover: json['image_cover'] as String?,
@@ -60,21 +62,28 @@ Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
   categoryName: json['category_name'] as String?,
   bestFriendGender: json['best_friend_gender'] as String?,
   childName: json['child_name'] as String?,
-  childId: json['child_id'] as String?,
+  childId: (json['child_id'] as num?)?.toInt(),
+  problemId: (json['problem_id'] as num?)?.toInt(),
+  problemTitle: json['problem_title'] as String?,
+  problemDescription: json['problem_description'] as String?,
 );
 
-Map<String, dynamic> _$StoriesToJson(Stories instance) => <String, dynamic>{
-  'story_id': instance.storyId,
-  'story_title': instance.storyTitle,
-  'image_cover': instance.imageCover,
-  'story_description': instance.storyDescription,
-  'gender': instance.gender,
-  'age_group': instance.ageGroup,
-  'is_active': instance.isActive,
-  'created_at': instance.createdAt,
-  'category_id': instance.categoryId,
-  'category_name': instance.categoryName,
-  'best_friend_gender': instance.bestFriendGender,
-  'child_name': instance.childName,
-  'child_id': instance.childId,
-};
+Map<String, dynamic> _$StoriesHomeToJson(StoriesHome instance) =>
+    <String, dynamic>{
+      'story_id': instance.storyId,
+      'story_title': instance.storyTitle,
+      'image_cover': instance.imageCover,
+      'story_description': instance.storyDescription,
+      'gender': instance.gender,
+      'age_group': instance.ageGroup,
+      'is_active': instance.isActive,
+      'created_at': instance.createdAt,
+      'category_id': instance.categoryId,
+      'category_name': instance.categoryName,
+      'best_friend_gender': instance.bestFriendGender,
+      'child_name': instance.childName,
+      'child_id': instance.childId,
+      'problem_id': instance.problemId,
+      'problem_title': instance.problemTitle,
+      'problem_description': instance.problemDescription,
+    };

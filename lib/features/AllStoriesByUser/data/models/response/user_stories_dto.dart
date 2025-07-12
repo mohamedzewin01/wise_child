@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wise_child/features/AllStoriesByUser/domain/entities/all_stories_enities.dart';
+import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto/stories_by_category_dto.dart';
 
 part 'user_stories_dto.g.dart';
 
@@ -12,11 +13,7 @@ class UserStoriesDto {
   @JsonKey(name: "children_stories")
   final List<ChildrenStoriesData>? childrenStories;
 
-  UserStoriesDto ({
-    this.status,
-    this.message,
-    this.childrenStories,
-  });
+  UserStoriesDto({this.status, this.message, this.childrenStories});
 
   factory UserStoriesDto.fromJson(Map<String, dynamic> json) {
     return _$UserStoriesDtoFromJson(json);
@@ -25,6 +22,7 @@ class UserStoriesDto {
   Map<String, dynamic> toJson() {
     return _$UserStoriesDtoToJson(this);
   }
+
   UserStoriesEntity toEntity() {
     return UserStoriesEntity(
       status: status,
@@ -48,15 +46,18 @@ class ChildrenStoriesData {
   final String? playmateGender;
   @JsonKey(name: "image_url")
   final String? imageUrl;
+  @JsonKey(name: "playmate_name")
+  final String? bestFriendName;
   @JsonKey(name: "stories")
-  final List<Stories>? stories;
+  final List<StoriesHome>? stories;
 
-  ChildrenStoriesData ({
+  ChildrenStoriesData({
     this.childId,
     this.childName,
     this.gender,
     this.age,
     this.playmateGender,
+    this.bestFriendName,
     this.imageUrl,
     this.stories,
   });
@@ -71,7 +72,7 @@ class ChildrenStoriesData {
 }
 
 @JsonSerializable()
-class Stories {
+class StoriesHome {
   @JsonKey(name: "story_id")
   final int? storyId;
   @JsonKey(name: "story_title")
@@ -97,9 +98,15 @@ class Stories {
   @JsonKey(name: "child_name")
   final String? childName;
   @JsonKey(name: "child_id")
-  final String? childId;
+  final int? childId;
+  @JsonKey(name: "problem_id")
+  final int? problemId;
+  @JsonKey(name: "problem_title")
+  final String? problemTitle;
+  @JsonKey(name: "problem_description")
+  final String? problemDescription;
 
-  Stories ({
+  StoriesHome({
     this.storyId,
     this.storyTitle,
     this.imageCover,
@@ -112,16 +119,36 @@ class Stories {
     this.categoryName,
     this.bestFriendGender,
     this.childName,
-    this.childId
+    this.childId,
+    this.problemId,
+    this.problemTitle,
+    this.problemDescription,
   });
 
-  factory Stories.fromJson(Map<String, dynamic> json) {
-    return _$StoriesFromJson(json);
+  factory StoriesHome.fromJson(Map<String, dynamic> json) {
+    return _$StoriesHomeFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$StoriesToJson(this);
+    return _$StoriesHomeToJson(this);
+  }
+
+  StoriesCategory toStoriesCategory() {
+    return StoriesCategory(
+      storyId: storyId,
+      storyTitle: storyTitle,
+      imageCover: imageCover,
+      storyDescription: storyDescription,
+      gender: gender,
+      ageGroup: ageGroup,
+      isActive: isActive,
+      createdAt: createdAt,
+      categoryId: categoryId,
+      problem: Problem(
+        problemId: problemId,
+        problemTitle: problemTitle,
+        problemDescription: problemDescription,
+      ),
+    );
   }
 }
-
-

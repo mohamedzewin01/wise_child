@@ -30,6 +30,9 @@ class ApiConstants {
   ///-
   static const String getHomeData = "home/get_home_data";
   static const String getUserStories = "home/get_user_stories.php";
+  static const String getChildrenUser = "home/get_children_user";
+  ///-
+  static const String addStoryRequests = "story_requests/add_story_requests";
 
 
 

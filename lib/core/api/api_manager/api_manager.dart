@@ -44,6 +44,10 @@ import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_r
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
 import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
+import 'package:wise_child/features/StoryRequest/data/models/request/add_story_requests_model.dart';
+import 'package:wise_child/features/StoryRequest/data/models/request/get_children_request.dart';
+import 'package:wise_child/features/StoryRequest/data/models/response/add_story_requests_dto.dart';
+import 'package:wise_child/features/StoryRequest/data/models/response/get_children_dto.dart';
 
 part 'api_manager.g.dart';
 
@@ -164,6 +168,7 @@ abstract class ApiService {
   Future<AddViewStoryDto?> addStoryView(
     @Body() AddViewStoryRequest? addViewStoryRequest,
   );
+
   @POST(ApiConstants.getUserStories)
   Future<UserStoriesDto?> getUserStories(
     @Body() GetUserStoriesRequest? getUserStoriesRequest,
@@ -171,6 +176,16 @@ abstract class ApiService {
 
   @POST(ApiConstants.getHomeData)
   Future<GetHomeRequest?> getHomeData();
+
+  @POST(ApiConstants.getChildrenUser)
+  Future<GetChildrenUserDto?> getChildrenUser(
+    @Body() GetChildrenUserRequest? getChildrenUserRequest,
+  );
+
+  @POST(ApiConstants.addStoryRequests)
+  Future<AddStoryRequestsDto?> addStoryRequests(
+    @Body() AddStoryRequestsModel? addStoryRequestsModel,
+  );
 }
 
 //  @MultiPart()

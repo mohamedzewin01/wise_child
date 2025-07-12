@@ -152,12 +152,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         const SizedBox(height: 24),
 
         // Statistics Overview
-        HomeStatisticsOverview(data: homeData?.data),
-        const SizedBox(height: 24),
+        // HomeStatisticsOverview(data: homeData?.data),
+        // const SizedBox(height: 24),
 
-        // Analytics Dashboard
-        HomeAnalyticsDashboard(data: homeData?.data),
-        const SizedBox(height: 24),
+        // // Analytics Dashboard
+        // HomeAnalyticsDashboard(data: homeData?.data),
+        // const SizedBox(height: 24),
 
         // Top Viewed Stories
         HomeStoriesGrid(
@@ -167,13 +167,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 24),
 
-        // Gender Statistics
-        HomeGenderStatistics(data: homeData?.data?.storiesByGender),
-        const SizedBox(height: 24),
+        // // Gender Statistics
+        // HomeGenderStatistics(data: homeData?.data?.storiesByGender),
+        // const SizedBox(height: 24),
 
         // Age Groups
-        HomeAgeGroups(ageGroups: homeData?.data?.storiesByAgeGroup ?? []),
-        const SizedBox(height: 24),
+        // HomeAgeGroups(ageGroups: homeData?.data?.storiesByAgeGroup ?? []),
+        // const SizedBox(height: 24),
 
         // Categories
         HomeCategories(categories: homeData?.data?.storiesByCategory ?? []),

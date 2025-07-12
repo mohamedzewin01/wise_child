@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/di/di.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
-import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
+import 'package:wise_child/core/widgets/avatar_image.dart';
 import 'package:wise_child/features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart';
 import 'package:wise_child/features/Settings/data/models/response/get_user_details_dto.dart';
 

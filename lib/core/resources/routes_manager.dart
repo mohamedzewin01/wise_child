@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/features/AllStoriesByUser/presentation/pages/AllStoriesByUser_page.dart';
 
 
 
@@ -22,6 +23,7 @@ class RoutesManager {
   static const String newChildrenPage = '/addChildrenPage';
   static const String selectStoriesScreenPage = '/SelectStoriesScreenPage';
   static const String forgotPasswordScreen = '/forgot-password';
+  static const String allStoriesByUserPage = '/AllStoriesByUserPage';
 }
 
 class RouteGenerator {
@@ -44,6 +46,8 @@ class RouteGenerator {
         return FadeScaleAnimation(const LayoutScreen());
       case RoutesManager.newChildrenPage:
         return SlideFromBottomAnimation(const NewChildrenPage());
+        case RoutesManager.allStoriesByUserPage:
+        return SlideFromBottomAnimation(const AllStoriesByUserPage());
         // case RoutesManager.selectStoriesScreenPage:
         // return SlideFromBottomAnimation(const SelectStoriesScreenPage());
       default:

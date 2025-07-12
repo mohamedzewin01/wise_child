@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
-import 'package:wise_child/features/Children/presentation/widgets/avatar_image.dart';
+import 'package:wise_child/core/widgets/avatar_image.dart';
 
 class ChildDetailsAppBar extends StatefulWidget {
   final Children child;

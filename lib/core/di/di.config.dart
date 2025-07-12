@@ -267,6 +267,20 @@ import '../../features/StoryDetails/domain/useCases/StoryDetails_useCase_repo_im
     as _i378;
 import '../../features/StoryDetails/presentation/bloc/StoryDetails_cubit.dart'
     as _i422;
+import '../../features/StoryRequest/data/datasources/StoryRequest_datasource_repo.dart'
+    as _i145;
+import '../../features/StoryRequest/data/datasources/StoryRequest_datasource_repo_impl.dart'
+    as _i893;
+import '../../features/StoryRequest/data/repositories_impl/StoryRequest_repo_impl.dart'
+    as _i747;
+import '../../features/StoryRequest/domain/repositories/StoryRequest_repository.dart'
+    as _i515;
+import '../../features/StoryRequest/domain/useCases/StoryRequest_useCase_repo.dart'
+    as _i456;
+import '../../features/StoryRequest/domain/useCases/StoryRequest_useCase_repo_impl.dart'
+    as _i859;
+import '../../features/StoryRequest/presentation/bloc/StoryRequest_cubit.dart'
+    as _i200;
 import '../../features/Welcome/data/datasources/Welcome_datasource_repo.dart'
     as _i136;
 import '../../features/Welcome/data/datasources/Welcome_datasource_repo_impl.dart'
@@ -332,6 +346,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i265.StoryDetailsDatasourceRepo>(
       () => _i404.StoryDetailsDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i145.StoryRequestDatasourceRepo>(
+      () => _i893.StoryRequestDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i1043.EditChildrenDatasourceRepo>(
       () => _i1014.EditChildrenDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
@@ -364,6 +381,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i86.StoryDetailsRepository>(
       () => _i210.StoryDetailsRepositoryImpl(
         gh<_i265.StoryDetailsDatasourceRepo>(),
+      ),
+    );
+    gh.factory<_i515.StoryRequestRepository>(
+      () => _i747.StoryRequestRepositoryImpl(
+        gh<_i145.StoryRequestDatasourceRepo>(),
       ),
     );
     gh.factory<_i439.ForgotPasswordUseCase>(
@@ -475,6 +497,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i416.NewChildrenUseCaseRepo>(
       () => _i863.NewChildrenUseCase(gh<_i781.NewChildrenRepository>()),
     );
+    gh.factory<_i456.StoryRequestUseCaseRepo>(
+      () => _i859.StoryRequestUseCase(gh<_i515.StoryRequestRepository>()),
+    );
     gh.factory<_i284.AuthCubit>(
       () => _i284.AuthCubit(gh<_i570.AuthUseCaseRepo>()),
     );
@@ -543,6 +568,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i543.HomeUseCaseRepo>(
       () => _i557.HomeUseCase(gh<_i126.HomeRepository>()),
+    );
+    gh.factory<_i200.StoryRequestCubit>(
+      () => _i200.StoryRequestCubit(gh<_i456.StoryRequestUseCaseRepo>()),
     );
     gh.factory<_i782.AnalysisCubit>(
       () => _i782.AnalysisCubit(gh<_i251.AnalysisUseCaseRepo>()),
