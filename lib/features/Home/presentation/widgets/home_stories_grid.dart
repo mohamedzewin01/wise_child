@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/api/api_constants.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
+import 'package:wise_child/features/Home/presentation/widgets/all_stories_page.dart';
 
 enum StoriesType { topViewed, topInactive }
 
@@ -35,17 +37,31 @@ class HomeStoriesGrid extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style:getSemiBoldStyle(
+                  fontSize: 16,
+                  color: Colors.black87,
+                )
               ),
               TextButton(
                 onPressed: () {
-                  // Navigate to full list
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllStoriesPage(
+                        title: title,
+                        stories: stories,
+                        type: type,
+                      ),
+                    ),
+                  );
                 },
                 child: Text(
                   'عرض الكل',
-                  style: TextStyle(color: colorScheme.primary),
+                  style:getSemiBoldStyle(
+                    color: colorScheme.primary,
+                  )
+
+                  // TextStyle(color: colorScheme.primary),
                 ),
               ),
             ],

@@ -2,22 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/widgets/custom_app_bar_app.dart';
 import 'package:wise_child/features/Home/presentation/widgets/loading_shimmer.dart';
-import 'package:wise_child/l10n/app_localizations.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/get_home_cubit.dart';
 import '../widgets/home_welcome_header.dart';
-import '../widgets/home_statistics_overview.dart';
 import '../widgets/home_stories_grid.dart';
-import '../widgets/home_gender_statistics.dart';
-import '../widgets/home_age_groups.dart';
 import '../widgets/home_categories.dart';
 import '../widgets/home_quick_actions.dart';
 import '../widgets/home_error_widget.dart';
-import '../widgets/home_analytics_dashboard.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -151,13 +146,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         const HomeQuickActions(),
         const SizedBox(height: 24),
 
-        // Statistics Overview
-        // HomeStatisticsOverview(data: homeData?.data),
-        // const SizedBox(height: 24),
-
-        // // Analytics Dashboard
-        // HomeAnalyticsDashboard(data: homeData?.data),
-        // const SizedBox(height: 24),
 
         // Top Viewed Stories
         HomeStoriesGrid(
@@ -167,13 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 24),
 
-        // // Gender Statistics
-        // HomeGenderStatistics(data: homeData?.data?.storiesByGender),
-        // const SizedBox(height: 24),
 
-        // Age Groups
-        // HomeAgeGroups(ageGroups: homeData?.data?.storiesByAgeGroup ?? []),
-        // const SizedBox(height: 24),
 
         // Categories
         HomeCategories(categories: homeData?.data?.storiesByCategory ?? []),
