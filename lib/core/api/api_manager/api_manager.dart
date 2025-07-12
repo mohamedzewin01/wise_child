@@ -27,6 +27,8 @@ import 'package:wise_child/features/Home/data/models/response/get_home_request.d
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/upload_image.dto.dart';
+import 'package:wise_child/features/Reports/data/models/request/reports_request.dart';
+import 'package:wise_child/features/Reports/data/models/response/reports_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/categories_stories_request/get_categories_stories_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/kids_favorite_image_request/delete_kid_fav_image_request.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/request/save_story_request/save_story_request.dart';
@@ -185,6 +187,11 @@ abstract class ApiService {
   @POST(ApiConstants.addStoryRequests)
   Future<AddStoryRequestsDto?> addStoryRequests(
     @Body() AddStoryRequestsModel? addStoryRequestsModel,
+  );
+
+  @POST(ApiConstants.childrenViewsReport)
+  Future<ReportsDto?> childrenViewsReport(
+    @Body() ReportsRequest? reportsRequest,
   );
 }
 

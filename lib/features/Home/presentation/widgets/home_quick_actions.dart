@@ -139,11 +139,9 @@ class HomeQuickActions extends StatelessWidget {
   }
 
   void _navigateToAddStory(BuildContext context) {
-    // Navigate to add story page
-    // Navigator.pushNamed(context, '/add-story');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('الانتقال إلى إضافة قصة')),
-    );
+    Navigator.pushNamed(context, RoutesManager.storyRequestPage);
+
+
   }
 
   void _navigateToReports(BuildContext context) {

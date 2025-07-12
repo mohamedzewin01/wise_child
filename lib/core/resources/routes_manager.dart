@@ -7,6 +7,7 @@ import 'package:wise_child/features/Auth/singin_singup/presentation/pages/login_
 import 'package:wise_child/features/Auth/singin_singup/presentation/pages/register_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
+import 'package:wise_child/features/StoryRequest/presentation/pages/StoryRequest_page.dart';
 
 import 'package:wise_child/features/Welcome/presentation/pages/Welcome_page.dart';
 import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
@@ -24,6 +25,7 @@ class RoutesManager {
   static const String selectStoriesScreenPage = '/SelectStoriesScreenPage';
   static const String forgotPasswordScreen = '/forgot-password';
   static const String allStoriesByUserPage = '/AllStoriesByUserPage';
+  static const String storyRequestPage = '/StoryRequestPage';
 }
 
 class RouteGenerator {
@@ -48,6 +50,8 @@ class RouteGenerator {
         return SlideFromBottomAnimation(const NewChildrenPage());
         case RoutesManager.allStoriesByUserPage:
         return SlideFromBottomAnimation(const AllStoriesByUserPage());
+        case RoutesManager.storyRequestPage:
+        return SlideFromBottomAnimation(const StoryRequestPage());
         // case RoutesManager.selectStoriesScreenPage:
         // return SlideFromBottomAnimation(const SelectStoriesScreenPage());
       default:

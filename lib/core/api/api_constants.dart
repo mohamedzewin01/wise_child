@@ -33,6 +33,10 @@ class ApiConstants {
   static const String getChildrenUser = "home/get_children_user";
   ///-
   static const String addStoryRequests = "story_requests/add_story_requests";
+  ///-
+  static const String childrenViewsReport = "reports/children_views_report";
+  ///-
+
 
 
 
