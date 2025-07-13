@@ -250,6 +250,18 @@ import '../../features/Settings/domain/useCases/Settings_useCase_repo_impl.dart'
 import '../../features/Settings/presentation/bloc/Settings_cubit.dart' as _i241;
 import '../../features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart'
     as _i281;
+import '../../features/Store/data/datasources/Store_datasource_repo.dart'
+    as _i195;
+import '../../features/Store/data/datasources/Store_datasource_repo_impl.dart'
+    as _i385;
+import '../../features/Store/data/repositories_impl/Store_repo_impl.dart'
+    as _i80;
+import '../../features/Store/domain/repositories/Store_repository.dart'
+    as _i856;
+import '../../features/Store/domain/useCases/Store_useCase_repo.dart' as _i918;
+import '../../features/Store/domain/useCases/Store_useCase_repo_impl.dart'
+    as _i581;
+import '../../features/Store/presentation/bloc/Store_cubit.dart' as _i128;
 import '../../features/Stories/data/datasources/Stories_datasource_repo.dart'
     as _i1073;
 import '../../features/Stories/data/datasources/Stories_datasource_repo_impl.dart'
@@ -333,6 +345,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
+    gh.factory<_i856.StoreRepository>(() => _i80.StoreRepositoryImpl());
     gh.factory<_i160.ForgotPasswordDataSource>(
       () => _i34.ForgotPasswordDataSourceImpl(),
     );
@@ -355,6 +368,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i136.WelcomeDatasourceRepo>(
       () => _i809.WelcomeDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
+    gh.factory<_i195.StoreDatasourceRepo>(
+      () => _i385.StoreDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
     gh.factory<_i880.SelectStoriesScreenRepository>(
       () => _i1071.SelectStoriesScreenRepositoryImpl(
@@ -399,6 +415,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i405.WelcomeCubit>(
       () => _i405.WelcomeCubit(gh<_i157.WelcomeUseCaseRepo>()),
+    );
+    gh.factory<_i918.StoreUseCaseRepo>(
+      () => _i581.StoreUseCase(gh<_i856.StoreRepository>()),
     );
     gh.factory<_i689.ReportsRepository>(
       () => _i424.ReportsRepositoryImpl(gh<_i305.ReportsDatasourceRepo>()),
@@ -507,6 +526,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i295.AllStoriesByUserUseCaseRepo>(
       () =>
           _i86.AllStoriesByUserUseCase(gh<_i751.AllStoriesByUserRepository>()),
+    );
+    gh.factory<_i128.StoreCubit>(
+      () => _i128.StoreCubit(gh<_i918.StoreUseCaseRepo>()),
     );
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),

@@ -127,11 +127,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
               AppLocalizations.of(context)!.stories,
               2,
             ),
+
+            _buildNavItem(
+              context,
+              Assets.storiesSvg,
+              AppLocalizations.of(context)!.stories,
+              3,
+            ),
             _buildNavItem(
               context,
               Assets.settingSvg,
               AppLocalizations.of(context)!.setting,
-              3,
+              4,
             ),
           ],
           selectedFontSize: AppSize.s12,
@@ -191,29 +198,29 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 }
 
-// دالة مساعدة لبناء الأيقونات (إذا كنت تحتاجها في مكان آخر)
-Widget buildIcon(String iconPath, int index, int currentIndex) {
-  final bool isSelected = currentIndex == index;
-
-  return Container(
-    padding: const EdgeInsets.symmetric(
-      horizontal: AppPadding.p8,
-      vertical: AppPadding.p4,
-    ),
-    decoration: BoxDecoration(
-      color: isSelected
-          ? ColorManager.primaryColor.withOpacity(0.15)
-          : Colors.transparent,
-      borderRadius: BorderRadius.circular(AppSize.s8),
-    ),
-    child: SvgPicture.asset(
-      iconPath,
-      width: AppSize.s24,
-      height: AppSize.s24,
-      colorFilter: ColorFilter.mode(
-        isSelected ? ColorManager.primaryColor : ColorManager.grey,
-        BlendMode.srcIn,
-      ),
-    ),
-  );
-}
+// // دالة مساعدة لبناء الأيقونات (إذا كنت تحتاجها في مكان آخر)
+// Widget buildIcon(String iconPath, int index, int currentIndex) {
+//   final bool isSelected = currentIndex == index;
+//
+//   return Container(
+//     padding: const EdgeInsets.symmetric(
+//       horizontal: AppPadding.p8,
+//       vertical: AppPadding.p4,
+//     ),
+//     decoration: BoxDecoration(
+//       color: isSelected
+//           ? ColorManager.primaryColor.withOpacity(0.15)
+//           : Colors.transparent,
+//       borderRadius: BorderRadius.circular(AppSize.s8),
+//     ),
+//     child: SvgPicture.asset(
+//       iconPath,
+//       width: AppSize.s24,
+//       height: AppSize.s24,
+//       colorFilter: ColorFilter.mode(
+//         isSelected ? ColorManager.primaryColor : ColorManager.grey,
+//         BlendMode.srcIn,
+//       ),
+//     ),
+//   );
+// }

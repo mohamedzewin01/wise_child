@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wise_child/features/Home/presentation/pages/Home_page.dart';
 import 'package:wise_child/features/Settings/presentation/pages/Settings_page.dart';
+import 'package:wise_child/features/Store/presentation/pages/Store_page.dart';
 import 'package:wise_child/features/Stories/presentation/pages/Stories_page.dart';
 import 'package:wise_child/features/Stories/presentation/pages/stories_childern_page.dart';
 import '../../features/Children/presentation/pages/Children_page.dart';
@@ -14,6 +15,7 @@ class AppConstants {
     ChildrenPage(),
    // StoriesChildrenPage(),
     StoriesPage(),
+    StorePage(),
     SettingsPage(),
 
 
