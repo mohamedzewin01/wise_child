@@ -1,6 +1,12 @@
+// lib/features/Store/presentation/pages/Store_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:wise_child/features/Store/data/models/product_model.dart';
+import 'package:wise_child/features/Store/presentation/widgets/CartScreen.dart';
+import 'package:wise_child/features/Store/presentation/widgets/CategoryScreen.dart';
+import 'package:wise_child/features/Store/presentation/widgets/CheckoutScreen.dart';
+import 'package:wise_child/features/Store/presentation/widgets/ProductDetailsScreen.dart';
 import '../../../../core/di/di.dart';
 import '../bloc/Store_cubit.dart';
 
@@ -12,7 +18,6 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-
   late StoreCubit viewModel;
 
   @override
@@ -25,14 +30,10 @@ class _StorePageState extends State<StorePage> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: viewModel,
-      child: Scaffold(
-
-        body: HomeScreen(),
-      ),
+      child: const HomeScreen(),
     );
   }
 }
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,62 +42,140 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int cartItemCount = 0;
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutBack,
+    ));
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFF5F7FA),
-              Color(0xFFC3CFE2),
-            ],
+      body: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFF8FAFF),
+                  Color(0xFFE8F2FF),
+                  Color(0xFFF0F7FF),
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  _buildHeader(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                _buildWelcomeSection(),
+                                const SizedBox(height: 30),
+                                _buildSearchSection(),
+                                const SizedBox(height: 30),
+                                _buildCategoriesGrid(),
+                                const SizedBox(height: 30),
+                                _buildFeaturedProducts(),
+                                const SizedBox(height: 30),
+                                _buildSpecialOffers(),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      _buildWelcomeSection(),
-                      SizedBox(height: 30),
-                      _buildCategoriesGrid(),
-                      SizedBox(height: 30),
-                      _buildFeaturedProducts(),
-                    ],
+          Positioned(
+            top: 40,
+            right: -40,
+            child: Transform.rotate(
+              angle: 0.7, // لتدوير الشريط
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 57, vertical: 4),
+                color: Colors.redAccent,
+                child: const Text(
+                  'الصفحة قيد التطوير',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildHeader() {
     return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: const Color(0xFF6C63FF).withOpacity(0.3),
             blurRadius: 20,
-            offset: Offset(0, 10),
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -105,62 +184,75 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.toys,
-                color: Colors.white,
-                size: 32,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'متجر ألعاب الأطفال العلاجية',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                child: const Icon(
+                  Icons.toys,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'متجر ألعاب الأطفال',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'العلاجية والتعليمية',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
           GestureDetector(
             onTap: () => _navigateToCart(),
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Stack(
                 children: [
-                  Icon(
-                    Icons.shopping_cart,
+                  const Icon(
+                    Icons.shopping_cart_outlined,
                     color: Colors.white,
                     size: 24,
                   ),
-                  if (cartItemCount > 0)
-                    Positioned(
-                      right: -2,
-                      top: -2,
-                      child: Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          '$cartItemCount',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
+                  Positioned(
+                    right: -2,
+                    top: -2,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFF6B6B),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Text(
+                        '3',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
@@ -173,27 +265,43 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildWelcomeSection() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: Offset(0, 5),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.child_friendly,
-            size: 60,
-            color: Color(0xFF667EEA),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+              ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6C63FF).withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.child_friendly,
+              size: 40,
+              color: Colors.white,
+            ),
           ),
-          SizedBox(height: 15),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'ألعاب تعليمية وعلاجية للأطفال',
             style: TextStyle(
               fontSize: 24,
@@ -202,15 +310,66 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 10),
-          Text(
-            'نقدم أفضل الألعاب المصممة خصيصاً لدعم الأطفال ذوي الاحتياجات الخاصة',
+          const SizedBox(height: 12),
+          const Text(
+            'نقدم أفضل الألعاب المصممة خصيصاً لدعم الأطفال ذوي الاحتياجات الخاصة وتطوير مهاراتهم بطريقة ممتعة وآمنة',
             style: TextStyle(
               fontSize: 16,
               color: Color(0xFF636E72),
-              height: 1.5,
+              height: 1.6,
             ),
             textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchSection() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.search,
+            color: Color(0xFF6C63FF),
+            size: 24,
+          ),
+          const SizedBox(width: 15),
+          const Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'ابحث عن المنتجات...',
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  color: Color(0xFF636E72),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF6C63FF).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Icon(
+              Icons.tune,
+              color: Color(0xFF6C63FF),
+              size: 20,
+            ),
           ),
         ],
       ),
@@ -222,59 +381,80 @@ class _HomeScreenState extends State<HomeScreen> {
       CategoryModel(
         title: 'ألعاب تنمية التركيز',
         icon: Icons.psychology,
-        color: Color(0xFF74B9FF),
+        color: const Color(0xFF6C63FF),
         description: 'ألعاب تساعد على تحسين التركيز والانتباه',
+        productCount: 24,
       ),
       CategoryModel(
         title: 'ألعاب المهارات اليدوية',
         icon: Icons.pan_tool,
-        color: Color(0xFF00B894),
+        color: const Color(0xFF00D4AA),
         description: 'تطوير المهارات الحركية الدقيقة',
+        productCount: 18,
       ),
       CategoryModel(
         title: 'ألعاب تنمية اللغة',
         icon: Icons.record_voice_over,
-        color: Color(0xFFE17055),
+        color: const Color(0xFFFF6B6B),
         description: 'تحسين النطق والمهارات اللغوية',
+        productCount: 15,
       ),
       CategoryModel(
         title: 'أدوات حسية',
         icon: Icons.touch_app,
-        color: Color(0xFF6C5CE7),
+        color: const Color(0xFF845EC2),
         description: 'أدوات للتحفيز الحسي والاسترخاء',
+        productCount: 12,
       ),
       CategoryModel(
         title: 'ألعاب التفاعل الأسري',
         icon: Icons.family_restroom,
-        color: Color(0xFFE84393),
+        color: const Color(0xFFFFC75F),
         description: 'ألعاب تعزز التفاعل مع الأسرة',
+        productCount: 21,
       ),
       CategoryModel(
         title: 'باقات حسب الحالة',
         icon: Icons.medical_services,
-        color: Color(0xFF00CEC9),
+        color: const Color(0xFF4ECDC4),
         description: 'باقات مخصصة لحالات محددة',
+        productCount: 8,
       ),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'الفئات الرئيسية',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2D3436),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'الفئات الرئيسية',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2D3436),
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'عرض الكل',
+                style: TextStyle(
+                  color: Color(0xFF6C63FF),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.85,
+            childAspectRatio: 0.9,
             crossAxisSpacing: 15,
             mainAxisSpacing: 15,
           ),
@@ -291,15 +471,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => _navigateToCategory(category),
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: Offset(0, 5),
+              color: category.color.withOpacity(0.1),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -307,38 +487,42 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: category.color.withOpacity(0.1),
+                gradient: LinearGradient(
+                  colors: [
+                    category.color.withOpacity(0.1),
+                    category.color.withOpacity(0.05),
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Icon(
                 category.icon,
-                size: 35,
+                size: 32,
                 color: category.color,
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Text(
               category.title,
-              style: TextStyle(
-                fontSize: 16,
+              style: const TextStyle(
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2D3436),
               ),
               textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 8),
-            Text(
-              category.description,
-              style: TextStyle(
-                fontSize: 12,
-                color: Color(0xFF636E72),
-                height: 1.3,
-              ),
-              textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${category.productCount} منتج',
+              style: TextStyle(
+                fontSize: 12,
+                color: category.color,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -349,39 +533,77 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildFeaturedProducts() {
     final products = [
       ProductModel(
+        id: '1',
         name: 'مكعبات التركيز الملونة',
         price: 120,
-        image: '🧩',
+        originalPrice: 150,
+        image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300',
         category: 'تنمية التركيز',
         ageRange: '3-7 سنوات',
+        rating: 4.8,
+        reviewCount: 124,
+        isNew: true,
         benefits: ['تحسين التركيز', 'تنمية الذاكرة', 'تطوير المهارات البصرية'],
       ),
       ProductModel(
+        id: '2',
         name: 'لعبة الأحرف التفاعلية',
         price: 85,
-        image: '🔤',
+        originalPrice: 95,
+        image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300',
         category: 'تنمية اللغة',
         ageRange: '4-8 سنوات',
+        rating: 4.6,
+        reviewCount: 89,
         benefits: ['تحسين النطق', 'تعلم الأحرف', 'تطوير المفردات'],
+      ),
+      ProductModel(
+        id: '3',
+        name: 'أدوات التحفيز الحسي',
+        price: 200,
+        originalPrice: 250,
+        image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300',
+        category: 'أدوات حسية',
+        ageRange: '2-10 سنوات',
+        rating: 4.9,
+        reviewCount: 156,
+        isBestSeller: true,
+        benefits: ['تهدئة الحواس', 'تحسين التركيز', 'تقليل التوتر'],
       ),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'المنتجات المميزة',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2D3436),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'المنتجات المميزة',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2D3436),
+              ),
+            ),
+            TextButton(
+              onPressed: () => _navigateToAllProducts(),
+              child: const Text(
+                'عرض الكل',
+                style: TextStyle(
+                  color: Color(0xFF6C63FF),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 20),
-        Container(
-          height: 280,
+        const SizedBox(height: 20),
+        SizedBox(
+          height: 320,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
             itemCount: products.length,
             itemBuilder: (context, index) {
               return _buildProductCard(products[index]);
@@ -396,48 +618,90 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => _navigateToProduct(product),
       child: Container(
-        width: 200,
-        margin: EdgeInsets.only(left: 15),
+        width: 220,
+        margin: const EdgeInsets.only(left: 15),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: Offset(0, 5),
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+            Stack(
+              children: [
+                Container(
+                  height: 160,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(product.image),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: product.isNew == true
+                          ? const Color(0xFF00D4AA)
+                          : product.isBestSeller == true
+                          ? const Color(0xFFFF6B6B)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      product.isNew == true
+                          ? 'جديد'
+                          : product.isBestSeller == true
+                          ? 'الأكثر مبيعاً'
+                          : '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  product.image,
-                  style: TextStyle(fontSize: 50),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.favorite_border,
+                      size: 18,
+                      color: Color(0xFF6C63FF),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2D3436),
@@ -445,43 +709,77 @@ class _HomeScreenState extends State<HomeScreen> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    product.category,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF636E72),
-                    ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        size: 14,
+                        color: Colors.amber[600],
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${product.rating}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF2D3436),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '(${product.reviewCount})',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF636E72),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'العمر: ${product.ageRange}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF636E72),
-                    ),
-                  ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${product.price} ر.س',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF00B894),
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${product.price} ر.س',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF00D4AA),
+                            ),
+                          ),
+                          if (product.originalPrice != null)
+                            Text(
+                              '${product.originalPrice} ر.س',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF636E72),
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                        ],
                       ),
                       GestureDetector(
                         onTap: () => _addToCart(product),
                         child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: Color(0xFF667EEA),
-                            borderRadius: BorderRadius.circular(10),
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.add_shopping_cart,
                             color: Colors.white,
                             size: 20,
@@ -499,8 +797,87 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildSpecialOffers() {
+    return Container(
+      padding: const EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6C63FF).withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'عروض خاصة!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'خصم يصل إلى 30% على باقات العلاج المتخصصة',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () => _navigateToOffers(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF6C63FF),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: const Text(
+                    'تصفح العروض',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 20),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.local_offer,
+              size: 40,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Navigation methods
   void _navigateToCategory(CategoryModel category) {
-    // Navigate to category page
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -510,7 +887,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToProduct(ProductModel product) {
-    // Navigate to product details
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -520,231 +896,49 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToCart() {
-    // Navigate to cart
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CartScreen(),
+        builder: (context) => const CartScreen(),
+      ),
+    );
+  }
+
+  void _navigateToAllProducts() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AllProductsScreen(),
+      ),
+    );
+  }
+
+  void _navigateToOffers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const OffersScreen(),
       ),
     );
   }
 
   void _addToCart(ProductModel product) {
-    setState(() {
-      cartItemCount++;
-    });
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تم إضافة ${product.name} إلى السلة'),
-        backgroundColor: Color(0xFF00B894),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-}
-
-// Data Models
-class CategoryModel {
-  final String title;
-  final IconData icon;
-  final Color color;
-  final String description;
-
-  CategoryModel({
-    required this.title,
-    required this.icon,
-    required this.color,
-    required this.description,
-  });
-}
-
-class ProductModel {
-  final String name;
-  final double price;
-  final String image;
-  final String category;
-  final String ageRange;
-  final List<String> benefits;
-
-  ProductModel({
-    required this.name,
-    required this.price,
-    required this.image,
-    required this.category,
-    required this.ageRange,
-    required this.benefits,
-  });
-}
-
-// Additional Screens (Basic Implementation)
-class CategoryScreen extends StatelessWidget {
-  final CategoryModel category;
-
-  const CategoryScreen({Key? key, required this.category}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(category.title),
-        backgroundColor: category.color,
-      ),
-      body: Center(
-        child: Text(
-          'صفحة ${category.title}',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
-
-class ProductDetailsScreen extends StatelessWidget {
-  final ProductModel product;
-
-  const ProductDetailsScreen({Key? key, required this.product}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-        backgroundColor: Color(0xFF667EEA),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        content: Row(
           children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: Text(
-                  product.image,
-                  style: TextStyle(fontSize: 80),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              product.name,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2D3436),
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'الفئة: ${product.category}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF636E72),
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              'العمر المناسب: ${product.ageRange}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF636E72),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'الفوائد:',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2D3436),
-              ),
-            ),
-            SizedBox(height: 10),
-            ...product.benefits.map((benefit) => Padding(
-              padding: EdgeInsets.only(bottom: 5),
-              child: Row(
-                children: [
-                  Icon(Icons.check_circle, color: Color(0xFF00B894), size: 16),
-                  SizedBox(width: 8),
-                  Text(benefit, style: TextStyle(fontSize: 16)),
-                ],
-              ),
-            )),
-            SizedBox(height: 30),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Color(0xFF667EEA),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${product.price} ر.س',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add to cart logic
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('تم إضافة المنتج إلى السلة'),
-                          backgroundColor: Color(0xFF00B894),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Color(0xFF667EEA),
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'إضافة إلى السلة',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text('تم إضافة ${product.name} إلى السلة'),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CartScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('السلة'),
-        backgroundColor: Color(0xFF667EEA),
-      ),
-      body: Center(
-        child: Text(
-          'صفحة السلة',
-          style: TextStyle(fontSize: 24),
+        backgroundColor: const Color(0xFF00D4AA),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
         ),
       ),
     );
