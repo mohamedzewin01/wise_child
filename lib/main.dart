@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
+
           return MaterialApp(
             locale: locale,
 
