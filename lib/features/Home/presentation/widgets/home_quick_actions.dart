@@ -114,6 +114,7 @@ class HomeQuickActions extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
+
             Text(
               title,
               style: getBoldStyle(fontSize: 13),
