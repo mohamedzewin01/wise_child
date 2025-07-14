@@ -5,6 +5,7 @@
   "category": "category",
   "categories": "categories",
   "user": "user",
+  "store": "Store",
   "search": "search",
   "appName": "Our Heroes",
   "loginToContinue": "Login or create an account to continue",

@@ -24,6 +24,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get user => 'user';
 
   @override
+  String get store => 'Store';
+
+  @override
   String get search => 'search';
 
   @override

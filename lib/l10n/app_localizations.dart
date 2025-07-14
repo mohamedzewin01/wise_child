@@ -128,6 +128,12 @@ abstract class AppLocalizations {
   /// **'user'**
   String get user;
 
+  /// No description provided for @store.
+  ///
+  /// In en, this message translates to:
+  /// **'Store'**
+  String get store;
+
   /// No description provided for @search.
   ///
   /// In en, this message translates to:

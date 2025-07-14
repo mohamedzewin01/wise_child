@@ -56,6 +56,7 @@ class CacheKeys {
   static const String childModeSelectedChild = 'child_mode_selected_child';
   static const String childModePin = 'child_mode_pin';
   static const String userActive = 'userActive';
+  static const String onboardingCompleted = 'userActive';
 
 }
 

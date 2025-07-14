@@ -1,6 +1,7 @@
 // lib/features/Store/presentation/pages/CategoryScreen.dart
 
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/Store/data/models/product_model.dart';
 import 'package:wise_child/features/Store/presentation/pages/Store_page.dart';
 import 'package:wise_child/features/Store/presentation/widgets/ProductDetailsScreen.dart';
@@ -215,7 +216,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                     children: [
                       Icon(
                         Icons.search,
-                        color: Color(0xFF6C63FF),
+                        color:  ColorManager.primaryColor,
                         size: 20,
                       ),
                       SizedBox(width: 10),
@@ -242,7 +243,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                      colors: [ColorManager.chatUserBg, ColorManager.primaryColor,],
                     ),
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -288,7 +289,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
           decoration: BoxDecoration(
             gradient: isSelected
                 ? const LinearGradient(
-              colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+              colors: [ColorManager.chatUserBg, ColorManager.primaryColor,],
             )
                 : null,
             color: isSelected ? null : Colors.white,
@@ -296,7 +297,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? const Color(0xFF6C63FF).withOpacity(0.3)
+                    ?   ColorManager.primaryColor.withOpacity(0.3)
                     : Colors.black.withOpacity(0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
@@ -407,7 +408,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                         child: const Icon(
                           Icons.favorite_border,
                           size: 16,
-                          color: Color(0xFF6C63FF),
+                          color:  ColorManager.primaryColor,
                         ),
                       ),
                     ),
@@ -496,7 +497,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                                colors: [ColorManager.chatUserBg, ColorManager.primaryColor,],
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -710,7 +711,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   min: 0,
                   max: 500,
                   divisions: 10,
-                  activeColor: const Color(0xFF6C63FF),
+                  activeColor:   ColorManager.primaryColor,
                   labels: RangeLabels(
                     '${priceRange.start.round()} ر.س',
                     '${priceRange.end.round()} ر.س',
@@ -787,7 +788,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           });
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFF6C63FF)),
+                          side: const BorderSide(color:  ColorManager.primaryColor),
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -796,7 +797,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         child: const Text(
                           'إعادة تعيين',
                           style: TextStyle(
-                            color: Color(0xFF6C63FF),
+                            color:  ColorManager.primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -814,7 +815,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF6C63FF),
+                          backgroundColor:   ColorManager.primaryColor,
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -850,7 +851,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF6C63FF) : Colors.grey[100],
+          color: isSelected ?   ColorManager.primaryColor : Colors.grey[100],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

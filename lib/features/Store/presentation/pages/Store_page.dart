@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/Store/data/models/product_model.dart';
 import 'package:wise_child/features/Store/presentation/widgets/CartScreen.dart';
 import 'package:wise_child/features/Store/presentation/widgets/CategoryScreen.dart';
@@ -113,11 +114,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
                               children: [
-                                const SizedBox(height: 20),
-                                _buildWelcomeSection(),
-                                const SizedBox(height: 30),
+                                // const SizedBox(height: 20),
+                                // _buildWelcomeSection(),
+                                // const SizedBox(height: 20),
                                 _buildSearchSection(),
-                                const SizedBox(height: 30),
+
                                 _buildCategoriesGrid(),
                                 const SizedBox(height: 30),
                                 _buildFeaturedProducts(),
@@ -165,15 +166,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+        gradient:  LinearGradient(
+          colors: [ColorManager.primaryColor, Color(0xFF5A52FF)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C63FF).withOpacity(0.3),
+            color: ColorManager.primaryColor.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -283,12 +284,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                colors: [ColorManager.primaryColor, Color(0xFF5A52FF)],
               ),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6C63FF).withOpacity(0.3),
+                  color: ColorManager.primaryColor.withOpacity(0.3),
                   blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),
@@ -326,53 +327,98 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildSearchSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.search,
-            color: Color(0xFF6C63FF),
-            size: 24,
-          ),
-          const SizedBox(width: 15),
-          const Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'ابحث عن المنتجات...',
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                  color: Color(0xFF636E72),
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => _navigateToCart(),
+          child: Container(
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFF6C63FF).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
+              color: ColorManager.primaryColor.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(15),
             ),
-            child: const Icon(
-              Icons.tune,
-              color: Color(0xFF6C63FF),
-              size: 20,
+            child: Stack(
+              children: [
+                const Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFF6B6B),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '3',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(width: 5,),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.search,
+                  color: ColorManager.primaryColor,
+                  size: 24,
+                ),
+                const SizedBox(width: 15),
+                const Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'ابحث عن المنتجات...',
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                        color: Color(0xFF636E72),
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: ColorManager.primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.tune,
+                    color: ColorManager.primaryColor,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -381,7 +427,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       CategoryModel(
         title: 'ألعاب تنمية التركيز',
         icon: Icons.psychology,
-        color: const Color(0xFF6C63FF),
+        color: ColorManager.primaryColor,
         description: 'ألعاب تساعد على تحسين التركيز والانتباه',
         productCount: 24,
       ),
@@ -438,10 +484,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             TextButton(
               onPressed: () {},
-              child: const Text(
+              child:  Text(
                 'عرض الكل',
                 style: TextStyle(
-                  color: Color(0xFF6C63FF),
+                  color: ColorManager.primaryColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -588,10 +634,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             TextButton(
               onPressed: () => _navigateToAllProducts(),
-              child: const Text(
+              child:  Text(
                 'عرض الكل',
                 style: TextStyle(
-                  color: Color(0xFF6C63FF),
+                  color:ColorManager.primaryColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -685,10 +731,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       color: Colors.white.withOpacity(0.9),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child:  Icon(
                       Icons.favorite_border,
                       size: 18,
-                      color: Color(0xFF6C63FF),
+                      color: ColorManager.primaryColor,
                     ),
                   ),
                 ),
@@ -768,12 +814,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                              colors: [ColorManager.chatUserBg,
+                                ColorManager.primaryColor,],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                                color: ColorManager.primaryColor.withOpacity(0.3),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               ),
@@ -802,14 +849,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+          colors: [ColorManager.chatUserBg,
+            ColorManager.primaryColor,],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C63FF).withOpacity(0.3),
+            color: ColorManager.primaryColor.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -842,7 +890,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   onPressed: () => _navigateToOffers(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF6C63FF),
+                    foregroundColor: ColorManager.primaryColor,
                     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

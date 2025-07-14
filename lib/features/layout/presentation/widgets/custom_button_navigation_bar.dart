@@ -130,8 +130,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
             _buildNavItem(
               context,
-              Assets.storiesSvg,
-              AppLocalizations.of(context)!.stories,
+              Assets.cartSvg,
+              AppLocalizations.of(context)!.store,
               3,
             ),
             _buildNavItem(

@@ -7,6 +7,7 @@ import 'package:wise_child/features/Auth/singin_singup/presentation/pages/login_
 import 'package:wise_child/features/Auth/singin_singup/presentation/pages/register_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
+import 'package:wise_child/features/Onboarding/presentation/pages/Onboarding_page.dart';
 import 'package:wise_child/features/Reports/presentation/pages/Reports_page.dart';
 import 'package:wise_child/features/StoryRequest/presentation/pages/StoryRequest_page.dart';
 
@@ -16,7 +17,8 @@ import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
 import '../../features/Auth/ForgotPassword/presentation/pages/forgot_password_page.dart';
 
 class RoutesManager {
-  static const String welcomeScreen = '/';
+  static const String welcomeScreen = '/welcomeScreen';
+  static const String onboardingScreen = '/';
   static const String loginPage = '/login';
   static const String registerPage = '/register';
   static const String layoutScreen = '/LayoutScreen';
@@ -56,6 +58,8 @@ class RouteGenerator {
         return SlideFromBottomAnimation(const StoryRequestPage());
         case RoutesManager.reportsPage:
         return SlideFromBottomAnimation(const ReportsPage());
+        case RoutesManager.onboardingScreen:
+        return SlideFromBottomAnimation(const OnboardingScreen());
       default:
         return unDefinedRoute();
     }

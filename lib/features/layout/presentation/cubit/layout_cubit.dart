@@ -39,7 +39,7 @@ class LayoutCubit extends Cubit<LayoutState> {
 
   /// تغيير الصفحة المحددة
   void changeIndex(int selectedIndex) {
-    if (selectedIndex >= 0 && selectedIndex < 4 && selectedIndex != _currentIndex) {
+    if (selectedIndex >= 0 && selectedIndex < 5 && selectedIndex != _currentIndex) {
       _currentIndex = selectedIndex;
       emit(LayoutChangePage(
         index: selectedIndex,
@@ -126,20 +126,7 @@ class LayoutCubit extends Cubit<LayoutState> {
   }
 
   /// الحصول على اسم الصفحة الحالية
-  String getCurrentPageName() {
-    switch (_currentIndex) {
-      case 0:
-        return 'Home';
-      case 1:
-        return 'Children';
-      case 2:
-        return 'Stories';
-      case 3:
-        return 'Settings';
-      default:
-        return 'Unknown';
-    }
-  }
+
 
   /// تطبيق قواعد إظهار/إخفاء الزر حسب الصفحة
   void applyFloatingButtonRules() {

@@ -1,6 +1,7 @@
 // lib/features/Store/presentation/pages/CartScreen.dart
 
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/features/Store/data/models/product_model.dart';
 
 import 'package:wise_child/features/Store/presentation/widgets/CheckoutScreen.dart';
@@ -245,12 +246,13 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                  colors: [ColorManager.chatUserBg,
+                    ColorManager.primaryColor,],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF6C63FF).withOpacity(0.3),
+                    color:   ColorManager.primaryColor.withOpacity(0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -285,7 +287,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6C63FF),
+                backgroundColor:  ColorManager.primaryColor,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -346,7 +348,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
 
   Widget _buildCartItemCard(CartItem item, int index) {
     return Container(
-      margin: EdgeInsets.fromLTRB(25, 0, 25, index == cartItems.length - 1 ? 25 : 15),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, index == cartItems.length - 1 ? 10 : 5),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -354,14 +356,14 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFF6C63FF).withOpacity(0.1),
+          color:  ColorManager.primaryColor.withOpacity(0.1),
         ),
       ),
       child: Row(
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
@@ -441,7 +443,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF6C63FF)),
+                  border: Border.all(color:  ColorManager.primaryColor),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -453,17 +455,17 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8),
                         child: const Icon(
                           Icons.remove,
-                          size: 16,
+                          size: 14,
                           color: Color(0xFF6C63FF),
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                       child: Text(
                         '${item.quantity}',
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF2D3436),
                         ),
@@ -475,7 +477,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8),
                         child: const Icon(
                           Icons.add,
-                          size: 16,
+                          size: 14,
                           color: Color(0xFF6C63FF),
                         ),
                       ),
@@ -526,7 +528,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(
-                        color: const Color(0xFF6C63FF).withOpacity(0.3),
+                        color:  ColorManager.primaryColor.withOpacity(0.3),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -543,7 +545,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
               ElevatedButton(
                 onPressed: () => _applyPromoCode(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6C63FF),
+                  backgroundColor:  ColorManager.primaryColor,
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
@@ -668,7 +670,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   gradient: isSelected
                       ? const LinearGradient(
-                    colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                    colors: [ColorManager.chatUserBg, ColorManager.primaryColor,],
                   )
                       : null,
                   color: isSelected ? null : const Color(0xFFF8FAFF),
@@ -676,7 +678,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                   border: Border.all(
                     color: isSelected
                         ? Colors.transparent
-                        : const Color(0xFF6C63FF).withOpacity(0.1),
+                        :  ColorManager.primaryColor.withOpacity(0.1),
                   ),
                 ),
                 child: Row(
@@ -686,12 +688,12 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? Colors.white.withOpacity(0.2)
-                            : const Color(0xFF6C63FF).withOpacity(0.1),
+                            :  ColorManager.primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         option['icon'] as IconData,
-                        color: isSelected ? Colors.white : const Color(0xFF6C63FF),
+                        color: isSelected ? Colors.white :  ColorManager.primaryColor,
                         size: 20,
                       ),
                     ),
@@ -861,12 +863,12 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF6C63FF), Color(0xFF5A52FF)],
+                      colors: [ColorManager.chatUserBg, ColorManager.primaryColor,],
                     ),
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF6C63FF).withOpacity(0.4),
+                        color:  ColorManager.primaryColor.withOpacity(0.4),
                         blurRadius: 15,
                         offset: const Offset(0, 8),
                       ),
