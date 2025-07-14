@@ -7,6 +7,7 @@ import 'package:wise_child/features/Auth/singin_singup/presentation/pages/login_
 import 'package:wise_child/features/Auth/singin_singup/presentation/pages/register_page.dart';
 import 'package:wise_child/features/ChatBotAssistant/presentation/pages/chatbot_assistant_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
+import 'package:wise_child/features/Onboarding/presentation/pages/OnboardingScreen2.dart';
 import 'package:wise_child/features/Onboarding/presentation/pages/Onboarding_page.dart';
 import 'package:wise_child/features/Reports/presentation/pages/Reports_page.dart';
 import 'package:wise_child/features/StoryRequest/presentation/pages/StoryRequest_page.dart';

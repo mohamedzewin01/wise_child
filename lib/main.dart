@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
-
           return MaterialApp(
             locale: locale,
 
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: RouteGenerator.getRoute,
-            initialRoute: RoutesManager.onboardingScreen,
+            initialRoute: RoutesManager.welcomeScreen,
           );
         },
       ),

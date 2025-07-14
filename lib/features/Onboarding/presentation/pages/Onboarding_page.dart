@@ -279,6 +279,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             child: FadeTransition(
               opacity: _contentFadeAnimation,
               child: Container(
+                height: 45,
+                width: 45,
+
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
@@ -287,15 +290,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     color: Colors.white.withOpacity(0.3),
                     width: 1,
                   ),
+                  image: DecorationImage(image: AssetImage(Assets.logoPng,),fit: BoxFit.cover)
                 ),
-                child: const Text(
-                  'Wise Child',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+
               ),
             ),
           ),
@@ -463,7 +460,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'ابدأ الآن',
+                  'اصنع البطل الان',
                   style: TextStyle(
                     color: Color(0xFF2D3436),
                     fontSize: 16,
@@ -528,23 +525,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     // Add haptic feedback
     HapticFeedback.mediumImpact();
 
-    // Save onboarding completion
-    await CacheService.setData(key: CacheKeys.onboardingCompleted, value: true);
-
-    if (mounted) {
-    //   Navigator.pushReplacementNamed(context, RoutesManager.welcomeScreen);
-    final isActive =
-        await CacheService.getData(key: CacheKeys.userActive) ?? false;
-
-    if (isActive && context.mounted) {
-      Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
-    } else {
       if (context.mounted) {
         Navigator.pushReplacementNamed(context, RoutesManager.loginPage);
       }
-    }
-    }
-
   }
 }
 

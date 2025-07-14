@@ -43,38 +43,49 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+      ),
+    );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.2, 0.8, curve: Curves.easeOutBack),
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.2, 0.8, curve: Curves.easeOutBack),
+          ),
+        );
 
     _staggeredAnimations = List.generate(3, (index) {
-      return Tween<double>(
-        begin: 0.0,
-        end: 1.0,
-      ).animate(CurvedAnimation(
-        parent: _staggerController,
-        curve: Interval(
-          0.2 * index,
-          0.4 + (0.2 * index),
-          curve: Curves.easeOutBack,
+      return Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _staggerController,
+          curve: Interval(
+            0.2 * index,
+            0.4 + (0.2 * index),
+            curve: Curves.easeOutBack,
+          ),
         ),
-      ));
+      );
     });
 
     _controller.forward();
     _staggerController.forward();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () async {
+        final isActive = await CacheService.getData(key: CacheKeys.userActive) ?? false;
+
+        if (!mounted) return;
+
+        if (isActive) {
+          Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
+        } else {
+          Navigator.pushReplacementNamed(context, RoutesManager.onboardingScreen);
+        }
+      });
+    });
   }
 
   @override
@@ -91,171 +102,80 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         children: [
           const AnimatedWelcomeBackground(),
           SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: const LanguageToggle(),
-                      ),
-                    ),
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Column(
-                          children: [
-                            const AnimatedLogo(),
-                            const SizedBox(height: 25),
-                            Text(
-                              AppLocalizations.of(context)!.appName,
-                              style: getBoldStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                              ).copyWith(
-                                shadows: [
-                                  Shadow(
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.3),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              AppLocalizations.of(context)!.appSubtitle,
-                              textAlign: TextAlign.center,
-                              style: getRegularStyle(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: 16,
-                              ).copyWith(
-                                height: 1.5,
-                                shadows: [
-                                  Shadow(
-                                    offset: const Offset(0, 1),
-                                    blurRadius: 5,
-                                    color: Colors.black.withOpacity(0.2),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25),
-                    Column(
-                      children: [
-                        AnimatedBuilder(
-                          animation: _staggeredAnimations[0],
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: Offset(
-                                0,
-                                50 * (1 - _staggeredAnimations[0].value),
-                              ),
-                              child: Opacity(
-                                opacity: _staggeredAnimations[0]
-                                    .value
-                                    .clamp(0.0, 1.0),
-                                child: FeatureCard(
-                                  icon: Icons.auto_stories_outlined,
-                                  title: AppLocalizations.of(context)!
-                                      .personalizedStories,
-                                  gradientColors: const [
-                                    Color(0xFF4facfe),
-                                    Color(0xFF00f2fe),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        AnimatedBuilder(
-                          animation: _staggeredAnimations[1],
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: Offset(
-                                0,
-                                50 * (1 - _staggeredAnimations[1].value),
-                              ),
-                              child: Opacity(
-                                opacity: _staggeredAnimations[1]
-                                    .value
-                                    .clamp(0.0, 1.0),
-                                child: FeatureCard(
-                                  icon: Icons.psychology_outlined,
-                                  title: AppLocalizations.of(context)!
-                                      .expertGuidedSolutions,
-                                  subtitle:
-                                  'Professional insights to support development',
-                                  gradientColors: const [
-                                    Color(0xFF43e97b),
-                                    Color(0xFF38f9d7),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        AnimatedBuilder(
-                          animation: _staggeredAnimations[2],
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: Offset(
-                                0,
-                                50 * (1 - _staggeredAnimations[2].value),
-                              ),
-                              child: Opacity(
-                                opacity: _staggeredAnimations[2]
-                                    .value
-                                    .clamp(0.0, 1.0),
-                                child: FeatureCard(
-                                  icon: Icons.volume_up_outlined,
-                                  title: AppLocalizations.of(context)!
-                                      .audioNarration,
-                                  subtitle:
-                                  'Beautiful voice narration brings stories to life',
-                                  gradientColors: const [
-                                    Color(0xFFfa709a),
-                                    Color(0xFFfee140),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SlideTransition(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: SlideTransition(
                       position: _slideAnimation,
-                      child: FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: ModernButton(
-                          text: AppLocalizations.of(context)!.getStarted,
-                          onPressed: () => _checkUserStatus(context),
-                          width: double.infinity,
-                        ),
+                      child: const LanguageToggle(),
+                    ),
+                  ),
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                          ),
+
+                          const AnimatedLogo(),
+
+                          const SizedBox(height: 25),
+                          Text(
+                            AppLocalizations.of(context)!.appName,
+                            style:
+                                getBoldStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                ).copyWith(
+                                  shadows: [
+                                    Shadow(
+                                      offset: const Offset(0, 2),
+                                      blurRadius: 10,
+                                      color: Colors.black.withOpacity(0.3),
+                                    ),
+                                  ],
+                                ),
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            AppLocalizations.of(context)!.appSubtitle,
+                            textAlign: TextAlign.center,
+                            style:
+                                getRegularStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 16,
+                                ).copyWith(
+                                  height: 1.5,
+                                  shadows: [
+                                    Shadow(
+                                      offset: const Offset(0, 1),
+                                      blurRadius: 5,
+                                      color: Colors.black.withOpacity(0.2),
+                                    ),
+                                  ],
+                                ),
+                          ),
+                          const SizedBox(height: 60),
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorManager.white,
+                            ),
+                            strokeWidth: 3.0,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: const PrivacyPolicy(),
-                    ),
-                    const SizedBox(height: 30),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
           ),

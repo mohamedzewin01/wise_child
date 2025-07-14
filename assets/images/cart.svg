@@ -1,33 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-    <!-- Cart Handle -->
-    <path d="M8 15 L18 15 C19 15 20 16 20 17 C20 18 19 19 18 19 L16 19"
-        fill="none"
-        stroke="#000000"
-        stroke-width="3"
-        stroke-linecap="round"/>
-
-    <!-- Cart Body -->
-    <path d="M16 19 L22 50 C22.5 53 25 55 28 55 L75 55 C78 55 80.5 53 81 50 L85 30 C85.5 28 84 27 82 27 L25 27"
-        fill="none"
-        stroke="#000000"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-
-    <!-- Bottom Cart Shelf -->
-    <path d="M20 65 L85 65 C88 65 90 67 90 70 C90 73 88 75 85 75 L30 75 C27 75 25 73 25 70"
-        fill="none"
-        stroke="#000000"
-        stroke-width="3"
-        stroke-linecap="round"/>
-
-    <!-- Cart Wheels -->
-    <circle cx="35" cy="85" r="6"
-        fill="none"
-        stroke="#000000"
-        stroke-width="3"/>
-    <circle cx="75" cy="85" r="6"
-        fill="none"
-        stroke="#000000"
-        stroke-width="3"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1_17201)">
+<path d="M8.99994 22C9.55222 22 9.99994 21.5523 9.99994 21C9.99994 20.4477 9.55222 20 8.99994 20C8.44765 20 7.99994 20.4477 7.99994 21C7.99994 21.5523 8.44765 22 8.99994 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.9999 22C20.5522 22 20.9999 21.5523 20.9999 21C20.9999 20.4477 20.5522 20 19.9999 20C19.4477 20 18.9999 20.4477 18.9999 21C18.9999 21.5523 19.4477 22 19.9999 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M0.999939 1H4.99994L7.67994 14.39C7.77138 14.8504 8.02185 15.264 8.38748 15.5583C8.75312 15.8526 9.21064 16.009 9.67994 16H19.3999C19.8692 16.009 20.3268 15.8526 20.6924 15.5583C21.058 15.264 21.3085 14.8504 21.3999 14.39L22.9999 6H5.99994" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_1_17201">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

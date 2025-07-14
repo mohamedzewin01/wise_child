@@ -77,6 +77,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^29.2.10
   persistent_bottom_nav_bar: ^6.2.1
   just_audio: ^0.10.4
+  showcaseview: ^4.0.1
+
 
 
 

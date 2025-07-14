@@ -203,20 +203,20 @@ class _EnhancedOnboardingPageWidgetState extends State<EnhancedOnboardingPageWid
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-        
+
             // Enhanced Image Container
             _buildEnhancedImageContainer(),
-        
+
             const SizedBox(height: 10),
-        
+
             // Enhanced Title
             _buildEnhancedTitle(),
-        
+
             const SizedBox(height: 24),
-        
+
             // Enhanced Subtitle
             _buildEnhancedSubtitle(),
-        
+
             const SizedBox(height: 30),
           ],
         ),
