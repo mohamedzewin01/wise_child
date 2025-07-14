@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           image: Assets.onbording1Jpg,
                           title:
                           // AppLocalizations.of(context)!.onboarding1Title ??
-                              'Personalized Stories',
+                              'اولادك متعبين؟ و إقناعهم صعب؟!!',
                           subtitle:
                           // AppLocalizations.of(context)!.onboarding1Subtitle ??
                               'Create magical stories tailored to your child\'s interests and imagination',
@@ -133,17 +133,17 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           image: Assets.onbording2Jpg,
                           title:
                           // AppLocalizations.of(context)!.onboarding2Title ??
-                              'Expert Guidance',
+                              'خليك عارف ان العصبيه مش تربيه',
                           subtitle:
                           // AppLocalizations.of(context)!.onboarding2Subtitle ??
-                              'Professional insights and tips to support your child\'s development',
+                              ' وبتدمر وبتضيع اهم فتره لبناء شخصيه اهم مشاريعك',
                           pageIndex: 1,
                         ),
                         OnboardingPageWidget(
                           image: Assets.onbording3Jpg,
                           title:
                           // AppLocalizations.of(context)!.onboarding3Title ??
-                              'Audio Narration',
+                              'اكتشف سر الاقناع الممتع، واسهل طرق اكتساب العادات والسلوكيات.',
                           subtitle:
                           // AppLocalizations.of(context)!.onboarding3Subtitle ??
                               'Enjoy beautiful voice narration that brings stories to life',
@@ -153,10 +153,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           image: Assets.onbording4Jpg,
                           title:
                           // AppLocalizations.of(context)!.onboarding3Title ??
-                              'Audio Narration',
+                              'من خلال متعه المحاكاه والخيال العاطفي القصصي',
                           subtitle:
                           // AppLocalizations.of(context)!.onboarding3Subtitle ??
-                              'Enjoy beautiful voice narration that brings stories to life',
+                              'في قصه اولادك ابطلها',
                           pageIndex: 3,
                         ),
                       ],
