@@ -50,6 +50,8 @@ import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_r
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
 import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
+import 'package:wise_child/features/StoryInfo/data/models/request/story_info_request.dart';
+import 'package:wise_child/features/StoryInfo/data/models/response/story_info_dto.dart';
 import 'package:wise_child/features/StoryRequest/data/models/request/add_story_requests_model.dart';
 import 'package:wise_child/features/StoryRequest/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/StoryRequest/data/models/response/add_story_requests_dto.dart';
@@ -207,6 +209,12 @@ abstract class ApiService {
   @POST(ApiConstants.getChildReview)
   Future<GetChildrenReviewDto?> getChildReview(
     @Body() GetChildReviewRequest? getChildReviewRequest,
+  );
+
+
+  @POST(ApiConstants.storyInfo)
+  Future<StoryInfoDto?> storyInfo(
+    @Body() StoryInfoRequest? storyInfoRequest,
   );
 
 

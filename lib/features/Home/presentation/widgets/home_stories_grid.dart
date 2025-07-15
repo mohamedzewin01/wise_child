@@ -3,6 +3,7 @@ import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 import 'package:wise_child/features/Home/presentation/widgets/all_stories_page.dart';
+import 'package:wise_child/features/StoryDetails/presentation/pages/StoryDetails_page.dart';
 
 enum StoriesType { topViewed, topInactive }
 
@@ -68,7 +69,7 @@ class HomeStoriesGrid extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 200,
+            height: 205,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: stories.length > 5 ? 5 : stories.length,
@@ -79,6 +80,7 @@ class HomeStoriesGrid extends StatelessWidget {
                     right: index == 0 ? 6 : 12,
                   ),
                   child: _buildStoryCard(
+                    context: context,
                     story: story,
                     colorScheme: colorScheme,
                     textTheme: textTheme,
@@ -93,6 +95,7 @@ class HomeStoriesGrid extends StatelessWidget {
   }
 
   Widget _buildStoryCard({
+    required BuildContext context,
     required dynamic story,
     required ColorScheme colorScheme,
     required TextTheme textTheme,
@@ -135,7 +138,7 @@ class HomeStoriesGrid extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // Navigate to story details
+     Navigator.push(context, MaterialPageRoute(builder: (context) => StoryDetailsPage(storyId: story.storyId, childId: 2033),));
       },
       child: Container(
         width: 160,
