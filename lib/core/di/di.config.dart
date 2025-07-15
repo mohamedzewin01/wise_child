@@ -291,6 +291,20 @@ import '../../features/StoriesPlay/domain/useCases/StoriesPlay_useCase_repo_impl
     as _i936;
 import '../../features/StoriesPlay/presentation/bloc/StoriesPlay_cubit.dart'
     as _i830;
+import '../../features/StoriesUnderCategory/data/datasources/StoriesUnderCategory_datasource_repo.dart'
+    as _i950;
+import '../../features/StoriesUnderCategory/data/datasources/StoriesUnderCategory_datasource_repo_impl.dart'
+    as _i112;
+import '../../features/StoriesUnderCategory/data/repositories_impl/StoriesUnderCategory_repo_impl.dart'
+    as _i85;
+import '../../features/StoriesUnderCategory/domain/repositories/StoriesUnderCategory_repository.dart'
+    as _i444;
+import '../../features/StoriesUnderCategory/domain/useCases/StoriesUnderCategory_useCase_repo.dart'
+    as _i593;
+import '../../features/StoriesUnderCategory/domain/useCases/StoriesUnderCategory_useCase_repo_impl.dart'
+    as _i677;
+import '../../features/StoriesUnderCategory/presentation/bloc/StoriesUnderCategory_cubit.dart'
+    as _i290;
 import '../../features/StoryDetails/data/datasources/StoryDetails_datasource_repo.dart'
     as _i265;
 import '../../features/StoryDetails/data/datasources/StoryDetails_datasource_repo_impl.dart'
@@ -543,6 +557,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i500.StoryDetailsUseCaseRepo>(
       () => _i378.StoryDetailsUseCase(gh<_i86.StoryDetailsRepository>()),
     );
+    gh.factory<_i950.StoriesUnderCategoryDatasourceRepo>(
+      () =>
+          _i112.StoriesUnderCategoryDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i295.AllStoriesByUserUseCaseRepo>(
       () =>
           _i86.AllStoriesByUserUseCase(gh<_i751.AllStoriesByUserRepository>()),
@@ -629,6 +647,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i422.StoryDetailsCubit>(
       () => _i422.StoryDetailsCubit(gh<_i500.StoryDetailsUseCaseRepo>()),
     );
+    gh.factory<_i444.StoriesUnderCategoryRepository>(
+      () => _i85.StoriesUnderCategoryRepositoryImpl(
+        gh<_i950.StoriesUnderCategoryDatasourceRepo>(),
+      ),
+    );
     gh.factory<_i396.EditChildrenCubit>(
       () => _i396.EditChildrenCubit(gh<_i699.EditChildrenUseCaseRepo>()),
     );
@@ -661,6 +684,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i543.HomeUseCaseRepo>(
       () => _i557.HomeUseCase(gh<_i126.HomeRepository>()),
     );
+    gh.factory<_i593.StoriesUnderCategoryUseCaseRepo>(
+      () => _i677.StoriesUnderCategoryUseCase(
+        gh<_i444.StoriesUnderCategoryRepository>(),
+      ),
+    );
     gh.factory<_i200.StoryRequestCubit>(
       () => _i200.StoryRequestCubit(gh<_i456.StoryRequestUseCaseRepo>()),
     );
@@ -690,6 +718,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i625.ReviewsCubit>(
       () => _i625.ReviewsCubit(gh<_i15.ReviewsUseCaseRepo>()),
+    );
+    gh.factory<_i290.StoriesUnderCategoryCubit>(
+      () => _i290.StoriesUnderCategoryCubit(
+        gh<_i593.StoriesUnderCategoryUseCaseRepo>(),
+      ),
     );
     gh.factory<_i366.GetHomeCubit>(
       () => _i366.GetHomeCubit(gh<_i543.HomeUseCaseRepo>()),

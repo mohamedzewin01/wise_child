@@ -3,7 +3,7 @@ import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 import 'package:wise_child/features/Home/presentation/widgets/all_stories_page.dart';
-import 'package:wise_child/features/StoryDetails/presentation/pages/StoryDetails_page.dart';
+import 'package:wise_child/features/StoryInfo/presentation/pages/StoryInfo_page.dart';
 
 enum StoriesType { topViewed, topInactive }
 
@@ -138,7 +138,15 @@ class HomeStoriesGrid extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-     Navigator.push(context, MaterialPageRoute(builder: (context) => StoryDetailsPage(storyId: story.storyId, childId: 2033),));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StoryInfoPage(
+              storyId: story.storyId ?? 0,
+              isRTL: true, // أو false حسب اللغة
+            ),
+          ),
+        );
       },
       child: Container(
         width: 160,

@@ -48,6 +48,8 @@ import 'package:wise_child/features/Stories/data/models/request/get_children_sto
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_request.dart';
 import 'package:wise_child/features/StoriesPlay/data/models/response/story_play_dto.dart';
+import 'package:wise_child/features/StoriesUnderCategory/data/models/request/stories_under_category_request.dart';
+import 'package:wise_child/features/StoriesUnderCategory/data/models/response/stories_under_category_dto.dart';
 import 'package:wise_child/features/StoryDetails/data/models/request/story_details_request.dart';
 import 'package:wise_child/features/StoryDetails/data/models/response/story_details_dto.dart';
 import 'package:wise_child/features/StoryInfo/data/models/request/story_info_request.dart';
@@ -205,25 +207,18 @@ abstract class ApiService {
     @Body() AddChildReviewRequest? reportsRequest,
   );
 
-
   @POST(ApiConstants.getChildReview)
   Future<GetChildrenReviewDto?> getChildReview(
     @Body() GetChildReviewRequest? getChildReviewRequest,
   );
 
-
   @POST(ApiConstants.storyInfo)
-  Future<StoryInfoDto?> storyInfo(
-    @Body() StoryInfoRequest? storyInfoRequest,
+  Future<StoryInfoDto?> storyInfo(@Body() StoryInfoRequest? storyInfoRequest);
+
+  @POST(ApiConstants.storiesUnderCategory)
+  Future<StoriesUnderCategoryDto?> storiesUnderCategory(
+    @Body() StoriesUnderCategoryRequest? storiesUnderCategoryRequest,
   );
-
-
-
-
-
-
-
-
 }
 
 //  @MultiPart()
