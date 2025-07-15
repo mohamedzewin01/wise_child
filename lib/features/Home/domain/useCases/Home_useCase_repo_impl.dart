@@ -17,5 +17,10 @@ class HomeUseCase implements HomeUseCaseRepo {
  return repository.getHomeData();
   }
 
+  @override
+  Future<Result<AppStatusEntity?>> getAppStatus() {
+  return repository.getAppStatus();
+  }
+
 
 }

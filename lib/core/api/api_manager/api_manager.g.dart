@@ -1034,7 +1034,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'stories_under_category',
+            'stories/stories_under_category',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1046,6 +1046,70 @@ class _ApiService implements ApiService {
       _value = _result.data == null
           ? null
           : StoriesUnderCategoryDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<GetStoryRequestsRepliesDto?> getStoryRequestsWithReplies(
+    GetStoryRequestsRepliesRequest? getStoryRequestsRepliesRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(
+      getStoryRequestsRepliesRequest?.toJson() ?? <String, dynamic>{},
+    );
+    final _options = _setStreamType<GetStoryRequestsRepliesDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'setting/get_story_requests_with_replies',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late GetStoryRequestsRepliesDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : GetStoryRequestsRepliesDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AppStatusDto?> getAppStatus() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<AppStatusDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'setting/get_app_status',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late AppStatusDto? _value;
+    try {
+      _value = _result.data == null
+          ? null
+          : AppStatusDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

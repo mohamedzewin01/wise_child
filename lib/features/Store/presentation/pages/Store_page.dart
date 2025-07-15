@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/widgets/custom_app_bar_app.dart';
 import 'package:wise_child/features/Store/data/models/product_model.dart';
 import 'package:wise_child/features/Store/presentation/widgets/CartScreen.dart';
 import 'package:wise_child/features/Store/presentation/widgets/CategoryScreen.dart';
@@ -84,57 +85,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFF8FAFF),
-                  Color(0xFFE8F2FF),
-                  Color(0xFFF0F7FF),
-                ],
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  _buildHeader(),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: SlideTransition(
-                          position: _slideAnimation,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Column(
-                              children: [
-                                // const SizedBox(height: 20),
-                                // _buildWelcomeSection(),
-                                // const SizedBox(height: 20),
-                                _buildSearchSection(),
+          Column(
+            children: [
+              CustomAppBarApp(title: 'متجر ألعاب الأطفال', subtitle: 'الالعاب العلاجية والتعليمية',colorContainerStack: const Color(0xFFF5F5F5),),
+              // _buildHeader(),
+              SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            // const SizedBox(height: 20),
+                            // _buildWelcomeSection(),
+                            // const SizedBox(height: 20),
+                            _buildSearchSection(),
 
-                                _buildCategoriesGrid(),
-                                const SizedBox(height: 30),
-                                _buildFeaturedProducts(),
-                                const SizedBox(height: 30),
-                                _buildSpecialOffers(),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
+                            _buildCategoriesGrid(),
+                            const SizedBox(height: 30),
+                            _buildFeaturedProducts(),
+                            const SizedBox(height: 30),
+                            _buildSpecialOffers(),
+                            const SizedBox(height: 20),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
           Positioned(
             top: 40,
@@ -167,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
         gradient:  LinearGradient(
-          colors: [ColorManager.primaryColor, Color(0xFF5A52FF)],
+          colors: [ColorManager.primaryColor,ColorManager.primaryColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -471,6 +460,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -494,7 +484,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        const SizedBox(height: 20),
+
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -583,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         name: 'مكعبات التركيز الملونة',
         price: 120,
         originalPrice: 150,
-        image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300',
+        image: 'https://cdn.salla.sa/ePZnD/xKWDremqsW2P7CliI08OgotZSHlngIGXwZfRshdB.jpg',
         category: 'تنمية التركيز',
         ageRange: '3-7 سنوات',
         rating: 4.8,

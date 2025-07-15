@@ -31,7 +31,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
         name: 'مكعبات التركيز الملونة',
         price: 120,
         originalPrice: 150,
-        image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300',
+        image: 'https://cdn.salla.sa/ePZnD/xKWDremqsW2P7CliI08OgotZSHlngIGXwZfRshdB.jpg',
         category: 'تنمية التركيز',
         ageRange: '3-7 سنوات',
         rating: 4.8,

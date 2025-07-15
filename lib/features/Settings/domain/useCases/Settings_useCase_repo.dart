@@ -6,4 +6,5 @@ abstract class SettingsUseCaseRepo {
 
 
   Future<Result<GetUserDetailsEntity?>> getUserDetails();
+  Future<Result<GetStoryRequestsRepliesEntity?>>getStoryRequestsReplies();
 }

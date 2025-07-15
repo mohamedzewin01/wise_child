@@ -9,6 +9,7 @@ enum StoriesType { topViewed, topInactive }
 
 class HomeStoriesGrid extends StatelessWidget {
   final String title;
+  final bool? isActive;
   final List<dynamic> stories;
   final StoriesType type;
 
@@ -16,7 +17,7 @@ class HomeStoriesGrid extends StatelessWidget {
     super.key,
     required this.title,
     required this.stories,
-    required this.type,
+    required this.type, this.isActive=true,
   });
 
   @override
@@ -61,8 +62,6 @@ class HomeStoriesGrid extends StatelessWidget {
                   style:getSemiBoldStyle(
                     color: colorScheme.primary,
                   )
-
-                  // TextStyle(color: colorScheme.primary),
                 ),
               ),
             ],
@@ -80,6 +79,7 @@ class HomeStoriesGrid extends StatelessWidget {
                     right: index == 0 ? 6 : 12,
                   ),
                   child: _buildStoryCard(
+                    isActive: isActive??true,
                     context: context,
                     story: story,
                     colorScheme: colorScheme,
@@ -95,6 +95,7 @@ class HomeStoriesGrid extends StatelessWidget {
   }
 
   Widget _buildStoryCard({
+    required bool isActive,
     required BuildContext context,
     required dynamic story,
     required ColorScheme colorScheme,
@@ -148,7 +149,8 @@ class HomeStoriesGrid extends StatelessWidget {
           ),
         );
       },
-      child: Container(
+      child:
+      Container(
         width: 160,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -175,26 +177,64 @@ class HomeStoriesGrid extends StatelessWidget {
                 ),
                 color: colorScheme.primary.withOpacity(0.1),
               ),
-              child: imageUrl.isNotEmpty
-                  ? ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Image.network(
-                  "${ApiConstants.urlImage}$imageUrl",
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return _buildPlaceholderImage(colorScheme);
-                  },
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return _buildPlaceholderImage(colorScheme);
-                  },
-                ),
-              )
-                  : _buildPlaceholderImage(colorScheme),
+              child: Stack(
+                children: [
+                  // صورة القصة
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                      child: imageUrl.isNotEmpty
+                          ? Image.network(
+                        "${ApiConstants.urlImage}$imageUrl",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return _buildPlaceholderImage(colorScheme);
+                        },
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return _buildPlaceholderImage(colorScheme);
+                        },
+                      )
+                          : _buildPlaceholderImage(colorScheme),
+                    ),
+                  ),
+
+                  // تغطية عند عدم التفعيل
+                  if (!isActive)
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.visibility_off, color: Colors.white.withOpacity(0.5), size: 30),
+                              const SizedBox(height: 4),
+                              Text(
+                                'غير متاحة حالياً',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
+
 
             // Story Content
             Expanded(

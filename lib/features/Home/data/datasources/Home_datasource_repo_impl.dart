@@ -10,15 +10,22 @@ import '../../../../core/api/api_manager/api_manager.dart';
 @Injectable(as: HomeDatasourceRepo)
 class HomeDatasourceRepoImpl implements HomeDatasourceRepo {
   final ApiService apiService;
+
   HomeDatasourceRepoImpl(this.apiService);
 
   @override
   Future<Result<GetHomeEntity?>> getHomeData() {
-return executeApi(() async{
-  var result= await apiService.getHomeData();
-  return result?.toEntity();
+    return executeApi(() async {
+      var result = await apiService.getHomeData();
+      return result?.toEntity();
+    });
+  }
 
-
-},);
+  @override
+  Future<Result<AppStatusEntity?>> getAppStatus() {
+    return executeApi(() async {
+      var result = await apiService.getAppStatus();
+      return result?.toEntity();
+    });
   }
 }

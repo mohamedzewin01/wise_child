@@ -14,4 +14,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
    return settingsDatasourceRepo.getUserDetails();
   }
 
+  @override
+  Future<Result<GetStoryRequestsRepliesEntity?>> getStoryRequestsReplies() {
+   return settingsDatasourceRepo.getStoryRequestsReplies();
+  }
+
 }

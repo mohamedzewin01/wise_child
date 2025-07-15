@@ -122,7 +122,7 @@ class CategoryModel {
     String? image,
     List<String>? subCategories,
   }) : id = id ?? title.toLowerCase().replaceAll(' ', '_'),
-        image = image ?? 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300',
+        image = image ?? 'https://cdn.salla.sa/ePZnD/xKWDremqsW2P7CliI08OgotZSHlngIGXwZfRshdB.jpg',
         subCategories = subCategories ?? [];
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {

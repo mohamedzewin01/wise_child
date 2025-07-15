@@ -6,6 +6,7 @@ import 'package:wise_child/features/Home/domain/entities/home_entity.dart';
 import 'package:wise_child/features/Home/domain/useCases/Home_useCase_repo.dart';
 
 part 'get_home_state.dart';
+
 @injectable
 class GetHomeCubit extends Cubit<GetHomeState> {
   GetHomeCubit(this._homeUseCaseRepo) : super(GetHomeInitial());
@@ -20,6 +21,20 @@ class GetHomeCubit extends Cubit<GetHomeState> {
         break;
       case Fail<GetHomeEntity?>():
         if (!isClosed) emit(HomeFailure(result.exception));
+        break;
+    }
+  }
+
+  Future<void> getAppStatus() async {
+    emit(AppStatusLoading());
+    var result = await _homeUseCaseRepo.getAppStatus();
+
+    switch (result) {
+      case Success<AppStatusEntity?>():
+        if (!isClosed) emit(AppStatusSuccess(result.data!));
+        break;
+      case Fail<AppStatusEntity?>():
+        if (!isClosed) emit(AppStatusFailure(result.exception));
         break;
     }
   }

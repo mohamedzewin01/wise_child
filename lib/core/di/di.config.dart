@@ -248,6 +248,8 @@ import '../../features/Settings/domain/useCases/Settings_useCase_repo.dart'
 import '../../features/Settings/domain/useCases/Settings_useCase_repo_impl.dart'
     as _i502;
 import '../../features/Settings/presentation/bloc/Settings_cubit.dart' as _i241;
+import '../../features/Settings/presentation/bloc/StoryRequestsCubit/story_requests_cubit.dart'
+    as _i577;
 import '../../features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart'
     as _i281;
 import '../../features/Store/data/datasources/Store_datasource_repo.dart'
@@ -715,6 +717,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i281.UserDetailsCubit>(
       () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
+    );
+    gh.factory<_i577.StoryRequestsCubit>(
+      () => _i577.StoryRequestsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
     gh.factory<_i625.ReviewsCubit>(
       () => _i625.ReviewsCubit(gh<_i15.ReviewsUseCaseRepo>()),

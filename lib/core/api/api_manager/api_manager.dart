@@ -23,6 +23,7 @@ import 'package:wise_child/features/Children/data/models/response/delete_childre
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/EditProfile/data/models/request/edit_profile_request.dart';
 import 'package:wise_child/features/EditProfile/data/models/response/edit_profile_dto.dart';
+import 'package:wise_child/features/Home/data/models/response/app_status_dto.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';
@@ -42,7 +43,9 @@ import 'package:wise_child/features/SelectStoriesScreen/data/models/response/cat
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/kids_favorite_image_dto/delete_kid_fav_image_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/save_story_dto/save_story_dto.dart';
 import 'package:wise_child/features/SelectStoriesScreen/data/models/response/stories_by_category_dto/stories_by_category_dto.dart';
+import 'package:wise_child/features/Settings/data/models/request/get_story_requests_replies_request.dart';
 import 'package:wise_child/features/Settings/data/models/request/get_user_details_request.dart';
+import 'package:wise_child/features/Settings/data/models/response/get_story_requests_replies_dto.dart';
 import 'package:wise_child/features/Settings/data/models/response/get_user_details_dto.dart';
 import 'package:wise_child/features/Stories/data/models/request/get_children_stories_request.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
@@ -219,6 +222,20 @@ abstract class ApiService {
   Future<StoriesUnderCategoryDto?> storiesUnderCategory(
     @Body() StoriesUnderCategoryRequest? storiesUnderCategoryRequest,
   );
+
+  @POST(ApiConstants.getStoryRequestsWithReplies)
+  Future<GetStoryRequestsRepliesDto?> getStoryRequestsWithReplies(
+    @Body() GetStoryRequestsRepliesRequest? getStoryRequestsRepliesRequest,
+  );
+
+  @POST(ApiConstants.appStatus)
+  Future<AppStatusDto?> getAppStatus();
+
+
+
+
+
+
 }
 
 //  @MultiPart()

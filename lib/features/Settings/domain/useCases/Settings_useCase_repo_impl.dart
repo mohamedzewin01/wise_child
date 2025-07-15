@@ -17,5 +17,10 @@ class SettingsUseCase implements SettingsUseCaseRepo {
  return repository.getUserDetails();
   }
 
+  @override
+  Future<Result<GetStoryRequestsRepliesEntity?>> getStoryRequestsReplies() {
+  return repository.getStoryRequestsReplies();
+  }
+
 
 }

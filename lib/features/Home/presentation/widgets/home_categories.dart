@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/icon_category.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
+import 'package:wise_child/features/StoriesUnderCategory/presentation/pages/StoriesUnderCategory_page.dart';
 
 class HomeCategories extends StatelessWidget {
   final List<StoriesByCategory> categories;
@@ -28,16 +30,25 @@ class HomeCategories extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'الفئات',
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                'الأقسام',
+                style:getSemiBoldStyle(
+                  // color: colorScheme.primary,
+                  fontSize: 16,
+                )
+
+                // textTheme.titleLarge?.copyWith(
+                //   fontWeight: FontWeight.bold,
+                // ),
               ),
               TextButton(
                 onPressed: () => _viewAllCategories(context),
                 child: Text(
                   'عرض الكل',
-                  style: TextStyle(color: colorScheme.primary),
+                  style:getSemiBoldStyle(
+                    color: colorScheme.primary
+                  ),
+
+
                 ),
               ),
             ],
@@ -50,26 +61,30 @@ class HomeCategories extends StatelessWidget {
   }
 
   Widget _buildCategoriesGrid(BuildContext context, TextTheme textTheme) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        mainAxisExtent: 180,
-        childAspectRatio: 1.5,
+    return SizedBox(
+      height: 350,
+      child: GridView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          mainAxisExtent: 120,
+          // childAspectRatio: 1.2,
+        ),
+        itemCount: categories.length > 6 ? 6 : categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          return _buildCategoryCard(
+            context: context,
+            category: category,
+            textTheme: textTheme,
+            index: index,
+          );
+        },
       ),
-      itemCount: categories.length > 6 ? 6 : categories.length,
-      itemBuilder: (context, index) {
-        final category = categories[index];
-        return _buildCategoryCard(
-          context: context,
-          category: category,
-          textTheme: textTheme,
-          index: index,
-        );
-      },
     );
   }
 
@@ -113,7 +128,7 @@ class HomeCategories extends StatelessWidget {
           children: [
             // Header with gradient
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -136,7 +151,7 @@ class HomeCategories extends StatelessWidget {
                     Icon(
                       getCategoryIcon(category.categoryName ?? ''),
                       color: Colors.white,
-                      size: 32,
+                      size: 25,
                     ),
                     const SizedBox(height: 4),
                     Container(
@@ -153,6 +168,7 @@ class HomeCategories extends StatelessWidget {
                         style: textTheme.titleMedium?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontSize: 16
                         ),
                       ),
                     ),
@@ -212,10 +228,6 @@ class HomeCategories extends StatelessWidget {
 
   void _viewCategoryDetails(BuildContext context, StoriesByCategory category) {
     // Navigate to specific category details
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('عرض تفاصيل الفئة: ${category.categoryName}'),
-      ),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => StoriesUnderCategoryPage(categoryId: category.categoryId??0),));
   }
 }

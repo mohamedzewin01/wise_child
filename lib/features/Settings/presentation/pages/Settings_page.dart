@@ -9,6 +9,7 @@ import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
 import 'package:wise_child/features/EditProfile/presentation/pages/EditProfile_page.dart';
 import 'package:wise_child/features/Settings/presentation/bloc/user_cubit/user_details_cubit.dart';
+import 'package:wise_child/features/Settings/presentation/pages/story_requests_page.dart';
 import 'package:wise_child/features/layout/presentation/cubit/layout_cubit.dart';
 import 'package:wise_child/features/Settings/presentation/widgets/child_mode_setup_widget.dart';
 import 'package:wise_child/localization/locale_cubit.dart';
@@ -196,10 +197,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
               Positioned.fill(
                 child: Opacity(
                   opacity: 0.1,
-                  child: Image.asset(
-                    Assets.logoPng,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.asset(Assets.logoPng, fit: BoxFit.cover),
                 ),
               ),
 
@@ -350,6 +348,19 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           onTap: () {
             // Navigate to privacy settings
+          },
+        ),
+
+        _buildModernSettingsRow(
+          icon: Icons.auto_stories,
+          title: 'طلبات القصص',
+          subtitle: 'طلب ومتابعة طلبات القصص',
+          trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => StoryRequestsPage()),
+            );
           },
         ),
       ],
@@ -1043,7 +1054,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                           Icons.report_problem_outlined,
                           Color(0xFFEF4444),
                           selectedFeedbackType == 'شكوى',
-                              () => setState(() => selectedFeedbackType = 'شكوى'),
+                          () => setState(() => selectedFeedbackType = 'شكوى'),
                         ),
                       ),
                       Expanded(
@@ -1052,7 +1063,8 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                           Icons.auto_stories_outlined,
                           Color(0xFF10B981),
                           selectedFeedbackType == 'طلب قصة',
-                              () => setState(() => selectedFeedbackType = 'طلب قصة'),
+                          () =>
+                              setState(() => selectedFeedbackType = 'طلب قصة'),
                         ),
                       ),
                       Expanded(
@@ -1061,7 +1073,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                           Icons.lightbulb_outline,
                           Color(0xFFF59E0B),
                           selectedFeedbackType == 'اقتراح',
-                              () => setState(() => selectedFeedbackType = 'اقتراح'),
+                          () => setState(() => selectedFeedbackType = 'اقتراح'),
                         ),
                       ),
                     ],
@@ -1096,10 +1108,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                   child: TextField(
                     controller: feedbackController,
                     maxLines: 4,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF374151),
-                    ),
+                    style: TextStyle(fontSize: 16, color: Color(0xFF374151)),
                     decoration: InputDecoration(
                       hintText: _getHintText(selectedFeedbackType),
                       hintStyle: TextStyle(
@@ -1107,7 +1116,8 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                         fontSize: 15,
                       ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(16),),
+                      contentPadding: EdgeInsets.all(16),
+                    ),
                   ),
                 ),
               ],
@@ -1157,7 +1167,9 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                       children: [
                         Icon(Icons.check_circle, color: Colors.white),
                         SizedBox(width: 8),
-                        Text('تم إرسال ${selectedFeedbackType.toLowerCase()} بنجاح، شكراً لك!'),
+                        Text(
+                          'تم إرسال ${selectedFeedbackType.toLowerCase()} بنجاح، شكراً لك!',
+                        ),
                       ],
                     ),
                     backgroundColor: Color(0xFF10B981),
@@ -1184,10 +1196,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                   SizedBox(width: 8),
                   Text(
                     'إرسال',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -1198,14 +1207,14 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 
-// دالة مساعدة لبناء تبويبات نوع الملاحظة
+  // دالة مساعدة لبناء تبويبات نوع الملاحظة
   Widget _buildTabOption(
-      String title,
-      IconData icon,
-      Color color,
-      bool isSelected,
-      VoidCallback onTap,
-      ) {
+    String title,
+    IconData icon,
+    Color color,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -1214,13 +1223,15 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
         decoration: BoxDecoration(
           color: isSelected ? color : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
-          boxShadow: isSelected ? [
-            BoxShadow(
-              color: color.withOpacity(0.3),
-              blurRadius: 8,
-              offset: Offset(0, 2),
-            ),
-          ] : [],
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  ),
+                ]
+              : [],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1248,7 +1259,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     );
   }
 
-// دالة للحصول على النص التوضيحي حسب نوع الملاحظة
+  // دالة للحصول على النص التوضيحي حسب نوع الملاحظة
   String _getHintText(String feedbackType) {
     switch (feedbackType) {
       case 'شكوى':
@@ -1314,7 +1325,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   RoutesManager.welcomeScreen,
-                      (route) => false, // إزالة جميع الصفحات السابقة من الستاك
+                  (route) => false, // إزالة جميع الصفحات السابقة من الستاك
                 );
               }
             },
@@ -1341,8 +1352,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           ),
           ElevatedButton(
             onPressed: () async {
-
-               CacheService.clearItems();
+              CacheService.clearItems();
               await CacheService.setData(
                 key: CacheKeys.userActive,
                 value: false,
@@ -1353,7 +1363,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   RoutesManager.welcomeScreen,
-                      (route) => false, // إزالة جميع الصفحات السابقة من الستاك
+                  (route) => false, // إزالة جميع الصفحات السابقة من الستاك
                 );
               }
             },
@@ -1363,5 +1373,4 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
       ),
     );
   }
-
 }

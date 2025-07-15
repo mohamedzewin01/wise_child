@@ -20,7 +20,7 @@ class ApiConstants {
   static const String getStoryCategories = "stories/get_story_categories";
   static const String storiesByCategory = "stories/stories_by_category.php";
   static const String storyInfo = "stories/story_info_only";
-  static const String storiesUnderCategory = "stories_under_category";
+  static const String storiesUnderCategory = "stories/stories_under_category";
   static const String saveChildStory = "stories/save_child_story";
   static const String childrenDetails = "children/children_details";
   static const String addKidsFavoriteImage = "stories/add_kids_favorite_image";
@@ -39,6 +39,8 @@ class ApiConstants {
   static const String childrenViewsReport = "reports/children_views_report";
   static const String addChildReview = "review/add_child_review.php";
   static const String getChildReview = "review/get_child_review.php";
+  static const String getStoryRequestsWithReplies = "setting/get_story_requests_with_replies";
+  static const String appStatus = "setting/get_app_status";
 
 
 

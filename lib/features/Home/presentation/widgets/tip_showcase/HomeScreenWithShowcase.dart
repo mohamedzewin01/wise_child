@@ -231,6 +231,7 @@ class _HomeScreenWithShowcaseState extends State<HomeScreenWithShowcase>
         // القصص القادمة قريباً
         if (homeData?.data?.topInactiveStories?.isNotEmpty == true)
           HomeStoriesGrid(
+            isActive: false,
             title: 'قريباً',
             stories: homeData?.data?.topInactiveStories ?? [],
             type: StoriesType.topInactive,

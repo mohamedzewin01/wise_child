@@ -546,7 +546,8 @@ class EnhancedHomeStoriesGrid extends StatelessWidget {
                   padding: EdgeInsets.only(
                     right: index == 0 ? 6 : 12,
                   ),
-                  child: _buildStoryCard(
+                  child:
+                  _buildStoryCard(
                     story: story,
                     colorScheme: colorScheme,
                     textTheme: textTheme,
