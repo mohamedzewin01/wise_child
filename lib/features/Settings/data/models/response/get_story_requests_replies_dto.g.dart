@@ -37,6 +37,9 @@ DataStoryRequest _$DataStoryRequestFromJson(Map<String, dynamic> json) =>
       reply: json['reply'] == null
           ? null
           : Reply.fromJson(json['reply'] as Map<String, dynamic>),
+      child: json['child'] == null
+          ? null
+          : Child.fromJson(json['child'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DataStoryRequestToJson(DataStoryRequest instance) =>
@@ -50,6 +53,7 @@ Map<String, dynamic> _$DataStoryRequestToJson(DataStoryRequest instance) =>
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       'reply': instance.reply,
+      'child': instance.child,
     };
 
 Reply _$ReplyFromJson(Map<String, dynamic> json) => Reply(
@@ -85,3 +89,31 @@ Map<String, dynamic> _$AttachedStoryToJson(AttachedStory instance) =>
       'image_cover': instance.imageCover,
       'story_description': instance.storyDescription,
     };
+
+Child _$ChildFromJson(Map<String, dynamic> json) => Child(
+  idChildren: (json['id_children'] as num?)?.toInt(),
+  firstName: json['first_name'] as String?,
+  lastName: json['last_name'] as String?,
+  gender: json['gender'] as String?,
+  dateOfBirth: json['date_of_birth'] as String?,
+  imageUrl: json['imageUrl'] as String?,
+  emailChildren: json['email_children'] as String?,
+  siblingsCount: (json['siblings_count'] as num?)?.toInt(),
+  friendsCount: (json['friends_count'] as num?)?.toInt(),
+  createdAt: json['created_at'] as String?,
+  updatedAt: json['updated_at'] as String?,
+);
+
+Map<String, dynamic> _$ChildToJson(Child instance) => <String, dynamic>{
+  'id_children': instance.idChildren,
+  'first_name': instance.firstName,
+  'last_name': instance.lastName,
+  'gender': instance.gender,
+  'date_of_birth': instance.dateOfBirth,
+  'imageUrl': instance.imageUrl,
+  'email_children': instance.emailChildren,
+  'siblings_count': instance.siblingsCount,
+  'friends_count': instance.friendsCount,
+  'created_at': instance.createdAt,
+  'updated_at': instance.updatedAt,
+};
