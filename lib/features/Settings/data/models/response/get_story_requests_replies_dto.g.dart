@@ -80,6 +80,7 @@ AttachedStory _$AttachedStoryFromJson(Map<String, dynamic> json) =>
       storyTitle: json['story_title'] as String?,
       imageCover: json['image_cover'] as String?,
       storyDescription: json['story_description'] as String?,
+      idChildren: (json['id_children'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$AttachedStoryToJson(AttachedStory instance) =>
@@ -88,6 +89,7 @@ Map<String, dynamic> _$AttachedStoryToJson(AttachedStory instance) =>
       'story_title': instance.storyTitle,
       'image_cover': instance.imageCover,
       'story_description': instance.storyDescription,
+      'id_children': instance.idChildren,
     };
 
 Child _$ChildFromJson(Map<String, dynamic> json) => Child(

@@ -265,12 +265,15 @@ class AttachedStory {
 
   @JsonKey(name: "story_description")
   final String? storyDescription;
+  @JsonKey(name: "id_children")
+  final int? idChildren;
 
   AttachedStory({
     this.storyId,
     this.storyTitle,
     this.imageCover,
     this.storyDescription,
+    this.idChildren,
   });
 
   factory AttachedStory.fromJson(Map<String, dynamic> json) =>
