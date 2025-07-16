@@ -11,3 +11,14 @@ final class WelcomeFailure extends WelcomeState {
 
   WelcomeFailure(this.exception);
 }
+final class AppStatusLoading extends WelcomeState {}
+
+final class AppStatusSuccess extends WelcomeState {
+  final AppStatusEntity? data;
+  AppStatusSuccess(this.data);
+}
+
+final class AppStatusFailure extends WelcomeState {
+  final Exception exception;
+  AppStatusFailure(this.exception);
+}

@@ -14,8 +14,5 @@ HomeRepositoryImpl(this.homeDatasourceRepo);
     return homeDatasourceRepo.getHomeData();
   }
 
-  @override
-  Future<Result<AppStatusEntity?>> getAppStatus() {
-    return homeDatasourceRepo.getAppStatus();
-  }
+
 }

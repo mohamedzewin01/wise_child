@@ -25,17 +25,5 @@ class GetHomeCubit extends Cubit<GetHomeState> {
     }
   }
 
-  Future<void> getAppStatus() async {
-    emit(AppStatusLoading());
-    var result = await _homeUseCaseRepo.getAppStatus();
 
-    switch (result) {
-      case Success<AppStatusEntity?>():
-        if (!isClosed) emit(AppStatusSuccess(result.data!));
-        break;
-      case Fail<AppStatusEntity?>():
-        if (!isClosed) emit(AppStatusFailure(result.exception));
-        break;
-    }
-  }
 }

@@ -379,7 +379,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i160.ForgotPasswordDataSource>(
       () => _i34.ForgotPasswordDataSourceImpl(),
     );
-    gh.factory<_i582.WelcomeRepository>(() => _i915.WelcomeRepositoryImpl());
     gh.factory<_i280.ChildModeRepository>(
       () => _i733.ChildModeRepositoryImpl(),
     );
@@ -438,22 +437,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i196.ChatBotAssistantDatasourceRepo>(),
       ),
     );
-    gh.factory<_i157.WelcomeUseCaseRepo>(
-      () => _i970.WelcomeUseCase(gh<_i582.WelcomeRepository>()),
-    );
     gh.factory<_i93.SelectStoriesScreenUseCaseRepo>(
       () => _i971.SelectStoriesScreenUseCase(
         gh<_i880.SelectStoriesScreenRepository>(),
       ),
-    );
-    gh.factory<_i405.WelcomeCubit>(
-      () => _i405.WelcomeCubit(gh<_i157.WelcomeUseCaseRepo>()),
     );
     gh.factory<_i918.StoreUseCaseRepo>(
       () => _i581.StoreUseCase(gh<_i856.StoreRepository>()),
     );
     gh.factory<_i689.ReportsRepository>(
       () => _i424.ReportsRepositoryImpl(gh<_i305.ReportsDatasourceRepo>()),
+    );
+    gh.factory<_i582.WelcomeRepository>(
+      () => _i915.WelcomeRepositoryImpl(gh<_i136.WelcomeDatasourceRepo>()),
     );
     gh.factory<_i223.ChatBotAssistantUseCaseRepo>(
       () =>
@@ -619,6 +615,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1037.StoriesPlayDatasourceRepo>(),
       ),
     );
+    gh.factory<_i157.WelcomeUseCaseRepo>(
+      () => _i970.WelcomeUseCase(gh<_i582.WelcomeRepository>()),
+    );
     gh.factory<_i55.StoriesRepository>(
       () => _i166.StoriesRepositoryImpl(gh<_i1073.StoriesDatasourceRepo>()),
     );
@@ -627,6 +626,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i689.EditProfileUseCaseRepo>(
       () => _i478.EditProfileUseCase(gh<_i949.EditProfileRepository>()),
+    );
+    gh.factory<_i405.WelcomeCubit>(
+      () => _i405.WelcomeCubit(gh<_i157.WelcomeUseCaseRepo>()),
     );
     gh.factory<_i253.StoryInfoUseCaseRepo>(
       () => _i768.StoryInfoUseCase(gh<_i967.StoryInfoRepository>()),
@@ -715,11 +717,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.SettingsCubit>(
       () => _i241.SettingsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
-    gh.factory<_i281.UserDetailsCubit>(
-      () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
-    );
     gh.factory<_i577.StoryRequestsCubit>(
       () => _i577.StoryRequestsCubit(gh<_i650.SettingsUseCaseRepo>()),
+    );
+    gh.factory<_i281.UserDetailsCubit>(
+      () => _i281.UserDetailsCubit(gh<_i650.SettingsUseCaseRepo>()),
     );
     gh.factory<_i625.ReviewsCubit>(
       () => _i625.ReviewsCubit(gh<_i15.ReviewsUseCaseRepo>()),

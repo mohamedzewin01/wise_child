@@ -1,5 +1,6 @@
+import 'package:wise_child/core/common/api_result.dart';
+import 'package:wise_child/features/Welcome/domain/entities/app_status_entity.dart';
+
 abstract class WelcomeUseCaseRepo {
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  Future<Result<AppStatusEntity?>>getAppStatus();
 }

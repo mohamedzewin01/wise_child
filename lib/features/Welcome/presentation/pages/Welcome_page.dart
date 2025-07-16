@@ -1,12 +1,15 @@
 // lib/features/welcome/presentation/pages/welcome_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/assets_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/language_toggle.dart';
+import 'package:wise_child/features/Welcome/presentation/bloc/Welcome_cubit.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
+import '../../../../core/di/di.dart';
 import '../widgets/animated_welcome_background.dart';
 import '../widgets/feature_card.dart';
 import '../widgets/animated_logo.dart';
@@ -28,11 +31,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late List<Animation<double>> _staggeredAnimations;
+  late WelcomeCubit viewModel;
 
   @override
   void initState() {
     super.initState();
-
+    viewModel = getIt.get<WelcomeCubit>();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -75,14 +79,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     _staggerController.forward();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () async {
-        final isActive = await CacheService.getData(key: CacheKeys.userActive) ?? false;
+        final isActive =
+            await CacheService.getData(key: CacheKeys.userActive) ?? false;
 
         if (!mounted) return;
 
         if (isActive) {
           Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
         } else {
-          Navigator.pushReplacementNamed(context, RoutesManager.onboardingScreen);
+          Navigator.pushReplacementNamed(
+            context,
+            RoutesManager.onboardingScreen,
+          );
         }
       });
     });
@@ -97,40 +105,53 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          const AnimatedWelcomeBackground(),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: const LanguageToggle(),
-                    ),
-                  ),
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                          ),
+    return BlocProvider.value(
+      value: viewModel..getAppStatus(),
+      child: BlocListener<WelcomeCubit, WelcomeState>(
+        listener: (context, state) {
+         if(state is AppStatusSuccess){
 
-                          const AnimatedLogo(),
 
-                          const SizedBox(height: 25),
-                          Text(
-                            AppLocalizations.of(context)!.appName,
-                            style:
+         }
+
+        },
+        child: Scaffold(
+          body: Stack(
+            children: [
+              const AnimatedWelcomeBackground(),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: const LanguageToggle(),
+                        ),
+                      ),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height * 0.1,
+                              ),
+
+                              const AnimatedLogo(),
+
+                              const SizedBox(height: 25),
+                              Text(
+                                AppLocalizations.of(context)!.appName,
+                                style:
                                 getBoldStyle(
                                   color: Colors.white,
                                   fontSize: 32,
@@ -143,12 +164,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     ),
                                   ],
                                 ),
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            AppLocalizations.of(context)!.appSubtitle,
-                            textAlign: TextAlign.center,
-                            style:
+                              ),
+                              const SizedBox(height: 15),
+                              Text(
+                                AppLocalizations.of(context)!.appSubtitle,
+                                textAlign: TextAlign.center,
+                                style:
                                 getRegularStyle(
                                   color: Colors.white.withOpacity(0.9),
                                   fontSize: 16,
@@ -162,24 +183,26 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     ),
                                   ],
                                 ),
+                              ),
+                              const SizedBox(height: 60),
+                              CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  ColorManager.white,
+                                ),
+                                strokeWidth: 3.0,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 60),
-                          CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              ColorManager.white,
-                            ),
-                            strokeWidth: 3.0,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

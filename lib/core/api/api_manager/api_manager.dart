@@ -23,7 +23,7 @@ import 'package:wise_child/features/Children/data/models/response/delete_childre
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/EditProfile/data/models/request/edit_profile_request.dart';
 import 'package:wise_child/features/EditProfile/data/models/response/edit_profile_dto.dart';
-import 'package:wise_child/features/Home/data/models/response/app_status_dto.dart';
+import 'package:wise_child/features/Welcome/data/models/response/app_status_dto.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/request/add_child_request.dart';
 import 'package:wise_child/features/NewChildren/data/models/response/add_child_dto.dart';

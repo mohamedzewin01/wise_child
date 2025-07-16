@@ -21,11 +21,5 @@ class HomeDatasourceRepoImpl implements HomeDatasourceRepo {
     });
   }
 
-  @override
-  Future<Result<AppStatusEntity?>> getAppStatus() {
-    return executeApi(() async {
-      var result = await apiService.getAppStatus();
-      return result?.toEntity();
-    });
-  }
+
 }

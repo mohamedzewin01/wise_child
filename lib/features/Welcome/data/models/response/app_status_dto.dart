@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wise_child/features/Home/domain/entities/home_entity.dart';
+import 'package:wise_child/features/Welcome/domain/entities/app_status_entity.dart';
 
 part 'app_status_dto.g.dart';
 

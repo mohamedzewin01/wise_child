@@ -1,4 +1,4 @@
-import 'package:wise_child/features/Home/data/models/response/app_status_dto.dart';
+import 'package:wise_child/features/Welcome/data/models/response/app_status_dto.dart';
 import 'package:wise_child/features/Home/data/models/response/get_home_request.dart';
 
 class GetHomeEntity {
@@ -18,16 +18,3 @@ class GetHomeEntity {
 
 }
 
-class AppStatusEntity {
-
-  final String? status;
-
-  final Data? data;
-
-  AppStatusEntity ({
-    this.status,
-    this.data,
-  });
-
-
-}

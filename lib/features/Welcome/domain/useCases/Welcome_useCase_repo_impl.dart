@@ -1,3 +1,7 @@
+import 'package:wise_child/core/common/api_result.dart';
+
+import 'package:wise_child/features/Welcome/domain/entities/app_status_entity.dart';
+
 import '../repositories/Welcome_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../useCases/Welcome_useCase_repo.dart';
@@ -8,7 +12,10 @@ class WelcomeUseCase implements WelcomeUseCaseRepo {
 
   WelcomeUseCase(this.repository);
 
-  // Future<Result<T>> call(...) async {
-  //   return await repository.get...();
-  // }
+  @override
+  Future<Result<AppStatusEntity?>> getAppStatus() {
+   return repository.getAppStatus();
+  }
+
+
 }

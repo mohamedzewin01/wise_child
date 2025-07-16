@@ -16,14 +16,3 @@ final class HomeFailure extends GetHomeState {
   HomeFailure(this.exception);
 }
 
-final class AppStatusLoading extends GetHomeState {}
-
-final class AppStatusSuccess extends GetHomeState {
-  final AppStatusEntity? data;
-  AppStatusSuccess(this.data);
-}
-
-final class AppStatusFailure extends GetHomeState {
-  final Exception exception;
-  AppStatusFailure(this.exception);
-}
