@@ -22,3 +22,8 @@ final class AppStatusFailure extends WelcomeState {
   final Exception exception;
   AppStatusFailure(this.exception);
 }
+// حالة جديدة للصيانة
+final class AppMaintenanceState extends WelcomeState {
+  final AppStatusEntity appStatus;
+  AppMaintenanceState(this.appStatus);
+}

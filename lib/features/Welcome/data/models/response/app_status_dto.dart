@@ -37,6 +37,8 @@ class Data {
   final bool? isActive;
   @JsonKey(name: "message")
   final String? message;
+  @JsonKey(name: "title")
+  final String? title;
   @JsonKey(name: "image_url")
   final String? imageUrl;
   @JsonKey(name: "maintenance_until")
@@ -44,6 +46,7 @@ class Data {
 
   Data ({
     this.isActive,
+    this.title,
     this.message,
     this.imageUrl,
     this.maintenanceUntil,

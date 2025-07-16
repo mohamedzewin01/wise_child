@@ -18,6 +18,7 @@ Map<String, dynamic> _$AppStatusDtoToJson(AppStatusDto instance) =>
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
   isActive: json['is_active'] as bool?,
+  title: json['title'] as String?,
   message: json['message'] as String?,
   imageUrl: json['image_url'] as String?,
   maintenanceUntil: json['maintenance_until'] as String?,
@@ -26,6 +27,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
   'is_active': instance.isActive,
   'message': instance.message,
+  'title': instance.title,
   'image_url': instance.imageUrl,
   'maintenance_until': instance.maintenanceUntil,
 };

@@ -17,7 +17,17 @@ class WelcomeCubit extends Cubit<WelcomeState> {
 
     switch (result) {
       case Success<AppStatusEntity?>():
-        if (!isClosed) emit(AppStatusSuccess(result.data!));
+        if (!isClosed) {
+          final appStatus = result.data!;
+          // التحقق من حالة التطبيق
+          if (appStatus.data?.isActive == false) {
+            // التطبيق في حالة صيانة
+            emit(AppMaintenanceState(appStatus));
+          } else {
+            // التطبيق يعمل بشكل طبيعي
+            emit(AppStatusSuccess(appStatus));
+          }
+        }
         break;
       case Fail<AppStatusEntity?>():
         if (!isClosed) emit(AppStatusFailure(result.exception));
