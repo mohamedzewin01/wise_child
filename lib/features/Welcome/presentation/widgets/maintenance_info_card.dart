@@ -48,10 +48,20 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Stack(
+      child: Column(
         children: [
-          _buildMainCard(),
-          _buildShimmerEffect(),
+          Stack(
+            children: [
+              _buildMainCard(),
+              _buildShimmerEffect(),
+            ],
+          ),
+          // عرض العد التنازلي خارج الكارت الرئيسي
+          if (widget.appStatus.data?.maintenanceUntil != null &&
+              widget.appStatus.data!.maintenanceUntil!.isNotEmpty)
+            MaintenanceCountdownWidget(
+              maintenanceUntil: widget.appStatus.data!.maintenanceUntil!,
+            ),
         ],
       ),
     );
@@ -59,7 +69,7 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
 
   Widget _buildMainCard() {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -86,14 +96,15 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildMessage(),
-          if (widget.appStatus.data?.maintenanceUntil != null) ...[
-            const SizedBox(height: 20),
-            _buildMaintenanceTime(),
-          ],
-          const SizedBox(height: 20),
-          _buildStatusIndicator(),
+          // if (widget.appStatus.data?.maintenanceUntil != null &&
+          //     widget.appStatus.data!.maintenanceUntil!.isNotEmpty) ...[
+          //   const SizedBox(height: 20),
+          //   _buildMaintenanceTimeInfo(),
+          // ],
+          // const SizedBox(height: 20),
+          // _buildStatusIndicator(),
         ],
       ),
     );
@@ -179,7 +190,8 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
     );
   }
 
-  Widget _buildMaintenanceTime() {
+  Widget _buildMaintenanceTimeInfo() {
+    // معلومات أساسية عن وقت الصيانة بدون العد التنازلي
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -212,11 +224,46 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
             ),
           ),
           const SizedBox(width: 12),
-          MaintenanceCountdownWidget(maintenanceUntil: widget.appStatus.data!.maintenanceUntil! ,),
-
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "وقت انتهاء الصيانة المتوقع",
+                  style: getMediumStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _formatMaintenanceTime(widget.appStatus.data!.maintenanceUntil!),
+                  style: getRegularStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  String _formatMaintenanceTime(String maintenanceUntil) {
+    try {
+      DateTime dateTime = DateTime.parse(maintenanceUntil.trim());
+      final day = dateTime.day.toString().padLeft(2, '0');
+      final month = dateTime.month.toString().padLeft(2, '0');
+      final year = dateTime.year.toString();
+      final hour = dateTime.hour.toString().padLeft(2, '0');
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+
+      return "$day/$month/$year في $hour:$minute";
+    } catch (e) {
+      return maintenanceUntil;
+    }
   }
 
   Widget _buildStatusIndicator() {
@@ -263,7 +310,20 @@ class _MaintenanceInfoCardState extends State<MaintenanceInfoCard>
       ),
       child: IconButton(
         onPressed: () {
-
+          // يمكن إضافة منطق إعادة فحص حالة التطبيق هنا
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "جاري إعادة فحص حالة التطبيق...",
+                style: getRegularStyle(color: Colors.white, fontSize: 14),
+              ),
+              backgroundColor: Colors.blue.withOpacity(0.8),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          );
         },
         icon: const Icon(
           Icons.refresh,

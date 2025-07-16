@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wise_child/core/common/api_result.dart';
@@ -10,6 +11,7 @@ part 'Welcome_state.dart';
 @injectable
 class WelcomeCubit extends Cubit<WelcomeState> {
   WelcomeCubit(this._welcomeUseCaseRepo) : super(WelcomeInitial());
+  static WelcomeCubit get(context) => BlocProvider.of(context);
   final WelcomeUseCaseRepo _welcomeUseCaseRepo;
   Future<void> getAppStatus() async {
     emit(AppStatusLoading());

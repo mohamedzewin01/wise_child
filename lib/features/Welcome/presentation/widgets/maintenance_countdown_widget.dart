@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
@@ -22,6 +21,7 @@ class _MaintenanceCountdownWidgetState extends State<MaintenanceCountdownWidget>
   Duration _remainingTime = Duration.zero;
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
+  bool _isExpired = false;
 
   @override
   void initState() {
@@ -47,32 +47,90 @@ class _MaintenanceCountdownWidgetState extends State<MaintenanceCountdownWidget>
 
     _pulseController.repeat(reverse: true);
   }
+
   void _calculateRemainingTime() {
-    if (widget.maintenanceUntil == null) return;
+    if (widget.maintenanceUntil == null || widget.maintenanceUntil!.isEmpty) {
+      setState(() {
+        _isExpired = true;
+      });
+      return;
+    }
 
     try {
-      final targetTime = DateTime.parse(widget.maintenanceUntil!).toLocal();
+      // إذا كان التاريخ لا يحتوي على معلومات المنطقة الزمنية، أضف Z للإشارة إلى UTC
+      String dateString = widget.maintenanceUntil!;
+
+      // إزالة أي مسافات إضافية
+      dateString = dateString.trim();
+
+      // إذا لم يحتوي على معلومات المنطقة الزمنية، اعتبره توقيت محلي
+      DateTime targetTime;
+      if (dateString.contains('T') || dateString.contains('Z') || dateString.contains('+')) {
+        // التاريخ بصيغة ISO
+        targetTime = DateTime.parse(dateString);
+        if (!dateString.contains('Z') && !dateString.contains('+') && !dateString.contains('-', 10)) {
+          // إذا لم يحتوي على معلومات المنطقة الزمنية، اعتبره UTC
+          targetTime = DateTime.parse(dateString + 'Z').toLocal();
+        }
+      } else {
+        // التاريخ بصيغة بسيطة، اعتبره توقيت محلي
+        targetTime = DateTime.parse(dateString);
+      }
+
       final now = DateTime.now();
 
+      debugPrint('Target time: $targetTime');
+      debugPrint('Current time: $now');
+
       if (targetTime.isAfter(now)) {
-        _remainingTime = targetTime.difference(now);
+        setState(() {
+          _remainingTime = targetTime.difference(now);
+          _isExpired = false;
+        });
+        debugPrint('Remaining time: ${_remainingTime.toString()}');
+      } else {
+        setState(() {
+          _remainingTime = Duration.zero;
+          _isExpired = true;
+        });
+        debugPrint('Maintenance time has expired');
       }
     } catch (e) {
       debugPrint('خطأ في تحليل وقت الصيانة: $e');
+      setState(() {
+        _isExpired = true;
+      });
     }
   }
 
-
   void _startTimer() {
+    _timer?.cancel(); // إلغاء أي مؤقت سابق
+
+    if (_isExpired || _remainingTime.inSeconds <= 0) {
+      return;
+    }
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingTime.inSeconds > 0) {
+      if (mounted && _remainingTime.inSeconds > 0) {
         setState(() {
           _remainingTime = _remainingTime - const Duration(seconds: 1);
         });
       } else {
+        setState(() {
+          _isExpired = true;
+        });
         timer.cancel();
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(MaintenanceCountdownWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.maintenanceUntil != widget.maintenanceUntil) {
+      _calculateRemainingTime();
+      _startTimer();
+    }
   }
 
   @override
@@ -84,7 +142,11 @@ class _MaintenanceCountdownWidgetState extends State<MaintenanceCountdownWidget>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.maintenanceUntil == null || _remainingTime.inSeconds <= 0) {
+    // إذا لم يكن هناك وقت صيانة أو انتهى الوقت، لا تعرض شيئاً
+    if (widget.maintenanceUntil == null ||
+        widget.maintenanceUntil!.isEmpty ||
+        _isExpired ||
+        _remainingTime.inSeconds <= 0) {
       return const SizedBox.shrink();
     }
 
@@ -140,6 +202,8 @@ class _MaintenanceCountdownWidgetState extends State<MaintenanceCountdownWidget>
                 ),
                 const SizedBox(height: 20),
                 _buildCountdownDisplay(),
+                const SizedBox(height: 10),
+                _buildTargetTimeDisplay(),
               ],
             ),
           ),
@@ -212,5 +276,42 @@ class _MaintenanceCountdownWidgetState extends State<MaintenanceCountdownWidget>
         fontSize: 20,
       ),
     );
+  }
+
+  Widget _buildTargetTimeDisplay() {
+    if (widget.maintenanceUntil == null) return const SizedBox.shrink();
+
+    try {
+      String dateString = widget.maintenanceUntil!.trim();
+      DateTime targetTime = DateTime.parse(dateString);
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          "انتهاء الصيانة: ${_formatDateTime(targetTime)}",
+          style: getRegularStyle(
+            color: Colors.white.withOpacity(0.8),
+            fontSize: 12,
+          ),
+        ),
+      );
+    } catch (e) {
+      return const SizedBox.shrink();
+    }
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    // تنسيق التاريخ والوقت بشكل مفهوم
+    final day = dateTime.day.toString().padLeft(2, '0');
+    final month = dateTime.month.toString().padLeft(2, '0');
+    final year = dateTime.year.toString();
+    final hour = dateTime.hour.toString().padLeft(2, '0');
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+
+    return "$day/$month/$year - $hour:$minute";
   }
 }
