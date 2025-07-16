@@ -87,7 +87,7 @@ class _HomeScreenWithShowcaseState extends State<HomeScreenWithShowcase>
           physics: const BouncingScrollPhysics(),
           slivers: [
             HomeSliverAppBar(
-              title: 'ابطالنا',
+              title: 'بيئة ابطالنا',
               subtitle: 'مرحباً بك في عالم القصص',
               actions: [
                 SliverAppBarActionButton(

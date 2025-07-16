@@ -99,7 +99,7 @@ class _UpdatedHomePageState extends State<UpdatedHomePage> {
                     tip: 'اضغط على أيقونة الجرس لمشاهدة الإشعارات',
                     backgroundColor: ColorManager.primaryColor,
                     child: HomeSliverAppBar(
-                      title: 'ابطالنا',
+                      title: 'بيئة ابطالنا',
                       subtitle: 'مرحباً بك في عالم القصص',
                       actions: [
                         SliverAppBarActionButton(

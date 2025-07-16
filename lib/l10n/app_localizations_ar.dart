@@ -30,7 +30,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get search => 'بحث';
 
   @override
-  String get appName => 'ابطالنا ';
+  String get appName => 'بيئة ابطالنا';
 
   @override
   String get loginToContinue => 'سجل الدخول او انشئ حسابا للاستمرار';

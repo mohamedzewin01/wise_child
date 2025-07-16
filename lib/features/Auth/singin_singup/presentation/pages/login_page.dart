@@ -457,7 +457,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, RoutesManager.registerPage);
             },
             child: Text(
               AppLocalizations.of(context)!.register,

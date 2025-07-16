@@ -90,7 +90,7 @@ class EnhancedHomeWelcomeHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    '📊 ابطالنا',
+                    '📊 بيئة ابطالنا',
                     style: textTheme.bodySmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
