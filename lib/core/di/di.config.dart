@@ -291,8 +291,8 @@ import '../../features/StoriesPlay/domain/useCases/StoriesPlay_useCase_repo.dart
     as _i380;
 import '../../features/StoriesPlay/domain/useCases/StoriesPlay_useCase_repo_impl.dart'
     as _i936;
-import '../../features/StoriesPlay/presentation/bloc/StoriesPlay_cubit.dart'
-    as _i830;
+import '../../features/StoriesPlay/presentation/bloc/StoriesData_cubit.dart'
+    as _i527;
 import '../../features/StoriesUnderCategory/data/datasources/StoriesUnderCategory_datasource_repo.dart'
     as _i950;
 import '../../features/StoriesUnderCategory/data/datasources/StoriesUnderCategory_datasource_repo_impl.dart'
@@ -679,8 +679,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i36.NewChildrenCubit>(
       () => _i36.NewChildrenCubit(gh<_i416.NewChildrenUseCaseRepo>()),
     );
-    gh.factory<_i830.StoriesPlayCubit>(
-      () => _i830.StoriesPlayCubit(gh<_i380.StoriesPlayUseCaseRepo>()),
+    gh.factory<_i527.StoriesDataCubit>(
+      () => _i527.StoriesDataCubit(gh<_i380.StoriesPlayUseCaseRepo>()),
     );
     gh.factory<_i15.ReviewsUseCaseRepo>(
       () => _i350.ReviewsUseCase(gh<_i64.ReviewsRepository>()),

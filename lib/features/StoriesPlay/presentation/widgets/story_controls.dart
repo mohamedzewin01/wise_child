@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
-import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/bloc/story_play/story_play_cubit.dart';
+import 'package:wise_child/features/StoriesPlay/presentation/bloc/story_play/story_play_state.dart';
+
 
 class EnhancedStoryControls extends StatefulWidget {
   const EnhancedStoryControls({super.key});

@@ -6,11 +6,11 @@ import 'package:wise_child/features/StoriesPlay/data/models/request/story_play_r
 import 'package:wise_child/features/StoriesPlay/domain/entities/story_entity.dart';
 import '../../domain/useCases/StoriesPlay_useCase_repo.dart';
 
-part 'StoriesPlay_state.dart';
+part 'StoriesData_state.dart';
 
 @injectable
-class StoriesPlayCubit extends Cubit<StoriesPlayState> {
-  StoriesPlayCubit(this._storiesPlayUseCaseRepo) : super(StoriesPlayInitial());
+class StoriesDataCubit extends Cubit<StoriesDataState> {
+  StoriesDataCubit(this._storiesPlayUseCaseRepo) : super(StoriesPlayInitial());
   final StoriesPlayUseCaseRepo _storiesPlayUseCaseRepo;
 
 

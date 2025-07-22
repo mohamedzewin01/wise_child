@@ -8,6 +8,8 @@ import 'package:wise_child/core/resources/color_manager.dart';
 
 import 'dart:math' as math;
 
+import 'package:wise_child/features/StoriesPlay/presentation/widgets/floating_particles.dart';
+
 class StoryPageView extends StatefulWidget {
   final String imageUrl;
   final String text;
@@ -141,12 +143,12 @@ class _StoryPageViewState extends State<StoryPageView>
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.2),
-                      width: 1,
-                    ),
+                    // color: Colors.black.withOpacity(0.3),
+                    // borderRadius: BorderRadius.circular(20),
+                    // border: Border.all(
+                    //   color: Colors.white.withOpacity(0.2),
+                    //   width: 1,
+                    // ),
                   ),
                   child: Column(
                     children: [
@@ -203,52 +205,11 @@ class _StoryPageViewState extends State<StoryPageView>
           ),
 
         // تأثيرات بصرية إضافية
-        _buildFloatingParticles(),
+        FloatingParticles(animationController: _animationController)
+
       ],
     );
   }
 
-  Widget _buildFloatingParticles() {
-    return Positioned.fill(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return Stack(
-            children: List.generate(6, (index) {
-              final offset = (index * 0.3) % 1.0;
-              final animationValue = (_animationController.value + offset) % 1.0;
 
-              return Positioned(
-                left: (index % 3) * (MediaQuery.of(context).size.width / 3) +
-                    math.sin(animationValue * 2 * math.pi) * 20,
-                top: MediaQuery.of(context).size.height * 0.2 +
-                    math.cos(animationValue * 2 * math.pi) * 30,
-                child: Opacity(
-                  opacity: 0.6 * (1 - animationValue),
-                  child: Transform.scale(
-                    scale: 0.5 + (animationValue * 0.5),
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.5),
-                            blurRadius: 8,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-          );
-        },
-      ),
-    );
-  }
 }
