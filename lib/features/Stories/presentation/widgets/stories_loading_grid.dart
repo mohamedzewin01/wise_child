@@ -8,6 +8,8 @@ class StoriesLoadingGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.all(20),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
         crossAxisSpacing: 16,
@@ -50,6 +52,7 @@ class StoriesLoadingGrid extends StatelessWidget {
                   height: 16,
                   width: double.infinity,
                   decoration: BoxDecoration(
+
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(8),
                   ),

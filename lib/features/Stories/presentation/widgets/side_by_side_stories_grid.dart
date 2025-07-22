@@ -130,29 +130,27 @@ class _SideBySideStoriesGridState extends State<SideBySideStoriesGrid>
     return Column(
       children: [
         // // شريط البحث والفلترة
-        // StoriesSearchBar(
-        //   searchQuery: _searchQuery,
-        //   selectedCategory: _selectedCategory,
-        //   categories: categories,
-        //   onSearchChanged: _onSearchChanged,
-        //   onCategoryChanged: _onCategoryChanged,
-        // ),
-        //
-        // // عداد القصص
-        // StoriesCounter(
-        //   count: stories.length,
-        //   hasFilters: _searchQuery.isNotEmpty || _selectedCategory.isNotEmpty,
-        //   onClearFilters: _clearFilters,
-        // ),
+        StoriesSearchBar(
+          searchQuery: _searchQuery,
+          selectedCategory: _selectedCategory,
+          categories: categories,
+          onSearchChanged: _onSearchChanged,
+          onCategoryChanged: _onCategoryChanged,
+        ),
+
+        // عداد القصص
+        StoriesCounter(
+          count: stories.length,
+          hasFilters: _searchQuery.isNotEmpty || _selectedCategory.isNotEmpty,
+          onClearFilters: _clearFilters,
+        ),
 
         // شبكة القصص
-        Expanded(
-          child: stories.isEmpty
-              ? const StoriesNoResults()
-              : StoriesGridView(
-            stories: stories,
-            controller: _listController,
-          ),
+        stories.isEmpty
+            ? const StoriesNoResults()
+            : StoriesGridView(
+          stories: stories,
+          controller: _listController,
         ),
       ],
     );

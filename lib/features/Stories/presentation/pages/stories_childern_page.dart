@@ -112,8 +112,7 @@ class _StoriesChildrenPageState extends State<StoriesChildrenPage> {
   }
 
   void _navigateToAddChild() {
-    // هنا يمكنك إضافة التنقل لصفحة إضافة طفل
-    // Navigator.pushNamed(context, '/add-child');
+
     print('Navigate to add child page');
   }
 

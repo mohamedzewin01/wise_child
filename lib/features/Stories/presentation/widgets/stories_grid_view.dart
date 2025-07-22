@@ -21,6 +21,8 @@ class StoriesGridView extends StatelessWidget {
         return Opacity(
           opacity: controller.value,
           child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(20),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
