@@ -4,7 +4,7 @@ import 'package:wise_child/core/resources/color_manager.dart';
 enum StoryLayoutType {
   grid,
   list,
-  carousel
+  // carousel
 }
 
 class StoryLayoutSwitcher extends StatefulWidget {
@@ -82,13 +82,7 @@ class _StoryLayoutSwitcherState extends State<StoryLayoutSwitcher>
               'القائمة',
             ),
           ),
-          Expanded(
-            child: _buildLayoutOption(
-              StoryLayoutType.carousel,
-              Icons.view_carousel_rounded,
-              'الشريط',
-            ),
-          ),
+
         ],
       ),
     );

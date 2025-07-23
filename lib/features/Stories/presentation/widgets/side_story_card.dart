@@ -60,7 +60,7 @@ class _SideStoryCardState extends State<SideStoryCard>
         _hoverController.reverse();
       },
       child: GestureDetector(
-        onTap: () => _navigateToStory(context,storyId: widget.story.storyId??0,childId: childId),
+        onTap: () => navigateToStory(context,storyId: widget.story.storyId??0,childId: childId),
         child: AnimatedBuilder(
           animation: _hoverController,
           builder: (context, child) {
@@ -119,17 +119,7 @@ class _SideStoryCardState extends State<SideStoryCard>
     );
   }
 
-  void _navigateToStory(BuildContext context, {required int childId,required int storyId}) {
-    HapticFeedback.mediumImpact();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            StoryDetailsPage(storyId: storyId, childId: childId),
-      ),
-    );
-  }
 
   Widget _buildImageBackground(List<Color> gradientColors) {
     return Positioned.fill(
@@ -271,7 +261,7 @@ class _SideStoryCardState extends State<SideStoryCard>
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: () => _navigateToStory(context,storyId: storyId,childId: childId),
+          onTap: () => navigateToStory(context,storyId: storyId,childId: childId),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -523,4 +513,15 @@ class _SideStoryCardState extends State<SideStoryCard>
     ];
     return colorSets[index % colorSets.length];
   }
+}
+void navigateToStory(BuildContext context, {required int childId,required int storyId}) {
+  HapticFeedback.mediumImpact();
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) =>
+          StoryDetailsPage(storyId: storyId, childId: childId),
+    ),
+  );
 }

@@ -11,13 +11,15 @@ class CustomAppBarApp extends StatefulWidget {
     required this.title,
     required this.subtitle,
     this.backFunction,
-    this.colorContainerStack,
+    this.colorContainerStack, this.iconFunction, this.icon,
   });
 
   final String title;
   final String subtitle;
   final void Function()? backFunction;
+  final void Function()? iconFunction;
   final Color? colorContainerStack;
+  final Icon? icon;
 
   @override
   State<CustomAppBarApp> createState() => _CustomAppBarAppState();
@@ -136,10 +138,18 @@ class _CustomAppBarAppState extends State<CustomAppBarApp>
                   color: ColorManager.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  Icons.auto_stories_rounded,
-                  color: ColorManager.primaryColor,
-                  size: 24,
+                child: GestureDetector(
+                  onTap: () {
+                    if (widget.iconFunction != null) {
+                      widget.iconFunction!();
+                    }
+
+                  },
+                  child:widget.icon?? Icon(
+                    Icons.auto_stories_rounded,
+                    color: ColorManager.primaryColor,
+                    size: 24,
+                  ),
                 ),
               ),
             ],
