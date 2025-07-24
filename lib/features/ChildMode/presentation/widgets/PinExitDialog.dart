@@ -6,7 +6,10 @@ import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
+import 'package:wise_child/features/Welcome/presentation/pages/Welcome_page.dart';
 import 'dart:math' as math;
+
+import 'package:wise_child/features/layout/presentation/pages/layout_view.dart';
 
 class PinExitDialog extends StatefulWidget {
   const PinExitDialog({super.key});
@@ -94,10 +97,13 @@ class _PinExitDialogState extends State<PinExitDialog>
 
   void _checkPin() {
     if (_enteredPin == _correctPin) {
+
       // PIN صحيح - الخروج من وضع الطفل
       HapticFeedback.heavyImpact();
-      Navigator.of(context).pop(true);
-   ///  Navigator.pushNamed(context, RoutesManager.layoutScreen);
+      CacheService.setData(key: CacheKeys.childModeActive, value: false);
+      Navigator.of(context);
+      Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
+
     } else {
       // PIN خاطئ
       _attemptsLeft--;

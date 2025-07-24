@@ -189,6 +189,20 @@ import '../../features/NewChildren/domain/useCases/NewChildren_useCase_repo_impl
     as _i863;
 import '../../features/NewChildren/presentation/bloc/NewChildren_cubit.dart'
     as _i36;
+import '../../features/Notifications/data/datasources/Notifications_datasource_repo.dart'
+    as _i1008;
+import '../../features/Notifications/data/datasources/Notifications_datasource_repo_impl.dart'
+    as _i474;
+import '../../features/Notifications/data/repositories_impl/Notifications_repo_impl.dart'
+    as _i954;
+import '../../features/Notifications/domain/repositories/Notifications_repository.dart'
+    as _i938;
+import '../../features/Notifications/domain/useCases/Notifications_useCase_repo.dart'
+    as _i767;
+import '../../features/Notifications/domain/useCases/Notifications_useCase_repo_impl.dart'
+    as _i53;
+import '../../features/Notifications/presentation/bloc/Notifications_cubit.dart'
+    as _i11;
 import '../../features/Onboarding/data/datasources/Onboarding_datasource_repo.dart'
     as _i316;
 import '../../features/Onboarding/data/datasources/Onboarding_datasource_repo_impl.dart'
@@ -393,6 +407,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i160.ForgotPasswordDataSource>(
       () => _i34.ForgotPasswordDataSourceImpl(),
     );
+    gh.factory<_i938.NotificationsRepository>(
+      () => _i954.NotificationsRepositoryImpl(),
+    );
     gh.factory<_i280.ChildModeRepository>(
       () => _i733.ChildModeRepositoryImpl(),
     );
@@ -446,6 +463,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i305.ReportsDatasourceRepo>(
       () => _i665.ReportsDatasourceRepoImpl(gh<_i680.ApiService>()),
     );
+    gh.factory<_i1008.NotificationsDatasourceRepo>(
+      () => _i474.NotificationsDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i20.ChatBotAssistantRepository>(
       () => _i16.ChatBotAssistantRepositoryImpl(
         gh<_i196.ChatBotAssistantDatasourceRepo>(),
@@ -455,6 +475,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i971.SelectStoriesScreenUseCase(
         gh<_i880.SelectStoriesScreenRepository>(),
       ),
+    );
+    gh.factory<_i767.NotificationsUseCaseRepo>(
+      () => _i53.NotificationsUseCase(gh<_i938.NotificationsRepository>()),
     );
     gh.factory<_i918.StoreUseCaseRepo>(
       () => _i581.StoreUseCase(gh<_i856.StoreRepository>()),
@@ -585,6 +608,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
+    );
+    gh.factory<_i11.NotificationsCubit>(
+      () => _i11.NotificationsCubit(gh<_i767.NotificationsUseCaseRepo>()),
     );
     gh.factory<_i555.AuthRepository>(
       () => _i776.AuthRepositoryImpl(gh<_i879.AuthDatasourceRepo>()),

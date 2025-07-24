@@ -10,6 +10,7 @@ import 'package:wise_child/features/Home/presentation/widgets/home_error_widget.
 import 'package:wise_child/features/Home/presentation/widgets/home_quick_actions.dart';
 import 'package:wise_child/features/Home/presentation/widgets/home_stories_grid.dart';
 import 'package:wise_child/features/Home/presentation/widgets/home_welcome_header.dart';
+import 'package:wise_child/features/Notifications/presentation/pages/Notifications_page.dart';
 
 import '../../../../AllStoriesByUser/presentation/widgets/loading_shimmer.dart';
 
@@ -93,7 +94,10 @@ class _HomeScreenWithShowcaseState extends State<HomeScreenWithShowcase>
                 SliverAppBarActionButton(
                   icon: Icons.notifications,
                   onPressed: () {
-                    // Handle notifications action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const NotificationsPage()),
+                    );
                   },
                 ),
               ],

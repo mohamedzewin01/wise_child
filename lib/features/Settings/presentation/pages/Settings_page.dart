@@ -24,6 +24,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
   late SettingsCubit viewModel;
 
   @override
@@ -56,7 +57,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
   // Settings State
   bool _areNotificationsOn = true;
   bool _isChatbotEnabled = true;
-  bool _isChildModeActive = false;
+  bool _isChildModeActive = CacheService.getData(key: CacheKeys.childModeActive) ?? false;
   String _selectedLanguage = 'العربية';
 
   @override
@@ -395,17 +396,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           },
         ),
 
-        const Divider(height: 1, indent: 72),
 
-        _buildModernSettingsRow(
-          icon: Icons.info_outline,
-          title: 'حول التطبيق',
-          subtitle: 'الإصدار 1.0.0',
-          trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-          onTap: () {
-            _showAboutDialog();
-          },
-        ),
 
         const Divider(height: 1, indent: 72),
 
@@ -870,6 +861,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
           pageBuilder: (context, animation, secondaryAnimation) =>
               ChildModePage(selectedChildId: childId, childName: childName),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            CacheService.setData(key: CacheKeys.childModeActive, value: true);
             // تأثير انتقال ممتع للأطفال
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;
@@ -934,46 +926,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     }
   }
 
-  // ===== باقي الدوال =====
 
-  void _showBackupDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            Icon(Icons.backup, color: Colors.blue),
-            const SizedBox(width: 8),
-            Text('النسخ الاحتياطي'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.cloud_upload),
-              title: Text('إنشاء نسخة احتياطية'),
-              subtitle: Text('حفظ البيانات في السحابة'),
-              onTap: () {
-                Navigator.pop(context);
-                // Implement backup
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.cloud_download),
-              title: Text('استعادة النسخة الاحتياطية'),
-              subtitle: Text('استرداد البيانات من السحابة'),
-              onTap: () {
-                Navigator.pop(context);
-                // Implement restore
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   void _showFeedbackDialog() {
     final TextEditingController feedbackController = TextEditingController();
@@ -1273,23 +1226,7 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
     }
   }
 
-  void _showAboutDialog() {
-    showAboutDialog(
-      context: context,
-      applicationName: 'Wise Child',
-      applicationVersion: '1.0.0',
-      applicationIcon: Icon(
-        Icons.child_care,
-        size: 48,
-        color: ColorManager.primaryColor,
-      ),
-      children: [
-        Text(
-          'تطبيق تعليمي تفاعلي للأطفال يساعد في تنمية مهاراتهم وقدراتهم التعليمية.',
-        ),
-      ],
-    );
-  }
+
 
   void _showDeleteAccountDialog() {
     showDialog(

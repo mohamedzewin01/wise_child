@@ -776,6 +776,7 @@ import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/widgets/delete_confirmation_dialog.dart';
 import 'package:wise_child/features/ChildDetailsPage/presentation/pages/ChildDetailsPage_page.dart';
+import 'package:wise_child/features/ChildStories/presentation/pages/ChildStories_page.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/bloc/Children_cubit.dart';
 import 'package:wise_child/core/widgets/avatar_image.dart';
@@ -894,7 +895,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
         pageBuilder: (context, animation, secondaryAnimation) =>
             BlocProvider.value(
               value: getIt.get<ChildrenCubit>(),
-              child: ChildDetailsPage(child: widget.children),
+              child: ChildStoriesPage(child: widget.children),
             ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(

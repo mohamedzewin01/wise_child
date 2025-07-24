@@ -59,5 +59,6 @@ class CacheKeys {
   static const String onboardingCompleted = 'userActive';
   static const String homeShowCaseSeen = 'home_showcase_seen';
 
+
 }
 

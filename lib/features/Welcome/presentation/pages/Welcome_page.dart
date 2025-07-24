@@ -7,6 +7,7 @@ import 'package:wise_child/core/resources/routes_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/language_toggle.dart';
+import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
 import 'package:wise_child/features/Welcome/presentation/bloc/Welcome_cubit.dart';
 import 'package:wise_child/features/Welcome/presentation/pages/maintenance_page.dart';
 import 'package:wise_child/l10n/app_localizations.dart';
@@ -98,42 +99,47 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return BlocProvider.value(
       value: viewModel..getAppStatus(),
       child: BlocListener<WelcomeCubit, WelcomeState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           _handleStateChanges(context, state);
+
+          if (state is AppStatusSuccess) {
+            await Future.delayed(const Duration(seconds: 3));
+
+            if (!context.mounted) return;
+
+            final isActive = await CacheService.getData(key: CacheKeys.userActive) ?? false;
+            final isChildMode = CacheService.getData(key: CacheKeys.childModeActive);
+
+            if (isChildMode == true && context.mounted) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChildModePage(selectedChildId: 2089),
+                ),
+              );
+              return;
+            }
+
+            if (isActive && context.mounted) {
+              Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
+            } else if (context.mounted) {
+              Navigator.pushReplacementNamed(context, RoutesManager.onboardingScreen);
+            }
+          }
         },
         child: BlocBuilder<WelcomeCubit, WelcomeState>(
           builder: (context, state) {
-            // في حالة الصيانة، اعرض صفحة الصيانة
             if (state is AppMaintenanceState) {
               return MaintenancePage(appStatus: state.appStatus);
             }
-            if(state is AppStatusSuccess){
-              Future.delayed(const Duration(seconds: 3), () async {
-                if (!mounted) return;
 
-                final isActive =
-                    await CacheService.getData(key: CacheKeys.userActive) ?? false;
-
-                if (isActive&& context.mounted) {
-                  Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
-                } else {
-                if (context.mounted){
-                  Navigator.pushReplacementNamed(
-                    context,
-                    RoutesManager.onboardingScreen,
-                  );
-                }
-                }
-              });
-            }
-
-            // في الحالات الأخرى، اعرض شاشة الترحيب العادية
             return _buildWelcomeScreen(state);
           },
         ),
       ),
     );
   }
+
 
   void _handleStateChanges(BuildContext context, WelcomeState state) {
     if (state is AppStatusSuccess) {

@@ -109,7 +109,7 @@ class _FloatingExitButtonState extends State<FloatingExitButton>
     HapticFeedback.lightImpact();
 
     // إظهار الزر بعد 5 نقرات سريعة
-    if (_tapCount >= 5) {
+    if (_tapCount >= 1) {
       _showButton();
       _tapCount = 0;
 
