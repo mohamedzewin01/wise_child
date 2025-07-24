@@ -46,11 +46,11 @@ class StoriesListView extends StatelessWidget {
                     child: Opacity(
                       opacity: value,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.only(bottom: 0),
                         child: GestureDetector(
                           onTap: () => navigateToStory(context, childId: childId, storyId: story.storyId??0),
                           child: Container(
-                            margin: const EdgeInsets.only(bottom: 16),
+                            margin: const EdgeInsets.only(bottom: 8),
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),

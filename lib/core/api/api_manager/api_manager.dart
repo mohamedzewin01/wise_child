@@ -17,6 +17,8 @@ import 'package:wise_child/features/ChatBotAssistant/data/models/response/direct
 import 'package:wise_child/features/ChatBotAssistant/data/models/response/questions_dto.dart';
 import 'package:wise_child/features/ChildDetailsPage/data/models/request/children_details_request.dart';
 import 'package:wise_child/features/ChildDetailsPage/data/models/response/children_details_dto.dart';
+import 'package:wise_child/features/ChildStories/data/models/request/get_child_stories_request.dart';
+import 'package:wise_child/features/ChildStories/data/models/response/get_child_stories_dto.dart';
 import 'package:wise_child/features/Children/data/models/request/delete_children_request.dart';
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/Children/data/models/response/delete_children_dto.dart';
@@ -231,6 +233,10 @@ abstract class ApiService {
   @POST(ApiConstants.appStatus)
   Future<AppStatusDto?> getAppStatus();
 
+  @POST(ApiConstants.getChildStories)
+  Future<GetChildStoriesDto?> getChildStories(
+      @Body() GetChildStoriesRequest? getChildStoriesRequest,
+      );
 
 
 

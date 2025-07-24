@@ -887,7 +887,34 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
       ),
     );
   }
-
+  void _navigateToStoriesChild() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            BlocProvider.value(
+              value: getIt.get<ChildrenCubit>(),
+              child: ChildDetailsPage(child: widget.children),
+            ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOutCubic,
+            )),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final languageCode = LocaleCubit.get(context).state.languageCode;
@@ -1093,18 +1120,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
     );
   }
 
-  // Widget _buildBackgroundPattern() {
-  //   return Positioned.fill(
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(24),
-  //       child: CustomPaint(
-  //         painter: PatternPainter(
-  //           color: ColorManager.primaryColor.withOpacity(0.02),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+
 
   Widget _buildContentSection(String ageString, String languageCode, bool isRTL) {
     return Column(
@@ -1418,7 +1434,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
-                textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+                textDirection: isRTL ?  TextDirection.ltr:TextDirection.rtl ,
                 children: [
                   AvatarWidget(
                     firstName: widget.children.firstName ?? '',
@@ -1435,7 +1451,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
                       color: ColorManager.primaryColor,
                       fontSize: 16,
                     ),
-                    textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+                    textDirection: isRTL ?  TextDirection.ltr:TextDirection.rtl ,
                   ),
                 ],
               ),
@@ -1461,6 +1477,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
               isRTL: isRTL,
               onTap: () {
                 Navigator.pop(context);
+                _navigateToStoriesChild();
                 // Navigate to stories
               },
             ),
@@ -1513,7 +1530,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
               ],
             ),
             child: Row(
-              textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+              textDirection:  isRTL ?  TextDirection.ltr:TextDirection.rtl ,
               children: [
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -1530,7 +1547,7 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: isRTL ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    crossAxisAlignment: isRTL ? CrossAxisAlignment.start : CrossAxisAlignment.end,
                     children: [
                       Text(
                         title,
@@ -1552,8 +1569,9 @@ class _EnhancedChildCardState extends State<EnhancedChildCard>
                     ],
                   ),
                 ),
+                const SizedBox(width: 8),
                 Icon(
-                  isRTL ? Icons.arrow_back_ios_rounded : Icons.arrow_forward_ios_rounded,
+                  isRTL ? Icons.arrow_back_ios_rounded :Icons.arrow_forward_ios_rounded,
                   size: 14,
                   color: ColorManager.primaryColor.withOpacity(0.5),
                 ),

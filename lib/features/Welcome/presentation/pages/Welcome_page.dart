@@ -114,13 +114,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 final isActive =
                     await CacheService.getData(key: CacheKeys.userActive) ?? false;
 
-                if (isActive) {
+                if (isActive&& context.mounted) {
                   Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
                 } else {
+                if (context.mounted){
                   Navigator.pushReplacementNamed(
                     context,
                     RoutesManager.onboardingScreen,
                   );
+                }
                 }
               });
             }

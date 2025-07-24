@@ -123,6 +123,20 @@ import '../../features/Children/domain/repositories/Children_repository.dart'
 import '../../features/Children/domain/useCases/Children_useCase_repo_impl.dart'
     as _i129;
 import '../../features/Children/presentation/bloc/Children_cubit.dart' as _i537;
+import '../../features/ChildStories/data/datasources/ChildStories_datasource_repo.dart'
+    as _i278;
+import '../../features/ChildStories/data/datasources/ChildStories_datasource_repo_impl.dart'
+    as _i416;
+import '../../features/ChildStories/data/repositories_impl/ChildStories_repo_impl.dart'
+    as _i247;
+import '../../features/ChildStories/domain/repositories/ChildStories_repository.dart'
+    as _i188;
+import '../../features/ChildStories/domain/useCases/ChildStories_useCase_repo.dart'
+    as _i1049;
+import '../../features/ChildStories/domain/useCases/ChildStories_useCase_repo_impl.dart'
+    as _i540;
+import '../../features/ChildStories/presentation/bloc/ChildStories_cubit.dart'
+    as _i716;
 import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo.dart'
     as _i1043;
 import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo_impl.dart'
@@ -523,6 +537,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i719.EditProfileDatasourceRepo>(),
       ),
     );
+    gh.factory<_i278.ChildStoriesDatasourceRepo>(
+      () => _i416.ChildStoriesDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i582.ChatBotAssistantCubit>(
       () =>
           _i582.ChatBotAssistantCubit(gh<_i223.ChatBotAssistantUseCaseRepo>()),
@@ -610,6 +627,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i354.ChildDetailsPageDatasourceRepo>(),
       ),
     );
+    gh.factory<_i188.ChildStoriesRepository>(
+      () => _i247.ChildStoriesRepositoryImpl(
+        gh<_i278.ChildStoriesDatasourceRepo>(),
+      ),
+    );
     gh.factory<_i933.StoriesPlayRepository>(
       () => _i1050.StoriesPlayRepositoryImpl(
         gh<_i1037.StoriesPlayDatasourceRepo>(),
@@ -665,9 +687,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i212.ChildrenStoriesCubit>(
       () => _i212.ChildrenStoriesCubit(gh<_i891.StoriesUseCaseRepo>()),
     );
+    gh.factory<_i1049.ChildStoriesUseCaseRepo>(
+      () => _i540.ChildStoriesUseCase(gh<_i188.ChildStoriesRepository>()),
+    );
     gh.factory<_i75.ChildDetailsPageUseCaseRepo>(
       () =>
           _i630.ChildDetailsPageUseCase(gh<_i157.ChildDetailsPageRepository>()),
+    );
+    gh.factory<_i716.ChildStoriesCubit>(
+      () => _i716.ChildStoriesCubit(gh<_i1049.ChildStoriesUseCaseRepo>()),
     );
     gh.factory<_i736.AllStoriesByUserCubit>(
       () =>
