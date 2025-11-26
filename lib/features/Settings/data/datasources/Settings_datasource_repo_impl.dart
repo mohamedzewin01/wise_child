@@ -14,7 +14,7 @@ import '../../../../core/api/api_manager/api_manager.dart';
 class SettingsDatasourceRepoImpl implements SettingsDatasourceRepo {
   final ApiService apiService;
   SettingsDatasourceRepoImpl(this.apiService);
-  String userId = CacheService.getData(key: CacheKeys.userId);
+  // String userId = CacheService.getData(key: CacheKeys.userId);
   @override
   Future<Result<GetUserDetailsEntity?>> getUserDetails() {
     return executeApi(() async {

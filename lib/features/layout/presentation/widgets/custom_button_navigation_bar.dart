@@ -128,17 +128,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
               2,
             ),
 
-            _buildNavItem(
-              context,
-              Assets.cartSvg,
-              AppLocalizations.of(context)!.store,
-              3,
-            ),
+            // _buildNavItem(
+            //   context,
+            //   Assets.cartSvg,
+            //   AppLocalizations.of(context)!.store,
+            //   3,
+            // ),
             _buildNavItem(
               context,
               Assets.settingSvg,
               AppLocalizations.of(context)!.setting,
-              4,
+              3,
             ),
           ],
           selectedFontSize: AppSize.s12,

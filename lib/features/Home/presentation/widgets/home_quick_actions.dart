@@ -74,7 +74,7 @@ class HomeQuickActions extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.only(right: 6),
         width: 105,
         decoration: BoxDecoration(
@@ -95,6 +95,7 @@ class HomeQuickActions extends StatelessWidget {
         child: Column(
           children: [
             Container(
+
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: color,
@@ -110,20 +111,20 @@ class HomeQuickActions extends StatelessWidget {
               child: Icon(
                 icon,
                 color: Colors.white,
-                size: 20,
+                size: 12,
               ),
             ),
             const SizedBox(height: 8),
 
             Text(
               title,
-              style: getBoldStyle(fontSize: 13),
+              style: getBoldStyle(fontSize: 10),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 2),
             Text(
               subtitle,
-              style: getRegularStyle(fontSize: 11, color: Colors.grey[600]!),
+              style: getRegularStyle(fontSize: 9, color: Colors.grey[600]!),
               textAlign: TextAlign.center,
             ),
           ],

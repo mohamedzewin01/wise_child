@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
 import 'package:wise_child/core/utils/icon_category.dart';
@@ -168,7 +169,7 @@ class HomeCategories extends StatelessWidget {
                         style: textTheme.titleMedium?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16
+                          fontSize: 12
                         ),
                       ),
                     ),
@@ -185,13 +186,15 @@ class HomeCategories extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       category.categoryName ?? 'غير محدد',
                       style: textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
+                        // fontSize: 12
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 1,
+
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),

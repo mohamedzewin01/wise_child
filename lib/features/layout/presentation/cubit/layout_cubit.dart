@@ -39,7 +39,7 @@ class LayoutCubit extends Cubit<LayoutState> {
 
   /// تغيير الصفحة المحددة
   void changeIndex(int selectedIndex) {
-    if (selectedIndex >= 0 && selectedIndex < 5 && selectedIndex != _currentIndex) {
+    if (selectedIndex >= 0 && selectedIndex < 4 && selectedIndex != _currentIndex) {
       _currentIndex = selectedIndex;
       emit(LayoutChangePage(
         index: selectedIndex,
@@ -135,7 +135,8 @@ class LayoutCubit extends Cubit<LayoutState> {
         hideFloatingButton();
         break;
       default: // إظهار الزر في باقي الصفحات
-        showFloatingButton();
+        hideFloatingButton();
+       // showFloatingButton();
         break;
     }
   }

@@ -16,7 +16,7 @@ class AppConstants {
    // StoriesChildrenPage(),
     StoriesPage(),
 
-    StorePage(),
+    // StorePage(),
     SettingsPage(),
 
 

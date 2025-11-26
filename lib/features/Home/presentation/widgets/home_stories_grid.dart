@@ -68,7 +68,7 @@ class HomeStoriesGrid extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 205,
+            height: 240,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: stories.length > 5 ? 5 : stories.length,
@@ -248,8 +248,10 @@ class HomeStoriesGrid extends StatelessWidget {
                       title,
                       style: textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
+                        fontSize: 12
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
+
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
@@ -282,7 +284,7 @@ class HomeStoriesGrid extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.visibility,
-                              size: 14,
+                              size: 12,
                               color: Colors.grey[600],
                             ),
                             const SizedBox(width: 4),
