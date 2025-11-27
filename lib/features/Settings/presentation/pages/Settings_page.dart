@@ -286,15 +286,15 @@ class _EnhancedSettingsScreenState extends State<EnhancedSettingsScreen>
 
         const Divider(height: 1, indent: 72),
 
-        _buildModernSettingsRow(
-          icon: Icons.smart_toy_outlined,
-          title: 'مساعد الذكي (شات بوت)',
-          subtitle: 'تفعيل/إيقاف المساعد الذكي',
-          trailing: _buildAnimatedSwitch(_isChatbotEnabled, (value) {
-            setState(() => _isChatbotEnabled = value);
-            LayoutCubit.get(context).setChatbotEnabled(value);
-          }),
-        ),
+        // _buildModernSettingsRow(
+        //   icon: Icons.smart_toy_outlined,
+        //   title: 'مساعد الذكي (شات بوت)',
+        //   subtitle: 'تفعيل/إيقاف المساعد الذكي',
+        //   trailing: _buildAnimatedSwitch(_isChatbotEnabled, (value) {
+        //     // setState(() => _isChatbotEnabled = value);
+        //     // LayoutCubit.get(context).setChatbotEnabled(value);
+        //   }),
+        // ),
 
         const Divider(height: 1, indent: 72),
 

@@ -110,21 +110,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             final isActive = await CacheService.getData(key: CacheKeys.userActive) ?? false;
             final isChildMode = CacheService.getData(key: CacheKeys.childModeActive);
 
-            // if (isChildMode == true && context.mounted) {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => const ChildModePage(selectedChildId: 2089),
-            //     ),
-            //   );
-            //   return;
-            // }
+            if (isChildMode == true && context.mounted) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChildModePage(selectedChildId: 2089),
+                ),
+              );
+              return;
+            }
 
-            // if (isActive && context.mounted) {
+            if (isActive && context.mounted) {
               Navigator.pushReplacementNamed(context, RoutesManager.layoutScreen);
-            // } else if (context.mounted) {
-            //   Navigator.pushReplacementNamed(context, RoutesManager.onboardingScreen);
-            // }
+            } else if (context.mounted) {
+              Navigator.pushReplacementNamed(context, RoutesManager.onboardingScreen);
+            }
           }
         },
         child: BlocBuilder<WelcomeCubit, WelcomeState>(

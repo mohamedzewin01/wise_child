@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wise_child/core/api/api_extentions.dart';
 import 'package:wise_child/core/api/api_manager/api_manager.dart';
@@ -7,6 +8,7 @@ import 'package:wise_child/core/common/api_result.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/request/get_user_email_request.dart';
 import 'package:wise_child/features/Auth/singin_singup/data/models/request/user_model_response.dart';
 import 'package:wise_child/features/Auth/singin_singup/domain/entities/user_entity.dart';
+import 'package:wise_child/firebase_options.dart';
 
 import 'Auth_datasource_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -84,42 +86,72 @@ class AuthDatasourceRepoImpl implements AuthDatasourceRepo {
 
 
 
+/// ANDROID
+  // @override
+  // Future<Result<UserSignUpEntity?>> signInWithGoogle() {
+  //   return executeApi(() async {
+  //     // خطوة تسجيل الدخول باستخدام Google
+  //     final googleUser = await _googleSignIn.signIn();
+  //     if (googleUser != null) {
+  //       final googleAuth = await googleUser.authentication;
+  //       final credential = GoogleAuthProvider.credential(
+  //         accessToken: googleAuth.accessToken,
+  //         idToken: googleAuth.idToken,
+  //       );
+  //
+  //       // تسجيل الدخول إلى Firebase باستخدام بيانات Google
+  //       final userCredential = await _firebaseAuth.signInWithCredential(credential);
+  //
+  //       if (userCredential.user != null) {
+  //         final user = userCredential.user!;
+  //         UserModelRequest userModelRequest = UserModelRequest(
+  //           id: user.uid,
+  //           firstName: googleUser.displayName?.split(' ').first ?? '',
+  //           lastName: googleUser.displayName?.split(' ').last ?? '',
+  //           email: user.email,
+  //           profileImage: user.photoURL,
+  //         );
+  //
+  //         final userEntity = await _apiService.signUpWithGoogle(userModelRequest);
+  //         return userEntity?.toUserSignInEntity();
+  //       } else {
+  //         throw Exception('Google Sign-In failed: User is null.');
+  //       }
+  //     } else {
+  //       throw Exception('Google Sign-In was cancelled by the user.');
+  //     }
+  //   });
+  // }
+  // @override
 
   @override
   Future<Result<UserSignUpEntity?>> signInWithGoogle() {
     return executeApi(() async {
-      // خطوة تسجيل الدخول باستخدام Google
-      final googleUser = await _googleSignIn.signIn();
-      if (googleUser != null) {
-        final googleAuth = await googleUser.authentication;
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      googleProvider.addScope('email');
+      googleProvider.addScope('profile');
+
+      // على Web
+      final userCredential = await _firebaseAuth.signInWithPopup(googleProvider);
+
+      final user = userCredential.user;
+      if (user != null) {
+        UserModelRequest userModelRequest = UserModelRequest(
+          id: user.uid,
+          firstName: user.displayName?.split(' ').first ?? '',
+          lastName: user.displayName?.split(' ').last ?? '',
+          email: user.email,
+          profileImage: user.photoURL,
         );
 
-        // تسجيل الدخول إلى Firebase باستخدام بيانات Google
-        final userCredential = await _firebaseAuth.signInWithCredential(credential);
-
-        if (userCredential.user != null) {
-          final user = userCredential.user!;
-          UserModelRequest userModelRequest = UserModelRequest(
-            id: user.uid,
-            firstName: googleUser.displayName?.split(' ').first ?? '',
-            lastName: googleUser.displayName?.split(' ').last ?? '',
-            email: user.email,
-            profileImage: user.photoURL,
-          );
-
-          final userEntity = await _apiService.signUpWithGoogle(userModelRequest);
-          return userEntity?.toUserSignInEntity();
-        } else {
-          throw Exception('Google Sign-In failed: User is null.');
-        }
+        final userEntity = await _apiService.signUpWithGoogle(userModelRequest);
+        return userEntity?.toUserSignInEntity();
       } else {
-        throw Exception('Google Sign-In was cancelled by the user.');
+        throw Exception('Google Sign-In failed: User is null.');
       }
     });
   }
+
 
 
 
