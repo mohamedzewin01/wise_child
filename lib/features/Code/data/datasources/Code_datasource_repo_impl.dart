@@ -22,7 +22,7 @@ class CodeDatasourceRepoImpl implements CodeDatasourceRepo {
   // String userId = CacheService.getData(key: CacheKeys.userId) ?? '';
 
   @override
-  Future<Result<CheckCodeEntity?>> checkCode(String code) {
+  Future<Result<CheckCodeEntity?>> checkCode(String? code) {
     return executeApi(() async {
       final result = await apiService.checkCode(
         CheckCodeRequest(code: code, userId: userId),
@@ -32,7 +32,7 @@ class CodeDatasourceRepoImpl implements CodeDatasourceRepo {
   }
 
   @override
-  Future<Result<UseCodeEntity?>> useCode(String code) {
+  Future<Result<UseCodeEntity?>> useCode(String? code) {
     return executeApi(() async {
       final result = await apiService.useCode(
         UseCodeRequest(code: code, userId: userId),

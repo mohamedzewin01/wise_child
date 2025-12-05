@@ -15,10 +15,10 @@ class CodeCubit extends Cubit<CodeState> {
 
 
 
-  Future<void> checkCode(String code) async {
+  Future<void> checkCode(String? code) async {
     String? myCode = CacheService.getData(key: CacheKeys.code)??code;
     emit(CodeLoading());
-    final result = await _codeUseCaseRepo.checkCode(code);
+    final result = await _codeUseCaseRepo.checkCode(myCode);
 
   switch (result) {
     case Success<CheckCodeEntity?>():

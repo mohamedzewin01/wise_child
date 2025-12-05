@@ -13,12 +13,12 @@ class CodeUseCase implements CodeUseCaseRepo {
   CodeUseCase(this.repository);
 
   @override
-  Future<Result<CheckCodeEntity?>> checkCode(String code) {
+  Future<Result<CheckCodeEntity?>> checkCode(String? code) {
   return repository.checkCode(code);
   }
 
   @override
-  Future<Result<UseCodeEntity?>> useCode(String code) {
+  Future<Result<UseCodeEntity?>> useCode(String? code) {
 return repository.useCode(code);
   }
 

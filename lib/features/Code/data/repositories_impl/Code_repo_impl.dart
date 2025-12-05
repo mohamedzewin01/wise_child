@@ -10,12 +10,12 @@ class CodeRepositoryImpl implements CodeRepository {
   CodeRepositoryImpl(this.codeDatasourceRepo);
 
   @override
-  Future<Result<CheckCodeEntity?>> checkCode(String code) {
+  Future<Result<CheckCodeEntity?>> checkCode(String? code) {
 return codeDatasourceRepo.checkCode(code);
   }
 
   @override
-  Future<Result<UseCodeEntity?>> useCode(String code) {
+  Future<Result<UseCodeEntity?>> useCode(String? code) {
    return codeDatasourceRepo.useCode(code);
   }
   // implementation
