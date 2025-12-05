@@ -23,6 +23,10 @@ import 'package:wise_child/features/Children/data/models/request/delete_children
 import 'package:wise_child/features/Children/data/models/request/get_children_request.dart';
 import 'package:wise_child/features/Children/data/models/response/delete_children_dto.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
+import 'package:wise_child/features/Code/data/models/request/check_code_request.dart';
+import 'package:wise_child/features/Code/data/models/request/use_code_request.dart';
+import 'package:wise_child/features/Code/data/models/response/check_code_dto.dart';
+import 'package:wise_child/features/Code/data/models/response/use_code_dto.dart';
 import 'package:wise_child/features/EditProfile/data/models/request/edit_profile_request.dart';
 import 'package:wise_child/features/EditProfile/data/models/response/edit_profile_dto.dart';
 import 'package:wise_child/features/Welcome/data/models/response/app_status_dto.dart';
@@ -236,6 +240,18 @@ abstract class ApiService {
   @POST(ApiConstants.getChildStories)
   Future<GetChildStoriesDto?> getChildStories(
       @Body() GetChildStoriesRequest? getChildStoriesRequest,
+      );
+
+
+  @POST(ApiConstants.checkCode)
+  Future<CheckCodeDto?> checkCode(
+      @Body() CheckCodeRequest? checkCodeRequest,
+      );
+
+
+  @POST(ApiConstants.useCode)
+  Future<UseCodeDto?> useCode(
+      @Body() UseCodeRequest? useCodeRequest,
       );
 
 

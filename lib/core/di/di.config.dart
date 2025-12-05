@@ -137,6 +137,17 @@ import '../../features/ChildStories/domain/useCases/ChildStories_useCase_repo_im
     as _i540;
 import '../../features/ChildStories/presentation/bloc/ChildStories_cubit.dart'
     as _i716;
+import '../../features/Code/data/datasources/Code_datasource_repo.dart'
+    as _i452;
+import '../../features/Code/data/datasources/Code_datasource_repo_impl.dart'
+    as _i536;
+import '../../features/Code/data/repositories_impl/Code_repo_impl.dart'
+    as _i400;
+import '../../features/Code/domain/repositories/Code_repository.dart' as _i337;
+import '../../features/Code/domain/useCases/Code_useCase_repo.dart' as _i984;
+import '../../features/Code/domain/useCases/Code_useCase_repo_impl.dart'
+    as _i289;
+import '../../features/Code/presentation/bloc/Code_cubit.dart' as _i488;
 import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo.dart'
     as _i1043;
 import '../../features/EditChildren/data/datasources/EditChildren_datasource_repo_impl.dart'
@@ -595,6 +606,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i500.StoryDetailsUseCaseRepo>(
       () => _i378.StoryDetailsUseCase(gh<_i86.StoryDetailsRepository>()),
     );
+    gh.factory<_i452.CodeDatasourceRepo>(
+      () => _i536.CodeDatasourceRepoImpl(gh<_i680.ApiService>()),
+    );
     gh.factory<_i950.StoriesUnderCategoryDatasourceRepo>(
       () =>
           _i112.StoriesUnderCategoryDatasourceRepoImpl(gh<_i680.ApiService>()),
@@ -608,6 +622,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i699.EditChildrenUseCaseRepo>(
       () => _i433.EditChildrenUseCase(gh<_i864.EditChildrenRepository>()),
+    );
+    gh.factory<_i337.CodeRepository>(
+      () => _i400.CodeRepositoryImpl(gh<_i452.CodeDatasourceRepo>()),
     );
     gh.factory<_i11.NotificationsCubit>(
       () => _i11.NotificationsCubit(gh<_i767.NotificationsUseCaseRepo>()),
@@ -704,6 +721,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i950.StoriesUnderCategoryDatasourceRepo>(),
       ),
     );
+    gh.factory<_i984.CodeUseCaseRepo>(
+      () => _i289.CodeUseCase(gh<_i337.CodeRepository>()),
+    );
     gh.factory<_i396.EditChildrenCubit>(
       () => _i396.EditChildrenCubit(gh<_i699.EditChildrenUseCaseRepo>()),
     );
@@ -752,6 +772,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i782.AnalysisCubit>(
       () => _i782.AnalysisCubit(gh<_i251.AnalysisUseCaseRepo>()),
+    );
+    gh.factory<_i488.CodeCubit>(
+      () => _i488.CodeCubit(gh<_i984.CodeUseCaseRepo>()),
     );
     gh.factory<_i402.ChildrenUseCaseRepo>(
       () => _i129.ChildrenUseCase(gh<_i151.ChildrenRepository>()),

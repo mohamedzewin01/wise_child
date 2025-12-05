@@ -7,8 +7,10 @@ class CacheService {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static Future<bool> setData(
-      {required String key, required dynamic value}) async {
+  static Future<bool> setData({
+    required String key,
+    required dynamic value,
+  }) async {
     if (value is int) {
       await sharedPreferences.setInt(key, value);
       return true;
@@ -41,7 +43,6 @@ class CacheService {
   }
 }
 
-
 class CacheKeys {
   static const String defaultLanguage = 'defaultLanguage';
   static const String userId = 'userId';
@@ -58,8 +59,12 @@ class CacheKeys {
   static const String userActive = 'userActive';
   static const String onboardingCompleted = 'userActive';
   static const String homeShowCaseSeen = 'home_showcase_seen';
-
-
+  static const String code = 'code';
 }
 
-String userId =  CacheService.getData(key: CacheKeys.userId)??'Yb21h4nrgBSevdNMlun96z2ENs92';
+String userId =
+    CacheService.getData(key: CacheKeys.userId) ??
+    'Yb21h4nrgBSevdNMlun96z2ENs920';
+String myCode =
+    CacheService.getData(key: CacheKeys.code) ??
+    '0';

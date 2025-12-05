@@ -4,9 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wise_child/core/remote/firebase_config.dart';
 import 'package:wise_child/features/Analysis/presentation/bloc/Analysis_cubit.dart';
-import 'package:wise_child/features/ChildMode/presentation/pages/ChildMode_page.dart';
-
-
 import 'core/di/di.dart';
 import 'core/resources/routes_manager.dart';
 import 'core/utils/cashed_data_shared_preferences.dart';
@@ -35,7 +32,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => LocaleCubit()),
         BlocProvider(create: (_) => LayoutCubit()),
-        BlocProvider(create: (_) =>getIt.get<AnalysisCubit>()),
+        BlocProvider(create: (_) => getIt.get<AnalysisCubit>()),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
@@ -48,10 +45,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('ar'),
-              Locale('en'),
-            ],
+            supportedLocales: const [Locale('ar'), Locale('en')],
             theme: AppThemes.lightTheme1,
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
@@ -61,7 +55,5 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-
   }
 }
-

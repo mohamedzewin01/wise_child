@@ -41,6 +41,8 @@ class ApiConstants {
   static const String getChildReview = "review/get_child_review.php";
   static const String getStoryRequestsWithReplies = "setting/get_story_requests_with_replies";
   static const String appStatus = "setting/get_app_status";
+  static const String checkCode = "user_codes/check_code";
+  static const String useCode = "user_codes/use_code";
 
 
 
