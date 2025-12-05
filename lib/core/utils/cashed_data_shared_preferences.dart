@@ -60,6 +60,7 @@ class CacheKeys {
   static const String onboardingCompleted = 'userActive';
   static const String homeShowCaseSeen = 'home_showcase_seen';
   static const String code = 'code';
+  static const String codeActive = 'codeActive';
 }
 
 String userId =

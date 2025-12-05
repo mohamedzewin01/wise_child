@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/cashed_image.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
+import 'package:wise_child/features/Code/presentation/pages/Code_page.dart';
 import 'package:wise_child/features/Stories/data/models/response/children_stories_model_dto.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
@@ -292,6 +294,61 @@ class _SideStoryCardState extends State<SideStoryCard>
       right: 12,
       child: GestureDetector(
         onTap: () {
+          // bool codeActive=CacheService.getData(key: CacheKeys.codeActive)??false;
+          // if(!codeActive){
+          //   Navigator.push(
+          //     context,
+          //     PageRouteBuilder(
+          //       pageBuilder: (context, animation, secondaryAnimation) =>
+          //           CodeVerificationPage(),
+          //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          //         // تأثير انتقال ثلاثي الأبعاد
+          //         return SlideTransition(
+          //           position: Tween<Offset>(
+          //             begin: const Offset(0.0, 1.0),
+          //             end: Offset.zero,
+          //           ).animate(CurvedAnimation(
+          //             parent: animation,
+          //             curve: Curves.easeOutCubic,
+          //           )),
+          //           child: FadeTransition(
+          //             opacity: animation,
+          //             child: child,
+          //           ),
+          //         );
+          //       },
+          //       transitionDuration: const Duration(milliseconds: 600),
+          //     ),
+          //   );
+          // }else{
+          //   Navigator.push(
+          //     context,
+          //     PageRouteBuilder(
+          //       pageBuilder: (context, animation, secondaryAnimation) =>
+          //           StoriesPlayPage(
+          //             childId: widget.story.childrenId ?? 0,
+          //             storyId:  widget.story.storyId ?? 0,
+          //           ),
+          //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          //         // تأثير انتقال ثلاثي الأبعاد
+          //         return SlideTransition(
+          //           position: Tween<Offset>(
+          //             begin: const Offset(0.0, 1.0),
+          //             end: Offset.zero,
+          //           ).animate(CurvedAnimation(
+          //             parent: animation,
+          //             curve: Curves.easeOutCubic,
+          //           )),
+          //           child: FadeTransition(
+          //             opacity: animation,
+          //             child: child,
+          //           ),
+          //         );
+          //       },
+          //       transitionDuration: const Duration(milliseconds: 600),
+          //     ),
+          //   );
+          // }
           Navigator.push(
             context,
             PageRouteBuilder(

@@ -39,6 +39,7 @@ class NewChildrenCubit extends Cubit<NewChildrenState> {
         siblings: siblings,
         friends: friends,
         bestPlaymate: bestPlaymates,
+        code: CacheService.getData(key: CacheKeys.code)??'0',
       ),
     );
     switch (result) {

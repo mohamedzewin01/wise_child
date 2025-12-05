@@ -134,7 +134,7 @@ class HomeQuickActions extends StatelessWidget {
   }
 
   void _navigateToAddChildren(BuildContext context) {
-    Navigator.pushNamed(context, RoutesManager.newChildrenPage);
+    Navigator.pushNamed(context, RoutesManager.codeVerificationPage);
   }
   void _navigateToStories(BuildContext context) {
     Navigator.pushNamed(context, RoutesManager.allStoriesByUserPage);

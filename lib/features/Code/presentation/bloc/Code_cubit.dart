@@ -23,9 +23,11 @@ class CodeCubit extends Cubit<CodeState> {
   switch (result) {
     case Success<CheckCodeEntity?>():
       CacheService.setData(key: CacheKeys.code, value: code);
+      CacheService.setData(key: CacheKeys.codeActive, value: true);
       emit(CodeSuccess(result.data));
       break;
     case Fail<CheckCodeEntity?>():
+
       emit(CodeFailure(result.exception));
       break;
   }

@@ -246,7 +246,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'children/add_child',
+            'children/add_child_with_code',
             queryParameters: queryParameters,
             data: _data,
           )

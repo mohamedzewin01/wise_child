@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'dart:math' as math;
 
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/widgets/story_screen.dart';
+
+import '../../features/Code/presentation/pages/Code_page.dart' show CodeVerificationPage;
 
 class FloatingPlayButton extends StatefulWidget {
   final VoidCallback onPressed;
@@ -456,7 +459,63 @@ class StoryFloatingPlayButton extends StatelessWidget {
       onPlayPressed!();
       return;
     }
-
+    // bool codeActive=CacheService.getData(key: CacheKeys.codeActive)??false;
+    // if(!codeActive){
+    //   Navigator.push(
+    //     context,
+    //     PageRouteBuilder(
+    //       pageBuilder: (context, animation, secondaryAnimation) =>
+    //           CodeVerificationPage(),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         // تأثير انتقال ثلاثي الأبعاد
+    //         return SlideTransition(
+    //           position: Tween<Offset>(
+    //             begin: const Offset(0.0, 1.0),
+    //             end: Offset.zero,
+    //           ).animate(CurvedAnimation(
+    //             parent: animation,
+    //             curve: Curves.easeOutCubic,
+    //           )),
+    //           child: FadeTransition(
+    //             opacity: animation,
+    //             child: child,
+    //           ),
+    //         );
+    //       },
+    //       transitionDuration: const Duration(milliseconds: 600),
+    //     ),
+    //   );
+    // }else{
+    //   Navigator.push(
+    //     context,
+    //     PageRouteBuilder(
+    //       pageBuilder: (context, animation, secondaryAnimation) =>
+    //
+    //                     StoriesPlayPage(
+    //                       childId: childId,
+    //                       storyId: storyId,
+    //
+    //           ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         // تأثير انتقال ثلاثي الأبعاد
+    //         return SlideTransition(
+    //           position: Tween<Offset>(
+    //             begin: const Offset(0.0, 1.0),
+    //             end: Offset.zero,
+    //           ).animate(CurvedAnimation(
+    //             parent: animation,
+    //             curve: Curves.easeOutCubic,
+    //           )),
+    //           child: FadeTransition(
+    //             opacity: animation,
+    //             child: child,
+    //           ),
+    //         );
+    //       },
+    //       transitionDuration: const Duration(milliseconds: 600),
+    //     ),
+    //   );
+    // }
     Navigator.push(
       context,
       PageRouteBuilder(

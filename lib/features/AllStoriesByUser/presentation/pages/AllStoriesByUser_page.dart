@@ -59,7 +59,7 @@ class _AllStoriesByUserPageState extends State<AllStoriesByUserPage> {
                     onAddChildPressed: () {
                       Navigator.pushReplacementNamed(
                         context,
-                        RoutesManager.newChildrenPage,
+                        RoutesManager.codeVerificationPage,
                       );
                     },
                     onRefreshPressed: () {

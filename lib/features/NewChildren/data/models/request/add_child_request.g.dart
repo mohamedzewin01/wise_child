@@ -23,11 +23,13 @@ AddNewChildRequest _$AddNewChildRequestFromJson(Map<String, dynamic> json) =>
       bestPlaymate: (json['best_playmate'] as List<dynamic>?)
           ?.map((e) => BestPlaymate.fromJson(e as Map<String, dynamic>))
           .toList(),
+      code: json['code'] as String?,
     );
 
 Map<String, dynamic> _$AddNewChildRequestToJson(AddNewChildRequest instance) =>
     <String, dynamic>{
       'user_id': instance.userId,
+      'code': instance.code,
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'gender': instance.gender,

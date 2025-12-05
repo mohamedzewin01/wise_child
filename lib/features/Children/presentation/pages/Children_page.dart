@@ -448,6 +448,7 @@ import 'package:wise_child/core/widgets/custom_app_bar.dart';
 import 'package:wise_child/features/Children/data/models/response/get_children_dto.dart';
 import 'package:wise_child/features/Children/presentation/widgets/enhanced_child_card.dart';
 import 'package:wise_child/features/Children/presentation/widgets/skeletonizer_children.dart';
+import 'package:wise_child/features/Code/presentation/pages/Code_page.dart';
 import 'package:wise_child/features/NewChildren/presentation/pages/NewChildren_page.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/widgets/custom_app_bar_app.dart';
@@ -535,7 +536,7 @@ class _ChildrenPageState extends State<ChildrenPage>
     final result = await Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => const NewChildrenPage(),
+        builder: (context) => const CodeVerificationPage(),
       ),
     );
     if (result == true && mounted) {

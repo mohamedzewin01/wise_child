@@ -80,7 +80,7 @@ class _StoriesPageState extends State<StoriesPage>
   }
 
   void _navigateToAddChild() {
-    Navigator.pushNamed(context, RoutesManager.newChildrenPage);
+    Navigator.pushNamed(context, RoutesManager.codeVerificationPage);
     print('Navigate to add child page');
   }
 

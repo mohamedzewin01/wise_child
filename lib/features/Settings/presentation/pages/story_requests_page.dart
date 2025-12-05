@@ -6,7 +6,9 @@ import 'package:wise_child/core/api/api_constants.dart';
 import 'package:wise_child/core/api/api_manager/api_manager.dart';
 import 'package:wise_child/core/resources/color_manager.dart';
 import 'package:wise_child/core/resources/style_manager.dart';
+import 'package:wise_child/core/utils/cashed_data_shared_preferences.dart';
 import 'package:wise_child/core/widgets/avatar_image.dart';
+import 'package:wise_child/features/Code/presentation/pages/Code_page.dart';
 import 'package:wise_child/features/Settings/presentation/bloc/StoryRequestsCubit/story_requests_cubit.dart';
 import 'package:wise_child/features/Settings/data/models/response/get_story_requests_replies_dto.dart';
 import 'package:wise_child/features/StoriesPlay/presentation/pages/StoriesPlay_page.dart';
@@ -701,6 +703,61 @@ class _StoryRequestsPageState extends State<StoryRequestsPage>
           InkWell(
             onTap: () {
               if (story.storyId != null) {
+                // bool codeActive=CacheService.getData(key: CacheKeys.codeActive)??false;
+                // if(!codeActive){
+                //   Navigator.push(
+                //     context,
+                //     PageRouteBuilder(
+                //       pageBuilder: (context, animation, secondaryAnimation) =>
+                //           CodeVerificationPage(),
+                //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                //         // تأثير انتقال ثلاثي الأبعاد
+                //         return SlideTransition(
+                //           position: Tween<Offset>(
+                //             begin: const Offset(0.0, 1.0),
+                //             end: Offset.zero,
+                //           ).animate(CurvedAnimation(
+                //             parent: animation,
+                //             curve: Curves.easeOutCubic,
+                //           )),
+                //           child: FadeTransition(
+                //             opacity: animation,
+                //             child: child,
+                //           ),
+                //         );
+                //       },
+                //       transitionDuration: const Duration(milliseconds: 600),
+                //     ),
+                //   );
+                // }else{
+                //   Navigator.push(
+                //     context,
+                //     PageRouteBuilder(
+                //       pageBuilder: (context, animation, secondaryAnimation) =>
+                //           StoriesPlayPage(
+                //             childId: story.idChildren ?? 0,
+                //             storyId: story.storyId ?? 0,
+                //           ),
+                //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                //         // تأثير انتقال ثلاثي الأبعاد
+                //         return SlideTransition(
+                //           position: Tween<Offset>(
+                //             begin: const Offset(0.0, 1.0),
+                //             end: Offset.zero,
+                //           ).animate(CurvedAnimation(
+                //             parent: animation,
+                //             curve: Curves.easeOutCubic,
+                //           )),
+                //           child: FadeTransition(
+                //             opacity: animation,
+                //             child: child,
+                //           ),
+                //         );
+                //       },
+                //       transitionDuration: const Duration(milliseconds: 600),
+                //     ),
+                //   );
+                // }
                 Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -796,6 +796,61 @@ class ChildStoryGrid extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               HapticFeedback.lightImpact();
+              // bool codeActive=CacheService.getData(key: CacheKeys.codeActive)??false;
+              // if(!codeActive){
+              //   Navigator.push(
+              //     context,
+              //     PageRouteBuilder(
+              //       pageBuilder: (context, animation, secondaryAnimation) =>
+              //           CodeVerificationPage(),
+              //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //         // تأثير انتقال ثلاثي الأبعاد
+              //         return SlideTransition(
+              //           position: Tween<Offset>(
+              //             begin: const Offset(0.0, 1.0),
+              //             end: Offset.zero,
+              //           ).animate(CurvedAnimation(
+              //             parent: animation,
+              //             curve: Curves.easeOutCubic,
+              //           )),
+              //           child: FadeTransition(
+              //             opacity: animation,
+              //             child: child,
+              //           ),
+              //         );
+              //       },
+              //       transitionDuration: const Duration(milliseconds: 600),
+              //     ),
+              //   );
+              // }else{
+              //   Navigator.push(
+              //     context,
+              //     PageRouteBuilder(
+              //       pageBuilder: (context, animation, secondaryAnimation) =>
+              //           StoriesPlayPage(
+              //             childId: story.childrenId ?? 0,
+              //             storyId: story.storyId ?? 0,
+              //           ),
+              //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //         // تأثير انتقال ثلاثي الأبعاد
+              //         return SlideTransition(
+              //           position: Tween<Offset>(
+              //             begin: const Offset(0.0, 1.0),
+              //             end: Offset.zero,
+              //           ).animate(CurvedAnimation(
+              //             parent: animation,
+              //             curve: Curves.easeOutCubic,
+              //           )),
+              //           child: FadeTransition(
+              //             opacity: animation,
+              //             child: child,
+              //           ),
+              //         );
+              //       },
+              //       transitionDuration: const Duration(milliseconds: 600),
+              //     ),
+              //   );
+              // }
               // التنقل إلى صفحة تشغيل القصة مع تأثير انتقال جميل
               Navigator.push(
                 context,

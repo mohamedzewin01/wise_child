@@ -10,6 +10,8 @@ part 'add_child_request.g.dart';
 class AddNewChildRequest {
   @JsonKey(name: "user_id")
   final String? userId;
+  @JsonKey(name: "code")
+  final String? code;
   @JsonKey(name: "first_name")
   final String? firstName;
   @JsonKey(name: "last_name")
@@ -37,7 +39,8 @@ class AddNewChildRequest {
     this.imageUrl,
     this.siblings,
     this.friends,
-    this.bestPlaymate
+    this.bestPlaymate,
+    this.code
   });
 
   factory AddNewChildRequest.fromJson(Map<String, dynamic> json) {
